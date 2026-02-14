@@ -836,13 +836,15 @@ body::after {
 }
 
 .navbar-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
-  height: 100%;
+  height: auto;
+  min-height: var(--navbar-height);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .navbar-logo {
@@ -874,7 +876,10 @@ body::after {
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 2rem;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .navbar-item {
@@ -884,8 +889,8 @@ body::after {
 .navbar-link {
   color: var(--text);
   text-decoration: none;
-  font-size: 0.9rem;
-  padding: 0.5rem 0.7rem;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.6rem;
   border-radius: 8px;
   transition: all 0.3s ease;
   display: block;
@@ -1107,7 +1112,7 @@ body::after {
 }
 
 /* 響應式設計 - 平板以下 */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .navbar-toggle {
     display: flex;
   }

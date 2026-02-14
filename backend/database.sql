@@ -23,7 +23,28 @@ CREATE TABLE IF NOT EXISTS users (
     INDEX idx_google_id (google_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 預購訂單資料表
+-- 訂單資料表（app.py 使用此表）
+CREATE TABLE IF NOT EXISTS orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    recipient_name VARCHAR(50) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    store_name VARCHAR(100) NOT NULL,
+    store_address TEXT NOT NULL,
+    quantity INT NOT NULL DEFAULT 1,
+    total_price DECIMAL(10, 2) NOT NULL,
+    payment_proof VARCHAR(255),
+    status ENUM('pending', 'confirmed', 'shipped', 'completed', 'cancelled') DEFAULT 'pending',
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_user_id (user_id),
+    INDEX idx_status (status),
+    INDEX idx_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 預購訂單資料表（舊版相容）
 CREATE TABLE IF NOT EXISTS preorders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -58,3 +79,4 @@ CREATE TABLE IF NOT EXISTS admins (
 INSERT INTO admins (username, password) VALUES 
 ('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
 -- 預設密碼是 'password'，登入後請務必修改！
+
