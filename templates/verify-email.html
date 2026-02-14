@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>信箱驗證 - 柒柒 chi</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/頭貼 - 圓形.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- 導航欄 -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="{{ url_for('index') }}" class="navbar-logo">
+          <img src="{{ url_for('static', filename='images/頭貼 - 圓形.png') }}" alt="柒柒 chi" class="navbar-logo-img">
+          <span>柒柒 chi</span>
+        </a>
+        <button class="navbar-toggle" id="navbarToggle" aria-label="切換選單">
+          <span class="navbar-toggle-icon"></span>
+          <span class="navbar-toggle-icon"></span>
+          <span class="navbar-toggle-icon"></span>
+        </button>
+        <ul class="navbar-menu" id="navbarMenu">
+          <li class="navbar-item"><a href="/about.html" class="navbar-link">自我介紹</a></li>
+          <li class="navbar-item"><a href="/courses/course.html" class="navbar-link">程式設計課程</a></li>
+          <li class="navbar-item"><a href="/keychain.html" class="navbar-link">鑰匙圈預購</a></li>
+          <li class="navbar-item"><a href="/subscriber-benefits.html" class="navbar-link">訂閱者專屬福利</a></li>
+          <li class="navbar-item"><a href="/events.html" class="navbar-link">活動專區</a></li>
+          <li class="navbar-item"><a href="/donate.html" class="navbar-link">加班台規則與說明</a></li>
+          <li class="navbar-item"><a href="/url.html" class="navbar-link">各平台連結</a></li>
+          {% if session.user_id %}
+          <!-- 已登入：顯示設定選單和登出 -->
+          <li class="navbar-item navbar-dropdown">
+            <a href="#" class="navbar-link navbar-dropdown-toggle">設定 ▾</a>
+            <ul class="navbar-dropdown-menu">
+              <li><a href="{{ url_for('profile') }}" class="navbar-dropdown-link">個人資料</a></li>
+              <li><a href="{{ url_for('my_orders') }}" class="navbar-dropdown-link">訂單管理</a></li>
+            </ul>
+          </li>
+          <li class="navbar-item"><a href="{{ url_for('logout') }}" class="navbar-link">登出 ({{ session.username }})</a></li>
+          {% else %}
+          <!-- 未登入：顯示登入 -->
+          <li class="navbar-item"><a href="{{ url_for('login') }}" class="navbar-link">登入</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+    <div class="cloud cloud--1" aria-hidden="true"></div>
+    <div class="cloud cloud--2" aria-hidden="true"></div>
+    <div class="cloud cloud--3" aria-hidden="true"></div>
+    <div class="cloud cloud--4" aria-hidden="true"></div>
+
+    <main class="page">
+        <div class="form-container">
+            <div class="form-card">
+                <h1 class="form-title">📧 信箱驗證</h1>
+
+                <p style="color: rgba(255,255,255,0.7); text-align: center; margin-bottom: 24px;">
+                    驗證碼已發送至 <strong style="color: #7dd3fc;">{{ email }}</strong><br>
+                    請檢查您的信箱（包括垃圾郵件資料夾）
+                </p>
+
+                {% if error %}
+                    <div class="form-error">{{ error }}</div>
+                {% endif %}
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="form-{{ 'success' if category == 'success' else 'error' }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="">
+                    <div class="form-group">
+                        <label class="form-label" for="code">驗證碼（6 位數字）</label>
+                        <input type="text" id="code" name="code" class="form-input" maxlength="6" pattern="\d{6}" placeholder="請輸入 6 位數驗證碼" style="text-align: center; font-size: 24px; letter-spacing: 8px;" required>
+                    </div>
+
+                    <button type="submit" class="form-button">✅ 驗證</button>
+                </form>
+
+                <div class="form-link" style="margin-top: 20px;">
+                    <a href="{{ url_for('register') }}">← 返回註冊</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // 導航欄功能
+        const navbarToggle = document.getElementById('navbarToggle');
+        const navbarMenu = document.getElementById('navbarMenu');
+        if (navbarToggle && navbarMenu) {
+            navbarToggle.addEventListener('click', function() {
+                navbarToggle.classList.toggle('active');
+                navbarMenu.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>

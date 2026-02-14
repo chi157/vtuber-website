@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>情人節特別活動 - 柒柒 chi</title>
+    <link rel="icon" type="image/png" href="../images/頭貼%20-%20圓形.png" />
+    <link rel="stylesheet" href="../style.css?v=20260213" />
+    <script src="../navbar.js" defer></script>
+    <style>
+      /* 活動頁輪播覆寫 — 讓圖片保持原始比例 */
+      .event-carousel .carousel-slides {
+        display: grid;
+        height: auto;
+      }
+      .event-carousel .carousel-slide {
+        grid-area: 1 / 1;
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
+        height: auto;
+      }
+      .event-carousel .carousel-slide img {
+        width: 100%;
+        height: auto;
+        max-height: none;
+        border-radius: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 導航欄將由 navbar.js 載入 -->
+    <div class="cloud cloud--1" aria-hidden="true"></div>
+    <div class="cloud cloud--2" aria-hidden="true"></div>
+    <div class="cloud cloud--3" aria-hidden="true"></div>
+    <div class="cloud cloud--4" aria-hidden="true"></div>
+    <main class="page">
+      <section class="card">
+        <section class="donate-info">
+          <h2 class="donate-title">💝 情人節特別活動</h2>
+
+          <!-- 活動照片輪播 -->
+          <div class="info-section" style="padding: 0; overflow: hidden; border-radius: 12px;">
+            <div class="carousel-wrapper event-carousel" id="valentine-carousel">
+              <div class="carousel-slides">
+                <div class="carousel-slide active">
+                  <img src="../images/events/情人節特別活動1.jpg" alt="情人節特別活動 1" />
+                </div>
+                <div class="carousel-slide">
+                  <img src="../images/events/情人節特別活動2.jpg" alt="情人節特別活動 2" />
+                </div>
+                <div class="carousel-slide">
+                  <img src="../images/events/情人節特別活動3.jpg" alt="情人節特別活動 3" />
+                </div>
+                <div class="carousel-slide">
+                  <img src="../images/events/情人節特別活動4.jpg" alt="情人節特別活動 4" />
+                </div>
+                <div class="carousel-slide">
+                  <img src="../images/events/情人節特別活動5.jpg" alt="情人節特別活動 5" />
+                </div>
+              </div>
+              <button class="carousel-btn carousel-prev" onclick="changeSlide('valentine-carousel', -1)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              <button class="carousel-btn carousel-next" onclick="changeSlide('valentine-carousel', 1)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+              <div class="carousel-dots">
+                <button class="carousel-dot active" onclick="goToSlide('valentine-carousel', 0)"></button>
+                <button class="carousel-dot" onclick="goToSlide('valentine-carousel', 1)"></button>
+                <button class="carousel-dot" onclick="goToSlide('valentine-carousel', 2)"></button>
+                <button class="carousel-dot" onclick="goToSlide('valentine-carousel', 3)"></button>
+                <button class="carousel-dot" onclick="goToSlide('valentine-carousel', 4)"></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 活動狀態 -->
+          <div class="info-section highlight-box" style="text-align: center;">
+            <span style="background: rgba(234,179,8,0.2); color: #facc15; padding: 4px 16px; border-radius: 999px; font-size: 14px; font-weight: 600;">💕 即將開始</span>
+          </div>
+
+          <!-- 活動介紹 -->
+          <div class="info-section highlight-box">
+            <h3 class="section-title">🎯 活動介紹</h3>
+            <p class="content-text">2月14日情人節，柒柒準備了特別的直播活動！</p>
+            <p class="content-text" style="margin-top: 8px;">不管你是有另一半還是單身，都歡迎來直播間一起過節 🥰</p>
+            <p class="content-text" style="margin-top: 8px;">一起度過一個溫馨又歡樂的情人節吧！</p>
+          </div>
+
+          <!-- 活動資訊 -->
+          <div class="info-section bank-info">
+            <h3 class="section-title">📅 活動資訊</h3>
+            <div class="rule-list">
+              <div class="rule-item">
+                <span class="rule-icon">📆</span>
+                <span class="rule-text"><strong>活動日期：</strong>2026 年 2 月 14 日（六）</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">🕐</span>
+                <span class="rule-text"><strong>活動時間：</strong>晚上 7:00 開始</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">📍</span>
+                <span class="rule-text"><strong>直播平台：</strong>Twitch</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">🏷️</span>
+                <span class="rule-text"><strong>活動狀態：</strong>即將開始</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 活動內容 -->
+          <div class="info-section">
+            <h3 class="section-title">💝 活動內容</h3>
+            <div class="rule-list">
+              <div class="rule-item">
+                <span class="rule-icon">➊</span>
+                <span class="rule-text">情人節聊天互動</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">➋</span>
+                <span class="rule-text">柒柒告白牆 — 希望柒柒怎麼寫卡片對你告白 告訴我吧</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">➌</span>
+                <span class="rule-text">特別抽獎環節 🎁</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">➍</span>
+                <span class="rule-text">日常玩樂 | 聊天 | 唱歌?</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 卡片禮包 -->
+          <div class="info-section" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%); border: 2px solid rgba(236, 72, 153, 0.3); padding: 20px; border-radius: 12px;">
+            <h3 class="section-title" style="color: #f9a8d4;">🎁 卡片禮包內含物（共 3 張）</h3>
+            <div class="rule-list">
+              <div class="rule-item">
+                <span class="rule-icon" style="font-size: 20px;">💌</span>
+                <span class="rule-text" style="line-height: 1.6;"><strong>柒柒手寫情人節小卡 ×1</strong> — 柒柒親手寫的專屬告白卡片，每張都是獨一無二的！</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon" style="font-size: 20px;">🖼️</span>
+                <span class="rule-text" style="line-height: 1.6;"><strong>柒柒簽名明信片 ×2</strong> — 兩款不同姿勢的柒柒 & 小貓頭鷹星空明信片，每張都有柒柒的親筆簽名！</span>
+              </div>
+            </div>
+            <!-- 實物照片 -->
+            <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 12px;">
+              <p style="color: rgba(255,255,255,0.5); font-size: 13px; margin-bottom: 4px;">▼ 實物照片</p>
+              <div style="border-radius: 8px; overflow: hidden;">
+                <img src="../images/events/兩張大卡.jpg" alt="柒柒簽名明信片 ×2" style="width: 100%; display: block; border-radius: 8px;" />
+              </div>
+              <div style="border-radius: 8px; overflow: hidden;">
+                <img src="../images/events/情人節告白卡片範例.jpg" alt="柒柒手寫情人節小卡範例" style="width: 100%; display: block; border-radius: 8px;" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 禮包價格 -->
+          <div class="info-section" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(251, 146, 60, 0.12) 100%); border: 2px solid rgba(236, 72, 153, 0.4); padding: 24px; border-radius: 12px; text-align: center;">
+            <h3 class="section-title" style="color: #f9a8d4; font-size: 20px; margin-bottom: 8px;">💰 卡片禮包價格</h3>
+            <p style="color: rgba(255,255,255,0.5); font-size: 13px; margin-bottom: 20px;">以下三種付款方式 任選其一</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+              <div style="flex: 1; min-width: 150px; background: rgba(168, 85, 247, 0.15); border: 1.5px solid rgba(168, 85, 247, 0.4); border-radius: 10px; padding: 16px 12px;">
+                <div style="font-size: 28px; margin-bottom: 6px;">🎫</div>
+                <div style="color: #c4b5fd; font-size: 13px; margin-bottom: 4px;">Twitch 訂閱</div>
+                <div style="color: #fff; font-size: 22px; font-weight: bold;">2 份訂閱</div>
+              </div>
+              <div style="flex: 1; min-width: 150px; background: rgba(236, 72, 153, 0.15); border: 1.5px solid rgba(236, 72, 153, 0.4); border-radius: 10px; padding: 16px 12px;">
+                <div style="font-size: 28px; margin-bottom: 6px;">✨</div>
+                <div style="color: #f9a8d4; font-size: 13px; margin-bottom: 4px;">小奇點</div>
+                <div style="color: #fff; font-size: 22px; font-weight: bold;">300 小奇點</div>
+              </div>
+              <div style="flex: 1; min-width: 150px; background: rgba(251, 146, 60, 0.15); border: 1.5px solid rgba(251, 146, 60, 0.4); border-radius: 10px; padding: 16px 12px;">
+                <div style="font-size: 28px; margin-bottom: 6px;">💳</div>
+                <div style="color: #fdba74; font-size: 13px; margin-bottom: 4px;">歐付寶</div>
+                <div style="color: #fff; font-size: 22px; font-weight: bold;">$ 130</div>
+              </div>
+            </div>
+
+            <!-- 歐付寶付款專區 -->
+            <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(251, 146, 60, 0.25);">
+              <p style="color: #fdba74; font-size: 15px; font-weight: 600; margin-bottom: 16px;">💳 歐付寶付款專區</p>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
+                <!-- QR Code -->
+                <div style="background: #fff; border-radius: 12px; padding: 12px; display: inline-block; box-shadow: 0 4px 16px rgba(251, 146, 60, 0.2);">
+                  <a href="https://qr.opay.tw/Oys3J" target="_blank" rel="noopener noreferrer">
+                    <img src="https://payment.opay.tw/Upload/Broadcaster/2504120/QRcode/QRCode_5DBC433818979719B47EB63F8E114F4D.png" alt="歐付寶 QR Code" style="width: 180px; height: 180px; display: block; border-radius: 4px;" />
+                  </a>
+                </div>
+                <p style="color: rgba(255,255,255,0.4); font-size: 12px;">▲ 掃描 QR Code 付款</p>
+                <!-- 付款連結按鈕 -->
+                <a href="https://payment.opay.tw/Broadcaster/Donate/5DBC433818979719B47EB63F8E114F4D" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #fb923c, #f97316); color: #fff; font-weight: 600; font-size: 15px; padding: 12px 28px; border-radius: 999px; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 16px rgba(251, 146, 60, 0.35);" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 24px rgba(251,146,60,0.5)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 16px rgba(251,146,60,0.35)'">
+                  💳 前往歐付寶付款
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 訂閱者限定加碼 -->
+          <div class="info-section" style="background: linear-gradient(135deg, rgba(250, 204, 21, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%); border: 2px solid rgba(250, 204, 21, 0.35); padding: 20px; border-radius: 12px;">
+            <h3 class="section-title" style="color: #fde68a; font-size: 18px; margin-bottom: 16px;">⭐ 訂閱者限定加碼 — 前 3 名專屬</h3>
+            <div class="rule-list" style="gap: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon" style="font-size: 20px;">🏆</span>
+                <span class="rule-text" style="line-height: 1.6;"><strong>前 3 名</strong>購買卡片禮包的<strong>已訂閱 Twitch 訂閱者</strong>，可額外獲得：</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon" style="font-size: 20px;">🚲</span>
+                <span class="rule-text" style="line-height: 1.6;"><strong>限定限量 柒柒騎車小卡 ×2</strong> — 僅此活動限定，錯過就沒有了！</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon" style="font-size: 20px;">💡</span>
+                <span class="rule-text" style="line-height: 1.6; color: rgba(255,255,255,0.5); font-size: 13px;">需為目前已訂閱柒柒 Twitch 頻道的訂閱者，並於活動當天前 3 名完成購買即可獲得</span>
+              </div>
+            </div>
+            <!-- 實物照片 -->
+            <div style="margin-top: 16px;">
+              <p style="color: rgba(255,255,255,0.5); font-size: 13px; margin-bottom: 8px;">▼ 實物照片</p>
+              <div style="border-radius: 8px; overflow: hidden;">
+                <img src="../images/events/騎車小卡.jpg" alt="限定限量 柒柒騎車小卡 ×2" style="width: 100%; display: block; border-radius: 8px;" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 行程表 -->
+          <div class="info-section">
+            <h3 class="section-title">🗓️ 活動行程表</h3>
+            <div class="rule-list">
+              <div class="rule-item">
+                <span class="rule-icon">🕖</span>
+                <span class="rule-text"><strong>19:00</strong> — 開場！情人節聊天互動，聊聊你的情人節 💬</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">🕗</span>
+                <span class="rule-text"><strong>20:00</strong> — 柒柒告白牆 💌 希望柒柒怎麼寫卡片對你告白？告訴我吧！</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">🕘</span>
+                <span class="rule-text"><strong>21:00</strong> — 特別抽獎環節 🎁 參加互動就有機會！</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">🕙</span>
+                <span class="rule-text"><strong>22:00</strong> — 日常玩樂 | 聊天 | 唱歌? 🎶 一起開心到最後！</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 溫馨提醒 -->
+          <div class="info-section" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(147, 51, 234, 0.15) 100%); border: 2px solid rgba(236, 72, 153, 0.4); padding: 20px; border-radius: 12px;">
+            <h3 class="section-title" style="color: #f9a8d4; font-size: 18px; margin-bottom: 16px;">
+              💌 溫馨提醒
+            </h3>
+            <div class="rule-list" style="gap: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon" style="font-size: 20px;">🌹</span>
+                <span class="rule-text" style="line-height: 1.6;">不管有沒有對象，柒柒陪你一起過情人節！</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon" style="font-size: 20px;">💬</span>
+                <span class="rule-text" style="line-height: 1.6;">歡迎在聊天室分享你的情人節故事或祝福</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon" style="font-size: 20px;">🎉</span>
+                <span class="rule-text" style="line-height: 1.6;">記得準時來直播間，一起享受這個特別的夜晚吧！</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 購買注意事項 -->
+          <div class="info-section" style="opacity: 0.7; padding: 16px 20px;">
+            <h3 class="section-title" style="font-size: 15px; margin-bottom: 10px;">📋 購買注意事項</h3>
+            <div style="font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.8;">
+              <p>• 商品為手工製作，每張卡片皆為獨一無二，內容與範例圖片會有所不同</p>
+              <p>• 實際商品顏色可能因螢幕顯示設定、印刷批次等因素產生些許色差，屬正常現象</p>
+              <p>• 明信片為印刷品，簽名為柒柒親筆，簽名位置與樣式可能略有差異</p>
+              <p>• 商品出貨後恕不接受因色差、手寫內容差異等個人主觀因素之退換貨</p>
+              <p>• 如有商品瑕疵（破損、缺件等）請於收到後 3 日內聯繫，將盡速為您處理</p>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="info-section cta-box">
+            <p class="cta-text">準備好一起過情人節了嗎？💕</p>
+            <a class="btn" href="https://www.twitch.tv/chi1577517" target="_blank" rel="noopener noreferrer">
+              <img class="btn-icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13.1.0/icons/twitch.svg" alt="" aria-hidden="true" />
+              前往 Twitch 頻道
+            </a>
+            <p></p>
+            <a class="btn btn-home" href="/events.html">
+              🎉 回活動專區
+            </a>
+            <p></p>
+            <a class="btn btn-home" href="/">
+              🏠 回首頁
+            </a>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script src="../script.js"></script>
+    <script>
+      /* ===== 輪播功能 ===== */
+      function changeSlide(carouselId, direction) {
+        var wrapper = document.getElementById(carouselId);
+        var slides = wrapper.querySelectorAll('.carousel-slide');
+        var dots   = wrapper.querySelectorAll('.carousel-dot');
+        var current = 0;
+        slides.forEach(function(s, i) { if (s.classList.contains('active')) current = i; });
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (current + direction + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+      }
+
+      function goToSlide(carouselId, index) {
+        var wrapper = document.getElementById(carouselId);
+        var slides = wrapper.querySelectorAll('.carousel-slide');
+        var dots   = wrapper.querySelectorAll('.carousel-dot');
+        slides.forEach(function(s, i) { s.classList.toggle('active', i === index); });
+        dots.forEach(function(d, i) { d.classList.toggle('active', i === index); });
+      }
+
+      // 自動輪播（每 5 秒）
+      document.querySelectorAll('.event-carousel').forEach(function(carousel) {
+        setInterval(function() { changeSlide(carousel.id, 1); }, 5000);
+      });
+    </script>
+  </body>
+</html>

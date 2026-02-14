@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if not is_admin %}管理員登入{% else %}訂單管理後台{% endif %} - 柒柒 chi</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body {% if not is_admin %}class="admin-login-body"{% else %}class="admin-body"{% endif %}>
+
+{% if not is_admin %}
+    <!-- 管理員登入表單 -->
+    <div class="login-box">
+        <h1 class="login-title">🔐 管理員登入</h1>
+        {% if error %}
+            <div class="form-error">{{ error }}</div>
+        {% endif %}
+        <form method="POST">
+            <div class="form-group">
+                <label class="form-label">帳號</label>
+                <input type="text" name="username" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">密碼</label>
+                <input type="password" name="password" class="form-input" required>
+            </div>
+            <button type="submit" class="form-button">登入</button>
+        </form>
+    </div>
+{% else %}
+    <!-- 管理後台 -->
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1 class="admin-title">📊 訂單管理後台</h1>
+            <a href="{{ url_for('admin_logout') }}" class="logout-btn">登出</a>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">總訂單數</div>
+                <div class="stat-value">{{ stats.total or 0 }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">待處理</div>
+                <div class="stat-value">{{ stats.pending or 0 }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">已確認</div>
+                <div class="stat-value">{{ stats.confirmed or 0 }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">已出貨</div>
+                <div class="stat-value">{{ stats.shipped or 0 }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">總鑰匙圈數</div>
+                <div class="stat-value">{{ stats.total_quantity or 0 }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">總營收</div>
+                <div class="stat-value">${{ '{:,}'.format(stats.total_revenue or 0) }}</div>
+            </div>
+        </div>
+        
+        <div class="filter-bar">
+            <a href="{{ url_for('admin') }}?filter=all" class="filter-btn {{ 'active' if filter == 'all' }}">全部</a>
+            <a href="{{ url_for('admin') }}?filter=pending" class="filter-btn {{ 'active' if filter == 'pending' }}">待處理</a>
+            <a href="{{ url_for('admin') }}?filter=confirmed" class="filter-btn {{ 'active' if filter == 'confirmed' }}">已確認</a>
+            <a href="{{ url_for('admin') }}?filter=shipped" class="filter-btn {{ 'active' if filter == 'shipped' }}">已出貨</a>
+            <a href="{{ url_for('admin') }}?filter=completed" class="filter-btn {{ 'active' if filter == 'completed' }}">已完成</a>
+            <a href="{{ url_for('admin') }}?filter=cancelled" class="filter-btn {{ 'active' if filter == 'cancelled' }}">已取消</a>
+        </div>
+        
+        <div class="orders-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>訂單編號</th>
+                        <th>會員</th>
+                        <th>收件人</th>
+                        <th>電話</th>
+                        <th>門市</th>
+                        <th>數量</th>
+                        <th>金額</th>
+                        <th>付款證明</th>
+                        <th>狀態</th>
+                        <th>訂購時間</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>#{{ order.id }}</td>
+                        <td>{{ order.username }}</td>
+                        <td>{{ order.recipient_name }}</td>
+                        <td>{{ order.phone }}</td>
+                        <td>
+                            {{ order.store_name }}<br>
+                            <small style="opacity: 0.7;">{{ order.store_address }}</small>
+                        </td>
+                        <td>{{ order.quantity }}</td>
+                        <td>${{ '{:,}'.format(order.total_price) }}</td>
+                        <td>
+                            {% if order.payment_proof %}
+                                <a href="{{ url_for('uploaded_file', filename=order.payment_proof) }}" target="_blank" class="view-img">查看</a>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% set status_texts = {'pending': '待處理', 'confirmed': '已確認', 'shipped': '已出貨', 'completed': '已完成', 'cancelled': '已取消'} %}
+                            <span class="status-badge status-{{ order.status }}">
+                                {{ status_texts.get(order.status, order.status) }}
+                            </span>
+                        </td>
+                        <td>{{ order.created_at.strftime('%Y-%m-%d %H:%M') if order.created_at else '' }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('admin_update_status') }}" style="display: inline-flex; align-items: center;">
+                                <input type="hidden" name="order_id" value="{{ order.id }}">
+                                <select name="status" class="status-select">
+                                    <option value="pending" {{ 'selected' if order.status == 'pending' }}>待處理</option>
+                                    <option value="confirmed" {{ 'selected' if order.status == 'confirmed' }}>已確認</option>
+                                    <option value="shipped" {{ 'selected' if order.status == 'shipped' }}>已出貨</option>
+                                    <option value="completed" {{ 'selected' if order.status == 'completed' }}>已完成</option>
+                                    <option value="cancelled" {{ 'selected' if order.status == 'cancelled' }}>已取消</option>
+                                </select>
+                                <button type="submit" class="update-btn">更新</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% if not orders %}
+                    <tr>
+                        <td colspan="11" style="text-align: center; padding: 40px; color: rgba(255,255,255,0.5);">
+                            目前沒有訂單
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+</body>
+</html>

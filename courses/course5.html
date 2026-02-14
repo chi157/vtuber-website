@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>柒柒 chi 第五課：函數與模組</title>
+    <link rel="icon" type="image/png" href="../images/頭貼%20-%20圓形.png" />
+    <link rel="stylesheet" href="../style.css" />
+    <script src="../navbar.js" defer></script>
+  </head>
+  <body>
+    <!-- 導航欄將由 navbar.js 載入 -->
+    <div class="cloud cloud--1" aria-hidden="true"></div>
+    <div class="cloud cloud--2" aria-hidden="true"></div>
+    <div class="cloud cloud--3" aria-hidden="true"></div>
+    <div class="cloud cloud--4" aria-hidden="true"></div>
+    <main class="page">
+      <section class="card">
+        <section class="donate-info">
+          <h2 class="donate-title">📚 第五課：函數與模組</h2>
+          
+          <div class="info-section highlight-box">
+            <h3 class="section-title">🎯 本課目標</h3>
+            <p class="content-text">學習如何將程式碼模組化、重複使用</p>
+            <p class="content-text" style="margin-top: 8px;">掌握函數定義、參數傳遞與模組使用</p>
+          </div>
+
+          <div class="info-section bank-info">
+            <h3 class="section-title">📦 什麼是函數？</h3>
+            <p class="content-text">函數就像一個「程式碼盒子」，可以重複使用。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-text"><strong>函數的優點</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">• 避免重複撰寫相同的程式碼</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">• 讓程式更容易閱讀和維護</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">• 方便測試和除錯</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">• 提高程式碼重用性</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">🔧 定義函數</h3>
+            <p class="content-text">使用 <span class="code-block">def</span> 關鍵字定義函數。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">1️</span>
+                <span class="rule-text"><strong>基本函數</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">def greet():
+    print("你好！歡迎學習 Python")
+
+# 呼叫函數
+greet()  # 輸出：你好！歡迎學習 Python</div>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">⚠️ 函數名稱後要加括號 <span class="code-block">()</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">⚠️ 函數內的程式碼要縮排</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">2</span>
+                <span class="rule-text"><strong>帶參數的函數</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">def greet(name):
+    print(f"你好，{name}！")
+
+greet("柒柒")  # 輸出：你好，柒柒！
+greet("小明")  # 輸出：你好，小明！</div>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">💡 參數讓函數更靈活</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">3</span>
+                <span class="rule-text"><strong>多個參數</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">def add(a, b):
+    result = a + b
+    print(f"{a} + {b} = {result}")
+
+add(5, 3)   # 輸出：5 + 3 = 8
+add(10, 20) # 輸出：10 + 20 = 30</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section bank-info">
+            <h3 class="section-title">↩️ 返回值</h3>
+            <p class="content-text">使用 <span class="code-block">return</span> 讓函數回傳結果。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">1️</span>
+                <span class="rule-text"><strong>基本返回值</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">def add(a, b):
+    return a + b
+
+result = add(5, 3)
+print(result)  # 8</div>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">💡 return 會立即結束函數</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">2</span>
+                <span class="rule-text"><strong>多個返回值</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">def calculate(a, b):
+    total = a + b
+    diff = a - b
+    return total, diff
+
+sum_result, diff_result = calculate(10, 3)
+print(sum_result)   # 13
+print(diff_result)  # 7</div>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">3</span>
+                <span class="rule-text"><strong>條件返回</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">def check_age(age):
+    if age >= 18:
+        return "成年人"
+    else:
+        return "未成年人"
+
+status = check_age(20)
+print(status)  # 成年人</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">⚙️ 參數類型</h3>
+            <p class="content-text">Python 支援多種參數類型。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">1️</span>
+                <span class="rule-text"><strong>預設參數</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">def greet(name, greeting="你好"):
+    print(f"{greeting}，{name}！")
+
+greet("柒柒")           # 你好，柒柒！
+greet("柒柒", "嗨")     # 嗨，柒柒！</div>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">💡 預設參數讓函數更靈活</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">2</span>
+                <span class="rule-text"><strong>關鍵字參數</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">def introduce(name, age, city):
+    print(f"我是{name}，{age}歲，住在{city}")
+
+# 使用關鍵字參數，順序可以不同
+introduce(age=25, name="柒柒", city="台北")</div>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">3</span>
+                <span class="rule-text"><strong>任意數量參數</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">def sum_all(*numbers):
+    total = 0
+    for num in numbers:
+        total += num
+    return total
+
+print(sum_all(1, 2, 3))        # 6
+print(sum_all(1, 2, 3, 4, 5))  # 15</div>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">💡 <span class="code-block">*args</span> 可接收任意數量的參數</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section highlight-box">
+            <h3 class="section-title">🌐 變數作用域</h3>
+            <p class="content-text">變數的「有效範圍」。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">1️</span>
+                <span class="rule-text"><strong>區域變數 vs 全域變數</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">x = 10  # 全域變數
+
+def test():
+    y = 5   # 區域變數
+    print(x)  # 可以讀取全域變數：10
+    print(y)  # 5
+
+test()
+# print(y)  # 錯誤！區域變數在函數外無法使用</div>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">2</span>
+                <span class="rule-text"><strong>修改全域變數</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">count = 0
+
+def increment():
+    global count  # 宣告使用全域變數
+    count += 1
+
+increment()
+print(count)  # 1</div>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">⚠️ 盡量避免使用 global，改用返回值</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section bank-info">
+            <h3 class="section-title">📦 模組（Module）</h3>
+            <p class="content-text">模組是包含 Python 程式碼的檔案，可以重複使用。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">1️</span>
+                <span class="rule-text"><strong>匯入模組</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">import math
+
+print(math.pi)        # 3.141592653589793
+print(math.sqrt(16))  # 4.0</div>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">2</span>
+                <span class="rule-text"><strong>匯入特定功能</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">from math import pi, sqrt
+
+print(pi)      # 3.141592653589793
+print(sqrt(16)) # 4.0</div>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">3</span>
+                <span class="rule-text"><strong>使用別名</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">import math as m
+
+print(m.pi)      # 3.141592653589793
+print(m.sqrt(9)) # 3.0</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">🔢 常用內建模組：math</h3>
+            <p class="content-text">數學運算模組。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-text"><strong>常用函數</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">import math
+
+print(math.ceil(4.3))    # 無條件進位：5
+print(math.floor(4.7))   # 無條件捨去：4
+print(math.pow(2, 3))    # 2 的 3 次方：8.0
+print(math.sqrt(25))     # 平方根：5.0
+print(math.factorial(5)) # 階乘：120</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">🎲 常用內建模組：random</h3>
+            <p class="content-text">隨機數產生模組。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-text"><strong>常用函數</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">import random
+
+# 隨機整數（1-10）
+print(random.randint(1, 10))
+
+# 隨機小數（0-1）
+print(random.random())
+
+# 從列表隨機選擇
+fruits = ["蘋果", "香蕉", "橘子"]
+print(random.choice(fruits))</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">📅 常用內建模組：datetime</h3>
+            <p class="content-text">日期時間處理模組。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-text"><strong>常用功能</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">import datetime
+
+# 取得現在時間
+now = datetime.datetime.now()
+print(now)
+
+# 格式化輸出
+print(now.year)   # 年
+print(now.month)  # 月
+print(now.day)    # 日
+print(now.hour)   # 時</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section highlight-box">
+            <h3 class="section-title">📝 自訂模組</h3>
+                <span class="rule-icon">1️</span>
+            <p class="content-text">建立自己的模組檔案。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-text"><strong>建立模組檔案：mytools.py</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">def greet(name):
+    return f"你好，{name}！"
+
+def add(a, b):
+    return a + b</div>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">2</span>
+                <span class="rule-text"><strong>使用自訂模組</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <div class="code-box">import mytools
+
+print(mytools.greet("柒柒"))
+print(mytools.add(5, 3))</div>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">💡 模組檔案要放在同一個資料夾</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section bank-info">
+            <h3 class="section-title">✍️ 實作練習</h3>
+            
+            <div class="rule-list">
+              <div class="rule-item">
+                <span class="rule-text"><strong>練習一：溫度轉換函數</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">寫一個函數 <span class="code-block">celsius_to_fahrenheit(c)</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">將攝氏溫度轉換為華氏溫度</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">公式：F = C × 9/5 + 32</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-text"><strong>練習二：計算平均分數</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">寫一個函數 <span class="code-block">calculate_average(*scores)</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">可接收任意數量的分數</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">回傳平均分數（四捨五入到小數點後1位）</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-text"><strong>練習三：密碼強度檢查</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">寫一個函數 <span class="code-block">check_password(pwd)</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">檢查密碼是否符合：長度 ≥ 8、包含數字、包含英文</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">回傳 True 或 False</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-text"><strong>練習四：骰子遊戲</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">使用 random 模組</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">寫一個函數擲骰子（1-6）</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">呼叫 3 次，計算總和</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-text"><strong>練習五：年齡計算器</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">使用 datetime 模組</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">輸入出生年份，計算並回傳年齡</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">提示：取得當前年份 - 出生年份</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-text"><strong>提示</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">記得使用 return 回傳結果</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">善用預設參數讓函數更靈活</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">模組要先匯入才能使用</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section cta-box">
+            <p class="cta-text">恭喜！你已經完成基礎課程，可以開始學習證照內容了！</p>
+            
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
+              <a class="btn" href="course0.html" style="flex: 1; min-width: 200px;">
+                📋 回到目錄
+              </a>
+            </div>
+            
+            <p></p>
+            
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
+              <a class="btn" href="course4.html" style="flex: 1; min-width: 140px;">
+                ← 上一課
+              </a>
+            </div>
+            
+            <p></p>
+            
+            <a class="btn" href="course.html">
+              返回課程介紹
+            </a>
+            <p></p>
+            <a class="btn btn-home" href="/">
+              🏠 回首頁
+            </a>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script src="../script.js"></script>
+  </body>
+</html>

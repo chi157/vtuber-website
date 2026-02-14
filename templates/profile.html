@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>個人資料 - 柒柒 chi</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/頭貼 - 圓形.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- 導航欄 -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="{{ url_for('index') }}" class="navbar-logo">
+          <img src="{{ url_for('static', filename='images/頭貼 - 圓形.png') }}" alt="柒柒 chi" class="navbar-logo-img">
+          <span>柒柒 chi</span>
+        </a>
+        <button class="navbar-toggle" id="navbarToggle" aria-label="切換選單">
+          <span class="navbar-toggle-icon"></span>
+          <span class="navbar-toggle-icon"></span>
+          <span class="navbar-toggle-icon"></span>
+        </button>
+        <ul class="navbar-menu" id="navbarMenu">
+          <li class="navbar-item"><a href="/about.html" class="navbar-link">自我介紹</a></li>
+          <li class="navbar-item"><a href="/courses/course.html" class="navbar-link">程式設計課程</a></li>
+          <li class="navbar-item"><a href="/keychain.html" class="navbar-link">鑰匙圈預購</a></li>
+          <li class="navbar-item"><a href="/subscriber-benefits.html" class="navbar-link">訂閱者專屬福利</a></li>
+          <li class="navbar-item"><a href="/events.html" class="navbar-link">活動專區</a></li>
+          <li class="navbar-item"><a href="/donate.html" class="navbar-link">加班台規則與說明</a></li>
+          <li class="navbar-item"><a href="/url.html" class="navbar-link">各平台連結</a></li>
+          {% if session.user_id %}
+          <li class="navbar-item navbar-dropdown">
+            <a href="#" class="navbar-link navbar-dropdown-toggle">設定 ▾</a>
+            <ul class="navbar-dropdown-menu">
+              <li><a href="{{ url_for('profile') }}" class="navbar-dropdown-link">個人資料</a></li>
+              <li><a href="{{ url_for('my_orders') }}" class="navbar-dropdown-link">訂單管理</a></li>
+            </ul>
+          </li>
+          <li class="navbar-item"><a href="{{ url_for('logout') }}" class="navbar-link">登出 ({{ session.username }})</a></li>
+          {% else %}
+          <li class="navbar-item"><a href="{{ url_for('login') }}" class="navbar-link">登入</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+    <div class="cloud cloud--1" aria-hidden="true"></div>
+    <div class="cloud cloud--2" aria-hidden="true"></div>
+    <div class="cloud cloud--3" aria-hidden="true"></div>
+    <div class="cloud cloud--4" aria-hidden="true"></div>
+    
+    <main class="page">
+        <div class="form-container">
+            <div class="form-card">
+                <h1 class="form-title">👤 個人資料</h1>
+                
+                {% if error %}
+                    <div class="form-error">{{ error }}</div>
+                {% endif %}
+                
+                {% if success %}
+                    <div class="form-success">{{ success }}</div>
+                {% endif %}
+                
+                <form method="POST" action="">
+                    <div class="form-group">
+                        <label class="form-label" for="username">使用者名稱</label>
+                        <input type="text" id="username" name="username" class="form-input" value="{{ user.username }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="email">電子郵件（不可修改）</label>
+                        <input type="email" id="email" name="email" class="form-input" value="{{ user.email }}" readonly style="background: rgba(255,255,255,0.05); cursor: not-allowed;">
+                        <p style="color: rgba(255,255,255,0.5); font-size: 12px; margin-top: 6px;">
+                            💡 電子郵件用於登入識別，無法修改
+                        </p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="phone">手機號碼</label>
+                        <input type="tel" id="phone" name="phone" class="form-input" value="{{ user.phone or '' }}" placeholder="請輸入手機號碼">
+                        {% if not user.phone %}
+                            <p style="color: #fbbf24; font-size: 12px; margin-top: 6px;">
+                                ⚠️ 您尚未設定手機號碼，預購時需要提供聯絡電話
+                            </p>
+                        {% endif %}
+                    </div>
+                    
+                    <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 30px 0;">
+                    
+                    <h3 style="color: #93c5fd; margin-bottom: 20px; font-size: 18px;">🔒 修改密碼（選填）</h3>
+                    <p style="color: rgba(255,255,255,0.6); font-size: 14px; margin-bottom: 20px;">
+                        如不需要修改密碼，請留空下方欄位
+                    </p>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="current_password">當前密碼</label>
+                        <div style="position: relative;">
+                            <input type="password" id="current_password" name="current_password" class="form-input" style="padding-right: 50px;" placeholder="若要修改密碼請輸入">
+                            <button type="button" id="toggle-current-password" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 20px; padding: 5px; color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">
+                                顯示密碼
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="new_password">新密碼（至少 6 個字元）</label>
+                        <div style="position: relative;">
+                            <input type="password" id="new_password" name="new_password" class="form-input" style="padding-right: 50px;" placeholder="若要修改密碼請輸入">
+                            <button type="button" id="toggle-new-password" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 20px; padding: 5px; color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">
+                                顯示密碼
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="confirm_password">確認新密碼</label>
+                        <div style="position: relative;">
+                            <input type="password" id="confirm_password" name="confirm_password" class="form-input" style="padding-right: 50px;" placeholder="再次輸入新密碼">
+                            <button type="button" id="toggle-confirm-password" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 20px; padding: 5px; color: rgba(255,255,255,0.6); transition: color 0.3s;" onmouseover="this.style.color='rgba(255,255,255,0.9)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">
+                                顯示密碼
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="form-button">💾 儲存變更</button>
+                </form>
+                
+                <div class="form-link">
+                    <a href="{{ url_for('preorder') }}">返回預購頁面</a> | <a href="{{ url_for('logout') }}">登出</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // 導航欄功能
+        const navbarToggle = document.getElementById('navbarToggle');
+        const navbarMenu = document.getElementById('navbarMenu');
+        if (navbarToggle && navbarMenu) {
+            navbarToggle.addEventListener('click', function() {
+                navbarToggle.classList.toggle('active');
+                navbarMenu.classList.toggle('active');
+            });
+            const navbarLinks = navbarMenu.querySelectorAll('.navbar-link');
+            navbarLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navbarToggle.classList.remove('active');
+                    navbarMenu.classList.remove('active');
+                });
+            });
+            document.addEventListener('click', function(event) {
+                const isClickInside = navbarToggle.contains(event.target) || navbarMenu.contains(event.target);
+                if (!isClickInside && navbarMenu.classList.contains('active')) {
+                    navbarToggle.classList.remove('active');
+                    navbarMenu.classList.remove('active');
+                }
+            });
+        }
+
+        // 密碼顯示/隱藏切換
+        function setupPasswordToggle(inputId, buttonId) {
+            const input = document.getElementById(inputId);
+            const btn = document.getElementById(buttonId);
+            if (input && btn) {
+                btn.addEventListener('click', function() {
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        btn.textContent = '隱藏密碼';
+                    } else {
+                        input.type = 'password';
+                        btn.textContent = '顯示密碼';
+                    }
+                });
+            }
+        }
+        
+        setupPasswordToggle('current_password', 'toggle-current-password');
+        setupPasswordToggle('new_password', 'toggle-new-password');
+        setupPasswordToggle('confirm_password', 'toggle-confirm-password');
+    </script>
+</body>
+</html>

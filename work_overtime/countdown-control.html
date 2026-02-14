@@ -1,0 +1,903 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>倒數計時器控制面板 - 柒柒 chi</title>
+    <link rel="icon" type="image/png" href="../images/頭貼%20-%20圓形.png" />
+    <link rel="stylesheet" href="../style.css" />
+    
+    <!-- 載入導航欄 -->
+    <script src="../navbar.js"></script>
+    
+    <style>
+      body {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        min-height: 100vh;
+        padding: 2rem;
+        padding-top: calc(var(--navbar-height) + 2rem); /* 為導航欄留出空間 */
+      }
+
+      .control-panel {
+        max-width: 800px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(125, 211, 252, 0.2);
+        border-radius: 20px;
+        padding: 2rem;
+      }
+
+      .panel-title {
+        font-size: 2rem;
+        font-weight: 900;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #7dd3fc, #c084fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-align: center;
+      }
+
+      .panel-subtitle {
+        text-align: center;
+        color: #94a3b8;
+        margin-bottom: 2rem;
+      }
+
+      .form-section {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(125, 211, 252, 0.1);
+      }
+
+      .section-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #7dd3fc;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-label {
+        display: block;
+        font-weight: 600;
+        color: #e2e8f0;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+      }
+
+      .form-input,
+      .form-select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(125, 211, 252, 0.2);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .form-input:focus,
+      .form-select:focus {
+        outline: none;
+        border-color: #7dd3fc;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .form-checkbox-group {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .checkbox-item input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+
+      .checkbox-item label {
+        color: #e2e8f0;
+        cursor: pointer;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        flex: 1;
+        min-width: 200px;
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #7dd3fc, #3b82f6);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(125, 211, 252, 0.4);
+      }
+
+      .btn-secondary {
+        background: linear-gradient(135deg, #c084fc, #9333ea);
+        color: white;
+      }
+
+      .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(192, 132, 252, 0.4);
+      }
+
+      .btn-success {
+        background: linear-gradient(135deg, #34d399, #10b981);
+        color: white;
+      }
+
+      .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(52, 211, 153, 0.4);
+      }
+
+      .btn-danger {
+        background: linear-gradient(135deg, #f87171, #ef4444);
+        color: white;
+      }
+
+      .btn-danger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(248, 113, 113, 0.4);
+      }
+
+      .help-text {
+        font-size: 0.85rem;
+        color: #94a3b8;
+        margin-top: 0.25rem;
+      }
+
+      .current-time {
+        background: rgba(125, 211, 252, 0.1);
+        border-left: 4px solid #7dd3fc;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        font-family: 'Courier New', monospace;
+      }
+
+      .quick-preset {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-top: 0.5rem;
+      }
+
+      .preset-btn {
+        padding: 0.5rem 1rem;
+        background: rgba(125, 211, 252, 0.1);
+        border: 1px solid rgba(125, 211, 252, 0.3);
+        border-radius: 6px;
+        color: #7dd3fc;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+      }
+
+      .preset-btn:hover {
+        background: rgba(125, 211, 252, 0.2);
+        border-color: #7dd3fc;
+      }
+
+      .notification {
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        padding: 1rem 1.5rem;
+        background: linear-gradient(135deg, #34d399, #10b981);
+        color: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(52, 211, 153, 0.4);
+        font-weight: 700;
+        z-index: 1000;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: all 0.3s ease;
+      }
+
+      .notification.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 768px) {
+        .button-group {
+          flex-direction: column;
+        }
+
+        .btn {
+          min-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="control-panel">
+      <h1 class="panel-title">⏱️ 倒數計時器控制面板</h1>
+      <p class="panel-subtitle">輕鬆設定您的加班台倒數計時器</p>
+
+      <div class="current-time" id="currentTime">
+        ⏰ 現在時間：載入中...
+      </div>
+
+      <form id="countdownForm">
+        <!-- 時間設定 -->
+        <div class="form-section">
+          <h2 class="section-title">🕐 時間設定</h2>
+          
+          <div class="form-group">
+            <label class="form-label">要倒數多久（分鐘）</label>
+            <input type="number" class="form-input" id="durationMinutes" min="1" value="180" />
+            <div class="help-text">從現在開始倒數的時間長度（預設 3 小時 = 180 分鐘）</div>
+          </div>
+
+          <div class="quick-preset">
+            <button type="button" class="preset-btn" onclick="setDuration(30)">30 分鐘</button>
+            <button type="button" class="preset-btn" onclick="setDuration(60)">1 小時</button>
+            <button type="button" class="preset-btn" onclick="setDuration(120)">2 小時</button>
+            <button type="button" class="preset-btn" onclick="setDuration(180)">3 小時</button>
+            <button type="button" class="preset-btn" onclick="setDuration(240)">4 小時</button>
+            <button type="button" class="preset-btn" onclick="setDuration(300)">5 小時</button>
+          </div>
+        </div>
+
+        <!-- 顯示設定 -->
+        <div class="form-section">
+          <h2 class="section-title">🎨 顯示設定</h2>
+          
+          <div class="form-group">
+            <label class="form-label">標題</label>
+            <input type="text" class="form-input" id="title" value="加班台倒數計時" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">倒數訊息</label>
+            <input type="text" class="form-input" id="message" value="距離開播還有" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">結束訊息</label>
+            <input type="text" class="form-input" id="endMessage" value="🎉 開播時間到！" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">顯示單位</label>
+            <div class="form-checkbox-group">
+              <div class="checkbox-item">
+                <input type="checkbox" id="showDays" checked />
+                <label for="showDays">顯示天數</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="showHours" checked />
+                <label for="showHours">顯示小時</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="showMinutes" checked />
+                <label for="showMinutes">顯示分鐘</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="showSeconds" checked />
+                <label for="showSeconds">顯示秒數</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 手動增加時間 -->
+        <div class="form-section">
+          <h2 class="section-title">⚡ 手動增加時間</h2>
+          <div class="help-text" style="margin-bottom: 1rem;">根據加班台規則快速增加倒數時間</div>
+          
+          <div class="form-group">
+            <label class="form-label">📺 訂閱加時規則</label>
+            <div class="quick-preset" style="margin-top: 0.5rem;">
+              <button type="button" class="preset-btn" onclick="addTime(60)" style="background: rgba(147, 51, 234, 0.2); border-color: rgba(147, 51, 234, 0.5); color: #c084fc;">
+                ⭐ 層級一訂閱 +60分
+              </button>
+              <button type="button" class="preset-btn" onclick="addTime(140)" style="background: rgba(147, 51, 234, 0.2); border-color: rgba(147, 51, 234, 0.5); color: #c084fc;">
+                ⭐⭐ 層級二訂閱 +140分
+              </button>
+              <button type="button" class="preset-btn" onclick="addTime(220)" style="background: rgba(147, 51, 234, 0.2); border-color: rgba(147, 51, 234, 0.5); color: #c084fc;">
+                ⭐⭐⭐ 層級三訂閱 +220分
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">🎁 其他加時方式</label>
+            <div class="quick-preset" style="margin-top: 0.5rem;">
+              <button type="button" class="preset-btn" onclick="addTime(30)" style="background: rgba(52, 211, 153, 0.2); border-color: rgba(52, 211, 153, 0.5); color: #34d399;">
+                💚 新追隨者 +30分
+              </button>
+              <button type="button" class="preset-btn" onclick="addSeconds(10)" style="background: rgba(251, 191, 36, 0.2); border-color: rgba(251, 191, 36, 0.5); color: #fbbf24;">
+                ✨ 小奇點 +10秒
+              </button>
+              <button type="button" class="preset-btn" onclick="addTime(2)" style="background: rgba(59, 130, 246, 0.2); border-color: rgba(59, 130, 246, 0.5); color: #3b82f6;">
+                💰 斗內 +2分/1元
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">⏱️ 自訂增加時間</label>
+            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+              <input type="number" class="form-input" id="customMinutes" placeholder="分鐘數" min="0" style="flex: 1; min-width: 150px;" />
+              <button type="button" class="preset-btn" onclick="addCustomTime()">
+                ➕ 增加時間
+              </button>
+              <input type="number" class="form-input" id="customSeconds" placeholder="秒數" min="0" style="flex: 1; min-width: 150px;" />
+              <button type="button" class="preset-btn" onclick="addCustomSeconds()">
+                ➕ 增加秒數
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">🔧 時間調整</label>
+            <div class="quick-preset" style="margin-top: 0.5rem;">
+              <button type="button" class="preset-btn" onclick="addTime(5)" style="background: rgba(125, 211, 252, 0.2); border-color: rgba(125, 211, 252, 0.5); color: #7dd3fc;">
+                +5分鐘
+              </button>
+              <button type="button" class="preset-btn" onclick="addTime(10)" style="background: rgba(125, 211, 252, 0.2); border-color: rgba(125, 211, 252, 0.5); color: #7dd3fc;">
+                +10分鐘
+              </button>
+              <button type="button" class="preset-btn" onclick="addTime(-5)" style="background: rgba(248, 113, 113, 0.2); border-color: rgba(248, 113, 113, 0.5); color: #f87171;">
+                -5分鐘
+              </button>
+              <button type="button" class="preset-btn" onclick="addTime(-10)" style="background: rgba(248, 113, 113, 0.2); border-color: rgba(248, 113, 113, 0.5); color: #f87171;">
+                -10分鐘
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 按鈕群組 -->
+        <div class="button-group">
+          <button type="button" class="btn btn-primary" onclick="saveAndPreview()">
+            💾 儲存並預覽
+          </button>
+          <button type="button" class="btn btn-success" onclick="openCountdown()">
+            🚀 開啟倒數頁面
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="loadSettings()">
+            🔄 讀取設定
+          </button>
+          <button type="button" class="btn" onclick="pauseCountdown()" id="pauseBtn" style="background: rgba(251, 191, 36, 0.2); border-color: rgba(251, 191, 36, 0.5); color: #fbbf24;">
+            ⏸️ 暫停倒數
+          </button>
+          <button type="button" class="btn" onclick="resumeCountdown()" id="resumeBtn" style="background: rgba(34, 197, 94, 0.2); border-color: rgba(34, 197, 94, 0.5); color: #22c55e; display: none;">
+            ▶️ 繼續倒數
+          </button>
+          <button type="button" class="btn btn-danger" onclick="resetSettings()">
+            🗑️ 重置設定
+          </button>
+        </div>
+
+        <div style="margin-top: 1rem; text-align: center;">
+          <a href="/" style="color: #7dd3fc; text-decoration: none;">🏠 回首頁</a>
+        </div>
+      </form>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+      // 更新當前時間顯示
+      function updateCurrentTime() {
+        const now = new Date();
+        const timeStr = now.toLocaleString('zh-TW', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        });
+        document.getElementById('currentTime').textContent = `⏰ 現在時間：${timeStr}`;
+      }
+      updateCurrentTime();
+      setInterval(updateCurrentTime, 1000);
+
+      // 設定倒數時長
+      function setDuration(minutes) {
+        document.getElementById('durationMinutes').value = minutes;
+      }
+
+      // 增加時間（分鐘）
+      async function addTime(minutes) {
+        // 優先從伺服器載入當前設定
+        let config = null;
+        try {
+          const response = await fetch('get-countdown.php?t=' + Date.now(), { cache: 'no-cache' });
+          const result = await response.json();
+          if (result.success && result.data) {
+            config = result.data;
+            console.log('☁️ 從伺服器載入設定用於加時:', config);
+          }
+        } catch (e) {
+          console.error('❌ 無法從伺服器載入設定:', e);
+        }
+
+        // 如果伺服器載入失敗，嘗試 localStorage
+        if (!config) {
+          const saved = localStorage.getItem('countdownConfig');
+          if (saved) {
+            config = JSON.parse(saved);
+            console.log('💾 使用 localStorage 設定用於加時');
+          }
+        }
+
+        if (!config) {
+          showNotification('⚠️ 請先設定並儲存倒數時間！', 'warning');
+          return;
+        }
+
+        try {
+          // 計算新的目標時間
+          let currentTarget;
+          if (config.isPaused && config.remainingMs) {
+            // 如果是暫停狀態，使用 remainingMs
+            currentTarget = Date.now() + config.remainingMs;
+          } else if (config.targetTimestamp) {
+            currentTarget = config.targetTimestamp;
+          } else if (config.targetDate) {
+            currentTarget = new Date(config.targetDate).getTime();
+          } else if (config.secondsFromNow) {
+            // 如果是倒數時長模式，需要轉換成絕對時間
+            currentTarget = Date.now() + (config.secondsFromNow * 1000);
+          } else {
+            showNotification('⚠️ 無法讀取目標時間！', 'error');
+            return;
+          }
+
+          // 增加時間（直接使用時間戳記）
+          const newTargetTimestamp = currentTarget + (minutes * 60 * 1000);
+          
+          console.log('➕ 增加時間:', minutes, '分鐘');
+          console.log('   新目標時間:', new Date(newTargetTimestamp).toLocaleString('zh-TW'));
+          
+          // 更新設定
+          config.mode = 'timestamp';
+          config.targetTimestamp = newTargetTimestamp;
+          
+          // 如果是暫停狀態，需要更新 remainingMs
+          if (config.isPaused) {
+            config.remainingMs = newTargetTimestamp - Date.now();
+            console.log('⏸️ 更新暫停剩餘時間:', config.remainingMs, 'ms');
+          }
+          
+          delete config.targetDate;
+          delete config.secondsFromNow;
+          
+          // 儲存到 localStorage
+          localStorage.setItem('countdownConfig', JSON.stringify(config));
+          
+          // 同步到伺服器
+          saveToServer(config);
+          
+          const msg = minutes > 0 ? `+${minutes}` : minutes;
+          showNotification(`✅ 已增加 ${msg} 分鐘！`);
+        } catch (e) {
+          showNotification('❌ 增加時間失敗！', 'error');
+          console.error(e);
+        }
+      }
+
+      // 增加時間（秒）
+      function addSeconds(seconds) {
+        const saved = localStorage.getItem('countdownConfig');
+        if (!saved) {
+          showNotification('⚠️ 請先設定並儲存倒數時間！', 'warning');
+          return;
+        }
+
+        try {
+          const config = JSON.parse(saved);
+          
+          // 計算新的目標時間
+          let currentTarget;
+          if (config.targetTimestamp) {
+            currentTarget = config.targetTimestamp;
+          } else if (config.targetDate) {
+            currentTarget = new Date(config.targetDate).getTime();
+          } else if (config.secondsFromNow) {
+            currentTarget = Date.now() + (config.secondsFromNow * 1000);
+          } else {
+            showNotification('❌ 找不到目標時間！', 'error');
+            return;
+          }
+
+          // 增加時間（直接使用時間戳記）
+          const newTargetTimestamp = currentTarget + (seconds * 1000);
+          
+          console.log('➕ 增加時間:', seconds, '秒');
+          console.log('   新目標時間:', new Date(newTargetTimestamp).toLocaleString('zh-TW'));
+          
+          // 更新設定
+          config.mode = 'timestamp';
+          config.targetTimestamp = newTargetTimestamp;
+          delete config.targetDate;
+          delete config.secondsFromNow;
+          
+          // 儲存
+          localStorage.setItem('countdownConfig', JSON.stringify(config));
+          
+          // 同步到伺服器
+          saveToServer(config);
+          
+          showNotification(`✅ 已增加 ${seconds} 秒！`);
+        } catch (e) {
+          showNotification('❌ 增加時間失敗！', 'error');
+          console.error(e);
+        }
+      }
+
+      // 自訂增加時間（分鐘）
+      function addCustomTime() {
+        const minutes = parseInt(document.getElementById('customMinutes').value);
+        if (!minutes || isNaN(minutes)) {
+          showNotification('⚠️ 請輸入有效的分鐘數！', 'warning');
+          return;
+        }
+        addTime(minutes);
+        document.getElementById('customMinutes').value = '';
+      }
+
+      // 自訂增加時間（秒）
+      function addCustomSeconds() {
+        const seconds = parseInt(document.getElementById('customSeconds').value);
+        if (!seconds || isNaN(seconds)) {
+          showNotification('⚠️ 請輸入有效的秒數！', 'warning');
+          return;
+        }
+        addSeconds(seconds);
+        document.getElementById('customSeconds').value = '';
+      }
+
+      // 儲存設定到伺服器
+      async function saveToServer(config) {
+        try {
+          const response = await fetch('/save-countdown', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(config),
+            cache: 'no-cache'
+          });
+          
+          const result = await response.json();
+          if (result.success) {
+            console.log('☁️ 已同步到伺服器');
+            return true;
+          } else {
+            console.error('❌ 同步到伺服器失敗:', result.error);
+            return false;
+          }
+        } catch (e) {
+          console.error('❌ 無法連接到伺服器:', e);
+          return false;
+
+      // 儲存設定
+      async function saveSettings() {
+        const minutes = parseInt(document.getElementById('durationMinutes').value);
+        if (!minutes || minutes < 1) {
+          showNotification('請設定有效的倒數時長！', 'error');
+          return false;
+        }
+        // 預設儲存時，若目前是暫停狀態，則更新 remainingMs
+        let config = null;
+        const saved = localStorage.getItem('countdownConfig');
+        if (saved) {
+          config = JSON.parse(saved);
+          if (config.isPaused) {
+            config.remainingMs = minutes * 60 * 1000;
+            localStorage.setItem('countdownConfig', JSON.stringify(config));
+            const serverSaved = await saveToServer(config);
+            if (serverSaved) {
+              showNotification('✅ 已更新暫停狀態的剩餘時間！');
+            } else {
+              showNotification('❌ 更新到伺服器失敗，但已儲存到本地', 'error');
+            }
+            return serverSaved;
+          }
+        }
+        
+        // 計算目標時間
+        const targetTimestamp = Date.now() + (minutes * 60 * 1000);
+        config = {
+          mode: 'timestamp',
+          targetTimestamp: targetTimestamp,
+          title: document.getElementById('title').value || '加班台倒數計時',
+          message: document.getElementById('message').value || '距離下班還有',
+          endMessage: document.getElementById('endMessage').value || '🎉 下班囉！',
+          showDays: document.getElementById('showDays').checked,
+          showHours: document.getElementById('showHours').checked,
+          showMinutes: document.getElementById('showMinutes').checked,
+          showSeconds: document.getElementById('showSeconds').checked,
+          isPaused: true,
+          remainingMs: minutes * 60 * 1000
+        };
+        localStorage.setItem('countdownConfig', JSON.stringify(config));
+        
+        const serverSaved = await saveToServer(config);
+        if (serverSaved) {
+          showNotification('✅ 設定已儲存！');
+        } else {
+          showNotification('❌ 儲存到伺服器失敗，但已儲存到本地', 'error');
+        }
+        return serverSaved;
+      }
+
+      // 載入設定
+      function loadSettings() {
+        const saved = localStorage.getItem('countdownConfig');
+        if (saved) {
+          const config = JSON.parse(saved);
+          
+          // 如果有目標時間，計算剩餘分鐘數
+          let targetTime;
+          if (config.targetTimestamp) {
+            targetTime = config.targetTimestamp;
+          } else if (config.targetDate) {
+            targetTime = new Date(config.targetDate).getTime();
+          }
+          
+          if (targetTime) {
+            const now = Date.now();
+            const remainingMinutes = Math.max(0, Math.ceil((targetTime - now) / 60000));
+            document.getElementById('durationMinutes').value = remainingMinutes;
+          }
+          
+          document.getElementById('title').value = config.title || '加班台倒數計時';
+          document.getElementById('message').value = config.message || '距離開播還有';
+          document.getElementById('endMessage').value = config.endMessage || '🎉 開播時間到！';
+          
+          document.getElementById('showDays').checked = config.showDays !== false;
+          document.getElementById('showHours').checked = config.showHours !== false;
+          document.getElementById('showMinutes').checked = config.showMinutes !== false;
+          document.getElementById('showSeconds').checked = config.showSeconds !== false;
+          
+          showNotification('✅ 設定已載入！');
+        } else {
+          showNotification('⚠️ 沒有找到儲存的設定', 'warning');
+        }
+      }
+
+      // 儲存並預覽
+      async function saveAndPreview() {
+        const saved = await saveSettings();
+        if (saved) {
+          setTimeout(() => {
+            window.open('countdown.html', '_blank');
+          }, 500);
+        }
+      }
+
+      // 開啟倒數頁面
+      async function openCountdown() {
+        // 先儲存設定
+        const minutes = parseInt(document.getElementById('durationMinutes').value) || 180;
+        console.log('🚀 準備開啟倒數頁面，倒數時長:', minutes, '分鐘');
+        
+        const saved = await saveSettings();
+        if (saved) {
+          console.log('✅ 設定已儲存，即將開啟倒數頁面');
+          setTimeout(() => {
+            window.open('countdown.html?minutes=' + minutes, '_blank');
+          }, 300);
+        } else {
+          console.error('❌ 儲存設定失敗');
+          showNotification('❌ 儲存設定失敗', 'error');
+        }
+      }
+
+      // 重置設定
+      function resetSettings() {
+        if (confirm('確定要重置所有設定嗎？')) {
+          localStorage.removeItem('countdownConfig');
+          
+          document.getElementById('durationMinutes').value = 180;
+          document.getElementById('title').value = '加班台倒數計時';
+          document.getElementById('message').value = '距離開播還有';
+          document.getElementById('endMessage').value = '🎉 開播時間到！';
+          document.getElementById('showDays').checked = true;
+          document.getElementById('showHours').checked = true;
+          document.getElementById('showMinutes').checked = true;
+          document.getElementById('showSeconds').checked = true;
+          
+          showNotification('✅ 設定已重置！');
+        }
+      }
+
+      // 顯示通知
+      function showNotification(message, type = 'success') {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        
+        if (type === 'error') {
+          notification.style.background = 'linear-gradient(135deg, #f87171, #ef4444)';
+        } else if (type === 'warning') {
+          notification.style.background = 'linear-gradient(135deg, #fbbf24, #f59e0b)';
+        } else {
+          notification.style.background = 'linear-gradient(135deg, #34d399, #10b981)';
+        }
+        
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+          notification.classList.remove('show');
+        }, 3000);
+      }
+
+      // 暫停倒數
+      async function pauseCountdown() {
+        const saved = localStorage.getItem('countdownConfig');
+        if (!saved) {
+          showNotification('⚠️ 沒有正在進行的倒數！', 'warning');
+          return;
+        }
+        try {
+          const config = JSON.parse(saved);
+          // 計算剩餘時間
+          let remainingMs;
+          if (config.targetTimestamp) {
+            remainingMs = config.targetTimestamp - Date.now();
+          } else if (config.targetDate) {
+            remainingMs = new Date(config.targetDate).getTime() - Date.now();
+          } else if (config.remainingMs) {
+            remainingMs = config.remainingMs;
+          } else {
+            showNotification('⚠️ 無法取得目標時間！', 'error');
+            return;
+          }
+          if (remainingMs <= 0) {
+            showNotification('⚠️ 倒數已結束！', 'warning');
+            return;
+          }
+          // 標記為暫停狀態，儲存剩餘時間
+          config.isPaused = true;
+          config.remainingMs = remainingMs;
+          delete config.targetTimestamp;
+          delete config.targetDate;
+
+          localStorage.setItem('countdownConfig', JSON.stringify(config));
+          const serverSaved = await saveToServer(config);
+          if (serverSaved) {
+            // 切換按鈕顯示
+            document.getElementById('pauseBtn').style.display = 'none';
+            document.getElementById('resumeBtn').style.display = 'inline-block';
+            showNotification('⏸️ 倒數已暫停！');
+            console.log('⏸️ 暫停倒數，剩餘時間:', Math.floor(remainingMs / 60000), '分鐘');
+          } else {
+            showNotification('❌ 暫停設定儲存失敗', 'error');
+          }
+        } catch (e) {
+          showNotification('❌ 暫停失敗！', 'error');
+          console.error(e);
+        }
+      }
+
+      // 繼續倒數
+      async function resumeCountdown() {
+        const saved = localStorage.getItem('countdownConfig');
+        if (!saved) {
+          showNotification('⚠️ 沒有暫停的倒數！', 'warning');
+          return;
+        }
+        try {
+          const config = JSON.parse(saved);
+          if (!config.isPaused || !config.remainingMs) {
+            showNotification('⚠️ 倒數未暫停！', 'warning');
+            return;
+          }
+          // 從剩餘時間重新計算目標時間
+          const targetTimestamp = Date.now() + config.remainingMs;
+          config.targetTimestamp = targetTimestamp;
+          config.isPaused = false;
+          delete config.remainingMs;
+          localStorage.setItem('countdownConfig', JSON.stringify(config));
+          const serverSaved = await saveToServer(config);
+          if (serverSaved) {
+            document.getElementById('pauseBtn').style.display = 'inline-block';
+            document.getElementById('resumeBtn').style.display = 'none';
+            showNotification('▶️ 倒數已繼續！');
+            console.log('▶️ 繼續倒數，目標時間:', new Date(targetTimestamp).toLocaleString('zh-TW'));
+          } else {
+            showNotification('❌ 繼續設定儲存失敗', 'error');
+          }
+        } catch (e) {
+          showNotification('❌ 繼續失敗！', 'error');
+          console.error(e);
+        }
+      }
+
+      // 檢查暫停狀態
+      function checkPauseState() {
+        const saved = localStorage.getItem('countdownConfig');
+        if (saved) {
+          try {
+            const config = JSON.parse(saved);
+            if (config.isPaused) {
+              document.getElementById('pauseBtn').style.display = 'none';
+              document.getElementById('resumeBtn').style.display = 'inline-block';
+            } else {
+              document.getElementById('pauseBtn').style.display = 'inline-block';
+              document.getElementById('resumeBtn').style.display = 'none';
+            }
+          } catch (e) {
+            console.error('檢查暫停狀態失敗', e);
+          }
+        }
+      }
+
+      // 初始化：設定預設值
+      window.addEventListener('load', function() {
+        checkPauseState();
+        
+        const saved = localStorage.getItem('countdownConfig');
+        if (saved) {
+          loadSettings();
+        } else {
+          // 預設為 3 小時（180 分鐘），但預設狀態為暫停
+          document.getElementById('durationMinutes').value = 180;
+          // 立即存一個暫停狀態的 config
+          const config = {
+            mode: 'timestamp',
+            isPaused: true,
+            remainingMs: 180 * 60 * 1000,
+            title: '加班台倒數計時',
+            message: '距離下班還有',
+            endMessage: '🎉 下班囉！',
+            showDays: true,
+            showHours: true,
+            showMinutes: true,
+            showSeconds: true
+          };
+          localStorage.setItem('countdownConfig', JSON.stringify(config));
+          saveToServer(config);
+          checkPauseState();
+        }
+      });
+    </script>
+  </body>
+</html>

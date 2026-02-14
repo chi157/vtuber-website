@@ -1,0 +1,36 @@
+# 忽略環境變數檔案
+.env
+# 資料庫配置（不要提交到 Git）
+backend/config.local.php
+backend/config.local.py
+backend/email.php
+
+# 上傳的文件
+uploads/*
+!uploads/.gitkeep
+
+# 系統文件
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 臨時文件
+*.log
+*.tmp
+*.bak
+
+# PHP
+vendor/
+composer.lock
+
+# 測試文件（包含敏感資訊後應刪除）
+test-db.php
+test-session.php
+test-google-oauth.php
+run-migration.php

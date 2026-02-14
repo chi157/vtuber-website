@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>柒柒 chi 第二課：Python 基礎語法</title>
+    <link rel="icon" type="image/png" href="../images/頭貼%20-%20圓形.png" />
+    <link rel="stylesheet" href="../style.css?v=20260213" />
+    <script src="../navbar.js" defer></script>
+  </head>
+  <body>
+    <!-- 導航欄將由 navbar.js 載入 -->
+    <div class="cloud cloud--1" aria-hidden="true"></div>
+    <div class="cloud cloud--2" aria-hidden="true"></div>
+    <div class="cloud cloud--3" aria-hidden="true"></div>
+    <div class="cloud cloud--4" aria-hidden="true"></div>
+    <main class="page">
+      <section class="card">
+        <section class="donate-info">
+          <h2 class="donate-title">📚 第二課：Python 基礎語法</h2>
+          
+          <div class="info-section highlight-box">
+            <h3 class="section-title">🎯 本課目標</h3>
+            <p class="content-text">學習 Python 程式設計的基本語法規則</p>
+            <p class="content-text" style="margin-top: 8px;">了解如何撰寫你的第一個 Python 程式</p>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">💬 註解 (Comments)</h3>
+            <p class="content-text">註解是給人看的說明文字，程式執行時會被忽略。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">1️</span>
+                <span class="rule-text"><strong>單行註解</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">使用 <span class="code-block">#</span> 符號</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">範例：<span class="code-block"># 這是註解</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">print("Hello")  # 這也是註解</span></span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">2️⃣</span>
+                <span class="rule-text"><strong>多行註解</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">使用三個引號 <span class="code-block">"""</span> 或 <span class="code-block">'''</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">範例：</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">"""</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">這是多行註解</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">可以寫很多行</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">"""</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section bank-info">
+            <h3 class="section-title">📝 變數 (Variables)</h3>
+            <p class="content-text">變數就像一個容器，用來儲存資料。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">✏️</span>
+                <span class="rule-text"><strong>變數命名規則</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">• 只能包含字母、數字、底線 (_)</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">• 不能以數字開頭</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">• 區分大小寫 (name 和 Name 是不同變數)</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">• 不能使用 Python 保留字 (if, for, while 等)</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">📌</span>
+                <span class="rule-text"><strong>變數賦值</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">name = "柒柒"</span>  # 字串</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">age = 20</span>  # 整數</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">height = 165.5</span>  # 浮點數</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">is_student = True</span>  # 布林值</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">🔄</span>
+                <span class="rule-text"><strong>多重賦值</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">x = y = z = 0</span>  # 同時賦予相同值</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">a, b, c = 1, 2, 3</span>  # 同時賦予不同值</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">🖨️ 輸出 print()</h3>
+            <p class="content-text">使用 print() 函數將資料顯示在螢幕上。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">1️⃣</span>
+                <span class="rule-text"><strong>基本輸出</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">print("Hello, World!")</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">print(123)</span></span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">2️⃣</span>
+                <span class="rule-text"><strong>輸出變數</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">name = "柒柒"</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">print(name)</span>  # 輸出：柒柒</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">3️⃣</span>
+                <span class="rule-text"><strong>輸出多個值</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">print("我是", name)</span>  # 用逗號分隔</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">print("年齡:", age, "歲")</span></span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">4️⃣</span>
+                <span class="rule-text"><strong>格式化輸出</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">print(f"我是{name}，今年{age}歲")</span>  # f-string</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">print("我是{}".format(name))</span>  # format()</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">⌨️ 輸入 input()</h3>
+            <p class="content-text">使用 input() 函數讓使用者輸入資料。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">📥</span>
+                <span class="rule-text"><strong>基本輸入</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">name = input("請輸入你的名字: ")</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">print("你好,", name)</span></span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">⚠️</span>
+                <span class="rule-text"><strong>重要：input() 回傳的是字串</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">如果要輸入數字，需要轉換型態</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">age = int(input("請輸入年齡: "))</span>  # 轉整數</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">height = float(input("請輸入身高: "))</span>  # 轉浮點數</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section highlight-box">
+            <h3 class="section-title">📏 縮排 (Indentation)</h3>
+            <p class="content-text">⚠️ <strong>Python 使用縮排來定義程式碼區塊，這是最重要的語法規則！</strong></p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">✅</span>
+                <span class="rule-text"><strong>正確的縮排</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">通常使用 4 個空格或 1 個 Tab</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">同一層級的程式碼必須有相同的縮排</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">Spyder 預設按 Tab 鍵會自動轉為 4 個空格</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">❌</span>
+                <span class="rule-text"><strong>常見錯誤</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">混用空格和 Tab（會導致錯誤）</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">縮排不一致（會導致 IndentationError）</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">🔤 基本資料型態</h3>
+            <div class="rule-list">
+              <div class="rule-item">
+                <span class="rule-icon">📝</span>
+                <span class="rule-text"><strong>字串 (str)</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">用單引號或雙引號包起來的文字</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">text = "Hello"</span> 或 <span class="code-block">text = 'Hello'</span></span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">🔢</span>
+                <span class="rule-text"><strong>整數 (int)</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">沒有小數點的數字</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">num = 100</span></span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">🔢</span>
+                <span class="rule-text"><strong>浮點數 (float)</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">有小數點的數字</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">price = 99.99</span></span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">✔️</span>
+                <span class="rule-text"><strong>布林值 (bool)</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">只有兩個值：<span class="code-block">True</span> 或 <span class="code-block">False</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">⚠️ 注意：首字母必須大寫</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">🔍 查看資料型態</h3>
+            <div class="rule-list">
+              <div class="rule-item">
+                <span class="rule-icon">🛠️</span>
+                <span class="rule-text"><strong>使用 type() 函數</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">print(type("Hello"))</span>  # <class 'str'></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">print(type(123))</span>  # <class 'int'></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">print(type(3.14))</span>  # <class 'float'></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">print(type(True))</span>  # <class 'bool'></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section bank-info">
+            <h3 class="section-title">✍️ 實作練習</h3>
+            <p class="content-text">試著在 Spyder 中撰寫以下程式：</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">1️⃣</span>
+                <span class="rule-text"><strong>練習一：自我介紹程式</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">要求使用者輸入姓名和年齡</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">然後顯示「你好，我是 XXX，今年 XX 歲」</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">2️⃣</span>
+                <span class="rule-text"><strong>練習二：簡單計算機</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">輸入兩個數字</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">計算並顯示它們的加、減、乘、除結果</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">💡</span>
+                <span class="rule-text"><strong>提示</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">記得使用 int() 或 float() 轉換輸入的數字</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">使用 f-string 讓輸出更漂亮</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section cta-box">
+            <p class="cta-text">完成本課學習後，你已經掌握 Python 的基礎語法了！</p>
+            
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
+              <a class="btn" href="course0.html" style="flex: 1; min-width: 200px;">
+                📋 回到目錄
+              </a>
+            </div>
+            
+            <p></p>
+            
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
+              <a class="btn" href="course1.html" style="flex: 1; min-width: 140px;">
+                ← 上一課
+              </a>
+              <a class="btn" href="course3.html" style="flex: 1; min-width: 140px;">
+                下一課 →
+              </a>
+            </div>
+            
+            <p></p>
+            
+            <a class="btn" href="course.html">
+              返回課程介紹
+            </a>
+            <p></p>
+            <a class="btn btn-home" href="/">
+              🏠 回首頁
+            </a>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script src="../script.js"></script>
+  </body>
+</html>

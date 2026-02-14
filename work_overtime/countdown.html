@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>倒數計時器 - 柒柒 chi</title>
+    <link rel="icon" type="image/png" href="../images/頭貼%20-%20圓形.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- 載入樣式和導航欄 -->
+    <link rel="stylesheet" href="../style.css" />
+    <script src="../navbar.js"></script>
+    
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font-family);
+        background: var(--bg-color);
+        color: var(--text-color);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        padding-top: calc(var(--navbar-height) + 20px); /* 為導航欄留出空間 */
+        background-image: 
+          radial-gradient(circle at 20% 50%, rgba(125, 211, 252, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(192, 132, 252, 0.1) 0%, transparent 50%);
+      }
+
+      .countdown-container {
+        text-align: center;
+        max-width: 1400px;
+        width: 100%;
+      }
+
+      .countdown-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        width: 100%;
+      }
+
+      .side-image {
+        object-fit: contain;
+        flex-shrink: 0;
+        max-width: 200px;
+      }
+
+      .side-image.left {
+        animation: floatLeft 3s ease-in-out infinite;
+      }
+
+      .side-image.right {
+        animation: floatRight 3s ease-in-out infinite;
+      }
+
+      @keyframes floatLeft {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes floatRight {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .countdown-title {
+        font-size: 2.5rem;
+        font-weight: 900;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .countdown-message {
+        font-size: 1.5rem;
+        margin-bottom: 3rem;
+        opacity: 0.9;
+      }
+
+      .countdown-display {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: nowrap;
+        margin-bottom: 3rem;
+      }
+
+      .time-unit {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(125, 211, 252, 0.2);
+        border-radius: 20px;
+        padding: 2rem 1.5rem;
+        min-width: 140px;
+        transition: all 0.3s ease;
+      }
+
+      .time-unit:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary-color);
+        box-shadow: 0 10px 30px rgba(125, 211, 252, 0.3);
+      }
+
+      .time-value {
+        font-size: 4rem;
+        font-weight: 900;
+        line-height: 1;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+      }
+
+      .time-label {
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        opacity: 0.7;
+      }
+
+      .end-message {
+        font-size: 3rem;
+        font-weight: 900;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 0.9;
+        }
+      }
+
+      .back-button {
+        margin-top: 2rem;
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        text-decoration: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        display: inline-block;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+      }
+
+      .back-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(125, 211, 252, 0.4);
+      }
+
+      .add-time-animation {
+        position: absolute;
+        color: #7dd3fc;
+        font-size: 2rem;
+        font-weight: bold;
+        pointer-events: none;
+        animation: addTimeAnim 2s ease-out forwards;
+        z-index: 10;
+      }
+
+      @keyframes addTimeAnim {
+        0% { transform: translateY(-50px); opacity: 0; }
+        20% { opacity: 1; }
+        80% { opacity: 1; }
+        100% { transform: translateY(0); opacity: 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="countdown-container">
+      <h1 class="countdown-title" id="title">倒數計時器</h1>
+      <p class="countdown-message" id="message">載入中...</p>
+      
+      <div class="countdown-wrapper">
+        <img src="../images/貓頭鷹飛起來.png" alt="貓頭鷹" class="side-image left" id="leftImage">
+        
+        <div class="countdown-display" id="countdownDisplay">
+          <!-- 倒數計時器會在這裡顯示 -->
+        </div>
+        
+        <img src="../images/人飛起來.png" alt="人物" class="side-image right" id="rightImage">
+      </div>
+      
+    </div>
+
+    <!-- 載入設定檔 -->
+    <script src="countdown-config.js"></script>
+    
+    <!-- 倒數計時器邏輯 -->
+    <script>
+      let currentInterval = null;
+      let targetTime = null;
+      let config = null;
+      let lastServerSync = 0;
+      let lastDays = null, lastHours = null, lastMinutes = null, lastSeconds = null;
+      let lastRemainingMs = null;
+      
+      // 從伺服器載入設定
+      async function loadFromServer() {
+        try {
+          const response = await fetch('/get-countdown?t=' + Date.now(), { cache: 'no-cache' });
+          const result = await response.json();
+          
+          if (result.success && result.data) {
+            console.log('☁️ 從伺服器載入設定:', result.data);
+            return result.data;
+          }
+        } catch (e) {
+          console.error('❌ 無法從伺服器載入:', e);
+        }
+        return null;
+      }
+      
+      // 載入並應用設定
+      async function loadAndApplyConfig() {
+        // 先檢查 URL 參數
+        const urlParams = new URLSearchParams(window.location.search);
+        const minutesParam = urlParams.get('minutes');
+        if (minutesParam) {
+          // 如果 URL 有指定分鐘數，優先使用
+          const minutes = parseInt(minutesParam);
+          if (minutes > 0) {
+            config = {
+              ...countdownConfig,
+              targetTimestamp: Date.now() + (minutes * 60 * 1000),
+              isPaused: false
+            };
+            console.log(`🌐 使用 URL 參數: ${minutes} 分鐘`);
+            applyConfigStyles();
+            return config;
+          }
+        }
+        
+        // 優先從伺服器載入
+        const serverConfig = await loadFromServer();
+        if (serverConfig) {
+          config = {
+            ...countdownConfig,
+            ...serverConfig,
+            theme: countdownConfig.theme
+          };
+          console.log('✅ 已載入伺服器設定');
+          applyConfigStyles();
+          return config;
+        }
+        
+        // 備用：讀取 localStorage
+        const savedConfig = localStorage.getItem('countdownConfig');
+        
+        if (savedConfig) {
+          try {
+            const userConfig = JSON.parse(savedConfig);
+            // 合併設定：使用者設定優先，但保留主題設定
+            config = {
+              ...countdownConfig,
+              ...userConfig,
+              theme: countdownConfig.theme // 保留主題設定
+            };
+            console.log('✅ 已載入控制面板設定', config);
+          } catch (e) {
+            console.error('載入設定失敗，使用預設設定', e);
+            config = countdownConfig;
+          }
+        } else {
+          // 沒有儲存的設定，預設為暫停三小時
+          config = {
+            ...countdownConfig,
+            isPaused: true,
+            remainingMs: 180 * 60 * 1000
+          };
+          console.log('⚠️ 沒有儲存的設定，預設暫停三小時', config);
+        }
+
+        applyConfigStyles();
+        return config;
+      }
+      
+      // 應用樣式設定
+      function applyConfigStyles() {
+        // 設定 CSS 變數
+        document.documentElement.style.setProperty('--bg-color', config.theme.backgroundColor);
+        document.documentElement.style.setProperty('--primary-color', config.theme.primaryColor);
+        document.documentElement.style.setProperty('--secondary-color', config.theme.secondaryColor);
+        document.documentElement.style.setProperty('--text-color', config.theme.textColor);
+        document.documentElement.style.setProperty('--font-family', config.theme.fontFamily);
+
+        // 設定標題和訊息
+        document.getElementById('title').textContent = config.title;
+        document.getElementById('message').textContent = config.message;
+
+        // 計算目標時間（使用時間戳記）
+        if (config.targetTimestamp) {
+          targetTime = config.targetTimestamp;
+          console.log('🎯 設定目標時間:', new Date(targetTime).toLocaleString('zh-TW'), 'isPaused:', config.isPaused);
+        } else if (config.targetDate) {
+          // 相容舊格式
+          targetTime = new Date(config.targetDate).getTime();
+          console.log('🎯 目標時間 (舊格式):', new Date(targetTime).toLocaleString('zh-TW'));
+        } else {
+          // 預設：3小時後
+          targetTime = Date.now() + (180 * 60 * 1000);
+          console.log('⚠️ 使用預設3小時');
+        }
+      }
+      
+      // 初始化設定
+      loadAndApplyConfig().then(() => {
+        // 更新倒數計時器
+        updateCountdown();
+        
+        // 初始化圖片高度
+        setTimeout(adjustSideImagesHeight, 100);
+        
+        // 啟動定時器
+        startCountdownInterval();
+        
+        // 定期從伺服器同步設定（每 0.5 秒檢查一次）
+        setInterval(async () => {
+          const serverConfig = await loadFromServer();
+          if (serverConfig && 
+              (serverConfig.targetTimestamp !== config.targetTimestamp || 
+               serverConfig.isPaused !== config.isPaused ||
+               serverConfig.remainingMs !== config.remainingMs)) {
+            console.log('⚡ 收到伺服器推送更新:', serverConfig);
+            config = {
+              ...countdownConfig,
+              ...serverConfig,
+              theme: countdownConfig.theme
+            };
+            applyConfigStyles();
+            updateCountdown(); // 立即更新顯示
+          }
+        }, 500);
+      });
+
+      // 更新倒數計時器
+      function updateCountdown() {
+        // 檢查是否暫停
+        if (config.isPaused) {
+          // 顯示暫停訊息
+          const remainingMinutes = Math.floor(config.remainingMs / 60000);
+          const remainingSeconds = Math.floor((config.remainingMs % 60000) / 1000);
+          
+          // 檢查是否有增加時間，顯示動畫
+          if (lastRemainingMs !== null && config.remainingMs > lastRemainingMs) {
+            const addedMs = config.remainingMs - lastRemainingMs;
+            const addedMinutes = Math.floor(addedMs / 60000);
+            const addedSeconds = Math.floor((addedMs % 60000) / 1000);
+            
+            // 顯示加時動畫（使用分鐘為單位）
+            if (addedMinutes > 0) {
+              showAddTimeAnimation("+" + addedMinutes, "paused-display");
+            }
+          }
+          
+          // 更新上次的值
+          lastRemainingMs = config.remainingMs;
+          
+          document.getElementById('countdownDisplay').innerHTML = 
+            `<div class="end-message" style="font-size: 2rem; opacity: 0.7;" id="paused-display">
+              ⏸️ 已暫停<br>
+              <span style="font-size: 1.5rem;">剩餘 ${remainingMinutes} 分 ${remainingSeconds} 秒</span>
+            </div>`;
+          return;
+        }
+
+        const now = new Date().getTime();
+        const distance = targetTime - now;
+
+        if (distance < 0) {
+          // 倒數結束
+          document.getElementById('countdownDisplay').innerHTML = 
+            `<div class="end-message">${config.endMessage}</div>`;
+          
+          if (config.onCountdownEnd) {
+            config.onCountdownEnd();
+          }
+          
+          if (config.autoReloadOnEnd) {
+            setTimeout(() => location.reload(), 3000);
+          }
+          
+          return;
+        }
+
+        // 計算時間
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // 檢查是否有增加，顯示動畫
+        if (lastDays !== null && days > lastDays) {
+          showAddTimeAnimation("+" + (days - lastDays), "days-unit");
+        }
+        if (lastHours !== null && hours > lastHours) {
+          showAddTimeAnimation("+" + (hours - lastHours), "hours-unit");
+        }
+        if (lastMinutes !== null && minutes > lastMinutes) {
+          showAddTimeAnimation("+" + (minutes - lastMinutes), "minutes-unit");
+        }
+        if (lastSeconds !== null && seconds > lastSeconds) {
+          showAddTimeAnimation("+" + (seconds - lastSeconds), "seconds-unit");
+        }
+
+        // 更新上次的值
+        lastDays = days;
+        lastHours = hours;
+        lastMinutes = minutes;
+        lastSeconds = seconds;
+
+        // 建立顯示
+        let html = '';
+        
+        if (config.showDays && (days > 0 || config.showDays === true)) {
+          html += `
+            <div class="time-unit" id="days-unit">
+              <div class="time-value">${days.toString().padStart(2, '0')}</div>
+              <div class="time-label">天</div>
+            </div>
+          `;
+        }
+        
+        if (config.showHours) {
+          html += `
+            <div class="time-unit" id="hours-unit">
+              <div class="time-value">${hours.toString().padStart(2, '0')}</div>
+              <div class="time-label">時</div>
+            </div>
+          `;
+        }
+        
+        if (config.showMinutes) {
+          html += `
+            <div class="time-unit" id="minutes-unit">
+              <div class="time-value">${minutes.toString().padStart(2, '0')}</div>
+              <div class="time-label">分</div>
+            </div>
+          `;
+        }
+        
+        if (config.showSeconds) {
+          html += `
+            <div class="time-unit" id="seconds-unit">
+              <div class="time-value">${seconds.toString().padStart(2, '0')}</div>
+              <div class="time-label">秒</div>
+            </div>
+          `;
+        }
+
+        document.getElementById('countdownDisplay').innerHTML = html;
+        
+        // 調整側邊圖片高度與計時器框框相同
+        adjustSideImagesHeight();
+      }
+
+      // 顯示加時間動畫
+      function showAddTimeAnimation(text, unitId) {
+        const unitElement = document.getElementById(unitId);
+        if (!unitElement) return;
+        
+        const valueElement = unitElement.querySelector('.time-value') || unitElement;
+        if (!valueElement) return;
+        
+        const anim = document.createElement('span');
+        anim.textContent = text;
+        anim.className = 'add-time-animation';
+        anim.style.left = (valueElement.offsetLeft + valueElement.offsetWidth / 2 - 20) + 'px';
+        anim.style.top = (valueElement.offsetTop - 50) + 'px';
+        
+        document.querySelector('.countdown-display').appendChild(anim);
+        
+        setTimeout(() => {
+          if (anim.parentNode) {
+            anim.parentNode.removeChild(anim);
+          }
+        }, 2000);
+      }
+
+      // 調整側邊圖片高度
+      function adjustSideImagesHeight() {
+        const firstTimeUnit = document.querySelector('.time-unit');
+        const leftImage = document.getElementById('leftImage');
+        const rightImage = document.getElementById('rightImage');
+        
+        if (firstTimeUnit && leftImage && rightImage) {
+          const unitHeight = firstTimeUnit.offsetHeight;
+          if (unitHeight > 0) {
+            leftImage.style.height = unitHeight + 'px';
+            rightImage.style.height = unitHeight + 'px';
+          }
+        }
+      }
+
+      // 啟動倒數計時器
+      function startCountdownInterval() {
+        const interval = setInterval(() => {
+          updateCountdown();
+          
+          // 檢查是否已結束
+          const now = new Date().getTime();
+          const distance = targetTime - now;
+          if (distance < 0) {
+            clearInterval(interval);
+          }
+        }, 1000);
+      }
+
+    </script>
+  </body>
+</html>

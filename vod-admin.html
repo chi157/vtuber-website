@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VOD 管理 - 柒柒 chi</title>
+    <link rel="icon" type="image/png" href="images/頭貼%20-%20圓形.png" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .admin-container {
+        max-width: 600px;
+        margin: 80px auto 40px;
+        padding: 24px;
+      }
+      
+      .admin-card {
+        background: rgba(26, 41, 80, 0.6);
+        border-radius: 16px;
+        padding: 32px;
+        backdrop-filter: blur(10px);
+      }
+      
+      .admin-title {
+        color: #7dd3fc;
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+      
+      .admin-subtitle {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        margin-bottom: 24px;
+      }
+      
+      .vod-input-group {
+        margin-bottom: 16px;
+      }
+      
+      .vod-input {
+        width: 100%;
+        padding: 12px 16px;
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(125, 211, 252, 0.3);
+        border-radius: 8px;
+        color: white;
+        font-size: 14px;
+        font-family: 'Courier New', monospace;
+      }
+      
+      .vod-input:focus {
+        outline: none;
+        border-color: #7dd3fc;
+        box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.1);
+      }
+      
+      .vod-label {
+        display: block;
+        color: #7dd3fc;
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+      
+      .admin-btn {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        margin-top: 8px;
+      }
+      
+      .admin-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+      }
+      
+      .admin-btn.secondary {
+        background: rgba(125, 211, 252, 0.2);
+        border: 1px solid #7dd3fc;
+      }
+      
+      .admin-btn.secondary:hover {
+        background: rgba(125, 211, 252, 0.3);
+        box-shadow: 0 8px 16px rgba(125, 211, 252, 0.3);
+      }
+      
+      .help-text {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 13px;
+        margin-top: 8px;
+        line-height: 1.5;
+      }
+      
+      .success-msg {
+        background: rgba(34, 197, 94, 0.2);
+        border: 1px solid #22c55e;
+        color: #22c55e;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: none;
+      }
+      
+      .current-vods {
+        background: rgba(15, 23, 42, 0.4);
+        border-radius: 8px;
+        padding: 16px;
+        margin-top: 24px;
+      }
+      
+      .current-vods-title {
+        color: #7dd3fc;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+      
+      .vod-item {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 13px;
+        font-family: 'Courier New', monospace;
+        padding: 6px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      .vod-item:last-child {
+        border-bottom: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cloud cloud--1" aria-hidden="true"></div>
+    <div class="cloud cloud--2" aria-hidden="true"></div>
+    <div class="cloud cloud--3" aria-hidden="true"></div>
+    <div class="cloud cloud--4" aria-hidden="true"></div>
+    
+    <div class="admin-container">
+      <div class="admin-card">
+        <h1 class="admin-title">🔧 VOD 管理介面</h1>
+        <p class="admin-subtitle">更新首頁顯示的 Twitch 直播錄影</p>
+        
+        <div id="successMsg" class="success-msg">
+          ✅ VOD ID 已成功更新！
+        </div>
+        
+        <div class="vod-input-group">
+          <label class="vod-label" for="vod1">最新 VOD ID</label>
+          <input type="text" id="vod1" class="vod-input" placeholder="例如：2691341681">
+        </div>
+        
+        <p class="help-text">
+          💡 <strong>如何取得 VOD ID：</strong><br>
+          1. 前往你的 Twitch 影片頁面<br>
+          2. 點擊影片，網址會是：twitch.tv/videos/<strong>2691341681</strong><br>
+          3. 複製數字部分即可
+        </p>
+        
+        <button class="admin-btn" onclick="saveVODs()">💾 儲存並更新</button>
+        <button class="admin-btn secondary" onclick="clearVODs()">🗑️ 清除所有 VOD</button>
+        <button class="admin-btn secondary" onclick="window.location.href='/'">🏠 返回首頁</button>
+        
+        <div class="current-vods">
+          <div class="current-vods-title">📋 目前設定的 VOD ID：</div>
+          <div id="currentVodsList"></div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      // 載入時顯示目前的 VOD ID
+      function loadCurrentVODs() {
+        const savedVOD = localStorage.getItem('twitch_vod_id');
+        const vodsList = document.getElementById('currentVodsList');
+        
+        if (savedVOD) {
+          vodsList.innerHTML = `<div class="vod-item">${savedVOD}</div>`;
+          document.getElementById('vod1').value = savedVOD;
+        } else {
+          vodsList.innerHTML = '<div class="vod-item" style="opacity: 0.5;">尚未設定 VOD</div>';
+        }
+      }
+      
+      // 儲存 VOD ID
+      function saveVODs() {
+        const vod1 = document.getElementById('vod1').value.trim();
+        
+        if (vod1 === '') {
+          alert('請填寫 VOD ID');
+          return;
+        }
+        
+        localStorage.setItem('twitch_vod_id', vod1);
+        
+        // 顯示成功訊息
+        const successMsg = document.getElementById('successMsg');
+        successMsg.style.display = 'block';
+        setTimeout(() => {
+          successMsg.style.display = 'none';
+        }, 3000);
+        
+        // 重新載入顯示
+        loadCurrentVODs();
+      }
+      
+      // 清除 VOD
+      function clearVODs() {
+        if (confirm('確定要清除 VOD ID 嗎？')) {
+          localStorage.removeItem('twitch_vod_id');
+          document.getElementById('vod1').value = '';
+          loadCurrentVODs();
+        }
+      }
+      
+      // 頁面載入時執行
+      loadCurrentVODs();
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>

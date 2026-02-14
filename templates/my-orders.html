@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>我的訂單 - 柒柒 chi</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/頭貼 - 圓形.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- 導航欄 -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="{{ url_for('index') }}" class="navbar-logo">
+          <img src="{{ url_for('static', filename='images/頭貼 - 圓形.png') }}" alt="柒柒 chi" class="navbar-logo-img">
+          <span>柒柒 chi</span>
+        </a>
+        <button class="navbar-toggle" id="navbarToggle" aria-label="切換選單">
+          <span class="navbar-toggle-icon"></span>
+          <span class="navbar-toggle-icon"></span>
+          <span class="navbar-toggle-icon"></span>
+        </button>
+        <ul class="navbar-menu" id="navbarMenu">
+          <li class="navbar-item"><a href="/about.html" class="navbar-link">自我介紹</a></li>
+          <li class="navbar-item"><a href="/courses/course.html" class="navbar-link">程式設計課程</a></li>
+          <li class="navbar-item"><a href="/keychain.html" class="navbar-link">鑰匙圈預購</a></li>
+          <li class="navbar-item"><a href="/subscriber-benefits.html" class="navbar-link">訂閱者專屬福利</a></li>
+          <li class="navbar-item"><a href="/events.html" class="navbar-link">活動專區</a></li>
+          <li class="navbar-item"><a href="/donate.html" class="navbar-link">加班台規則與說明</a></li>
+          <li class="navbar-item"><a href="/url.html" class="navbar-link">各平台連結</a></li>
+          {% if session.user_id %}
+          <li class="navbar-item navbar-dropdown">
+            <a href="#" class="navbar-link navbar-dropdown-toggle">設定 ▾</a>
+            <ul class="navbar-dropdown-menu">
+              <li><a href="{{ url_for('profile') }}" class="navbar-dropdown-link">個人資料</a></li>
+              <li><a href="{{ url_for('my_orders') }}" class="navbar-dropdown-link">訂單管理</a></li>
+            </ul>
+          </li>
+          <li class="navbar-item"><a href="{{ url_for('logout') }}" class="navbar-link">登出 ({{ session.username }})</a></li>
+          {% else %}
+          <li class="navbar-item"><a href="{{ url_for('login') }}" class="navbar-link">登入</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+    <div class="cloud cloud--1" aria-hidden="true"></div>
+    <div class="cloud cloud--2" aria-hidden="true"></div>
+    <div class="cloud cloud--3" aria-hidden="true"></div>
+    <div class="cloud cloud--4" aria-hidden="true"></div>
+    
+    <main class="page">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 40px 20px;">
+            <h1 style="color: #7dd3fc; font-size: 32px; margin-bottom: 8px;">📦 我的訂單</h1>
+            <p style="color: rgba(255,255,255,0.6); margin-bottom: 32px;">
+                歡迎，{{ user.username }}！
+            </p>
+            
+            {% if message %}
+                <div style="background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.4); color: #6ee7b7; padding: 16px; border-radius: 8px; margin-bottom: 24px;">
+                    ✅ {{ message }}
+                </div>
+            {% endif %}
+            
+            {% if error %}
+                <div style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5; padding: 16px; border-radius: 8px; margin-bottom: 24px;">
+                    ❌ {{ error }}
+                </div>
+            {% endif %}
+            
+            {% if orders | length == 0 %}
+                <div style="background: linear-gradient(180deg, rgba(35, 58, 94, 0.95) 0%, rgba(46, 67, 114, 0.95) 100%); border: 1.5px solid rgba(58, 123, 213, 0.5); border-radius: 20px; padding: 60px 20px; text-align: center; backdrop-filter: blur(15px); box-shadow: 0 18px 40px rgba(10, 24, 51, 0.4);">
+                    <div style="font-size: 64px; margin-bottom: 16px;">📭</div>
+                    <h2 style="color: #7dd3fc; font-size: 24px; margin-bottom: 12px;">尚無訂單</h2>
+                    <p style="color: rgba(255,255,255,0.6); margin-bottom: 24px;">您還沒有任何預購訂單</p>
+                    <a href="{{ url_for('static', filename='keychain.html') }}" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        前往預購
+                    </a>
+                </div>
+            {% else %}
+                <div style="display: grid; gap: 20px;">
+                    {% for order in orders %}
+                        <div style="background: linear-gradient(180deg, rgba(35, 58, 94, 0.95) 0%, rgba(46, 67, 114, 0.95) 100%); border: 1.5px solid rgba(58, 123, 213, 0.5); border-radius: 20px; padding: 24px; backdrop-filter: blur(15px); box-shadow: 0 18px 40px rgba(10, 24, 51, 0.4);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 16px;">
+                                <div style="display: flex; align-items: center; gap: 24px; flex: 1; flex-wrap: wrap;">
+                                    <div>
+                                        <h3 style="color: #7dd3fc; font-size: 18px; margin-bottom: 4px;">
+                                            訂單 #{{ order.id }}
+                                        </h3>
+                                        <p style="color: rgba(255,255,255,0.5); font-size: 13px;">
+                                            {{ order.created_at.strftime('%Y-%m-%d %H:%M') if order.created_at else '' }}
+                                        </p>
+                                    </div>
+                                    
+                                    <div style="height: 40px; width: 1px; background: rgba(125, 211, 252, 0.2);"></div>
+                                    
+                                    <div>
+                                        <p style="color: rgba(255,255,255,0.6); font-size: 12px; margin-bottom: 2px;">收件人</p>
+                                        <p style="color: white; font-size: 15px; font-weight: 500;">{{ order.recipient_name }}</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <p style="color: rgba(255,255,255,0.6); font-size: 12px; margin-bottom: 2px;">電話</p>
+                                        <p style="color: white; font-size: 15px;">{{ order.phone }}</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <p style="color: rgba(255,255,255,0.6); font-size: 12px; margin-bottom: 2px;">數量</p>
+                                        <p style="color: white; font-size: 15px; font-weight: 500;">{{ order.quantity }} 個</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <p style="color: rgba(255,255,255,0.6); font-size: 12px; margin-bottom: 2px;">總金額</p>
+                                        <p style="color: #34d399; font-size: 18px; font-weight: 600;">NT$ {{ '{:,}'.format(order.total_price) }}</p>
+                                    </div>
+                                </div>
+                                
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    {% set status_colors = {'pending': '#fbbf24', 'confirmed': '#60a5fa', 'shipped': '#a78bfa', 'completed': '#34d399', 'cancelled': '#f87171'} %}
+                                    {% set status_texts = {'pending': '待處理', 'confirmed': '已確認', 'shipped': '已出貨', 'completed': '已完成', 'cancelled': '已取消'} %}
+                                    
+                                    <div style="background: {{ status_colors.get(order.status, '#6b7280') }}; color: white; padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 600; white-space: nowrap;">
+                                        {{ status_texts.get(order.status, order.status) }}
+                                    </div>
+                                    
+                                    {% if order.status in ['pending', 'confirmed'] %}
+                                        <form method="POST" action="{{ url_for('cancel_order') }}" onsubmit="return confirm('確定要取消此訂單嗎？\n取消後需等待管理員處理退款');" style="margin: 0;">
+                                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                                            <button type="submit" style="padding: 8px 16px; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all 0.3s; white-space: nowrap;" onmouseover="this.style.background='rgba(239, 68, 68, 0.3)'" onmouseout="this.style.background='rgba(239, 68, 68, 0.2)'">
+                                                ❌ 取消
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 24px; flex-wrap: wrap; padding-top: 16px; border-top: 1px solid rgba(125, 211, 252, 0.1);">
+                                <div style="flex: 1; min-width: 250px;">
+                                    <p style="color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 6px;">📍 配送門市</p>
+                                    <p style="color: white; font-size: 15px; margin-bottom: 4px; font-weight: 500;">
+                                        {{ order.store_name }}
+                                    </p>
+                                    <p style="color: rgba(255,255,255,0.7); font-size: 14px;">
+                                        {{ order.store_address }}
+                                    </p>
+                                </div>
+                                
+                                {% if order.notes %}
+                                <div style="flex: 1; min-width: 200px;">
+                                    <p style="color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 6px;">📝 備註</p>
+                                    <p style="color: rgba(255,255,255,0.8); font-size: 14px;">{{ order.notes }}</p>
+                                </div>
+                                {% endif %}
+                                
+                                {% if order.payment_proof %}
+                                <div style="min-width: 150px;">
+                                    <p style="color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 6px;">💳 付款證明</p>
+                                    <a href="{{ url_for('static', filename='uploads/' + order.payment_proof) }}" target="_blank" style="display: inline-block; padding: 8px 16px; background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.4); color: #60a5fa; text-decoration: none; border-radius: 6px; font-size: 14px; transition: all 0.3s; white-space: nowrap;" onmouseover="this.style.background='rgba(59, 130, 246, 0.3)'" onmouseout="this.style.background='rgba(59, 130, 246, 0.2)'">
+                                        🖼️ 查看
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <div style="margin-top: 32px; text-align: center;">
+                <a href="{{ url_for('profile') }}" style="color: #60a5fa; text-decoration: none; margin-right: 16px;">← 返回個人資料</a>
+                <a href="{{ url_for('static', filename='keychain.html') }}" style="color: #60a5fa; text-decoration: none;">繼續預購</a>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // 導航欄功能
+        const navbarToggle = document.getElementById('navbarToggle');
+        const navbarMenu = document.getElementById('navbarMenu');
+        if (navbarToggle && navbarMenu) {
+            navbarToggle.addEventListener('click', function() {
+                navbarToggle.classList.toggle('active');
+                navbarMenu.classList.toggle('active');
+            });
+            const navbarLinks = navbarMenu.querySelectorAll('.navbar-link');
+            navbarLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navbarToggle.classList.remove('active');
+                    navbarMenu.classList.remove('active');
+                });
+            });
+            document.addEventListener('click', function(event) {
+                const isClickInside = navbarToggle.contains(event.target) || navbarMenu.contains(event.target);
+                if (!isClickInside && navbarMenu.classList.contains('active')) {
+                    navbarToggle.classList.remove('active');
+                    navbarMenu.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

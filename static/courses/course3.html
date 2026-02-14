@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>柒柒 chi 第三課：資料型態與運算</title>
+    <link rel="icon" type="image/png" href="../images/頭貼%20-%20圓形.png" />
+    <link rel="stylesheet" href="../style.css?v=20260213" />
+    <script src="../navbar.js" defer></script>
+  </head>
+  <body>
+    <!-- 導航欄將由 navbar.js 載入 -->
+    <div class="cloud cloud--1" aria-hidden="true"></div>
+    <div class="cloud cloud--2" aria-hidden="true"></div>
+    <div class="cloud cloud--3" aria-hidden="true"></div>
+    <div class="cloud cloud--4" aria-hidden="true"></div>
+    <main class="page">
+      <section class="card">
+        <section class="donate-info">
+          <h2 class="donate-title">📚 第三課：資料型態與運算</h2>
+          
+          <div class="info-section highlight-box">
+            <h3 class="section-title">🎯 本課目標</h3>
+            <p class="content-text">深入了解 Python 的資料型態</p>
+            <p class="content-text" style="margin-top: 8px;">學習各種運算符號的使用方法</p>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">🔢 數值型態詳解</h3>
+            
+            <div class="rule-list">
+              <div class="rule-item">
+                <span class="rule-icon">1️</span>
+                <span class="rule-text"><strong>整數 (int)</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">正整數：<span class="code-block">num = 100</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">負整數：<span class="code-block">num = -50</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">零：<span class="code-block">num = 0</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">大數字可用底線分隔：<span class="code-block">num = 1_000_000</span></span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">2️</span>
+                <span class="rule-text"><strong>浮點數 (float)</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">小數：<span class="code-block">price = 19.99</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">科學記號：<span class="code-block">num = 1.5e3</span>  # 1500.0</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">⚠️ 注意：浮點數可能有精度問題</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">0.1 + 0.2</span> 結果是 0.30000000000000004</span>
+              </div>
+              
+              
+            </div>
+          </div>
+
+          <div class="info-section bank-info">
+            <h3 class="section-title">➕ 算術運算子</h3>
+            
+            <div class="rule-list">
+              <div class="rule-item">
+                <span class="rule-icon">➕</span>
+                <span class="rule-text"><strong>加法</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">10 + 5</span>  # 結果：15</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 8px;">
+                <span class="rule-icon">➖</span>
+                <span class="rule-text"><strong>減法</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">10 - 5</span>  # 結果：5</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 8px;">
+                <span class="rule-icon">✖️</span>
+                <span class="rule-text"><strong>乘法</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">10 * 5</span>  # 結果：50</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 8px;">
+                <span class="rule-icon">➗</span>
+                <span class="rule-text"><strong>除法（浮點數）</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">10 / 3</span>  # 結果：3.3333...</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">⚠️ 結果永遠是浮點數</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 8px;">
+                <span class="rule-icon">➗</span>
+                <span class="rule-text"><strong>整數除法（取商）</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">10 // 3</span>  # 結果：3</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">只保留整數部分，捨去小數</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 8px;">
+                <span class="rule-icon">📐</span>
+                <span class="rule-text"><strong>取餘數（模運算）</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">10 % 3</span>  # 結果：1</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">常用於判斷奇偶數：<span class="code-block">num % 2 == 0</span> 為偶數</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 8px;">
+                <span class="rule-icon">⚡</span>
+                <span class="rule-text"><strong>次方（指數）</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">2 ** 3</span>  # 2的3次方 = 8</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">10 ** 0.5</span>  # 開根號 ≈ 3.162</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">🔄 複合指定運算子</h3>
+            <p class="content-text">簡化「先運算再指定」的寫法。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">📝</span>
+                <span class="rule-text"><strong>基本用法</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">x = 10</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">x += 5</span>  # 等同於 x = x + 5，結果：15</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">x -= 3</span>  # 等同於 x = x - 3，結果：12</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">x *= 2</span>  # 等同於 x = x * 2，結果：24</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">x /= 4</span>  # 等同於 x = x / 4，結果：6.0</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">x //= 2</span>  # 等同於 x = x // 2，結果：3</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">x %= 2</span>  # 等同於 x = x % 2，結果：1</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">x **= 3</span>  # 等同於 x = x ** 3，結果：1</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">⚖️ 比較運算子</h3>
+            <p class="content-text">用於比較兩個值，結果為 True 或 False。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">🔍</span>
+                <span class="rule-text"><strong>六種比較運算子</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">5 == 5</span>  # 等於，結果：True</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">5 != 3</span>  # 不等於，結果：True</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">5 > 3</span>  # 大於，結果：True</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">5 < 3</span>  # 小於，結果：False</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">5 >= 5</span>  # 大於等於，結果：True</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">5 <= 3</span>  # 小於等於，結果：False</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">⚠️</span>
+                <span class="rule-text"><strong>常見錯誤</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">等於是 <span class="code-block">==</span> 不是 <span class="code-block">=</span></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">=</span> 是指定，<span class="code-block">==</span> 是比較</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section bank-info">
+            <h3 class="section-title">🔗 邏輯運算子</h3>
+            <p class="content-text">用於組合多個條件判斷。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">🔵</span>
+                <span class="rule-text"><strong>and（且）</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">兩邊都是 True 才是 True</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">True and True</span>  # True</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">True and False</span>  # False</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">age >= 18 and age <= 65</span></span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">🟢</span>
+                <span class="rule-text"><strong>or（或）</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">任一邊是 True 就是 True</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">True or False</span>  # True</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">False or False</span>  # False</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">age < 18 or age > 65</span></span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">🔴</span>
+                <span class="rule-text"><strong>not（非）</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">反轉布林值</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">not True</span>  # False</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">not False</span>  # True</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">not (age >= 18)</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">📝 字串運算</h3>
+            
+            <div class="rule-list">
+              <div class="rule-item">
+                <span class="rule-icon">➕</span>
+                <span class="rule-text"><strong>字串串接（+）</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">"Hello" + " " + "World"</span>  # "Hello World"</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">"Python" + "3"</span>  # "Python3"</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">✖️</span>
+                <span class="rule-text"><strong>字串重複（*）</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">"Ha" * 3</span>  # "HaHaHa"</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">"-" * 20</span>  # "--------------------"</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">📏</span>
+                <span class="rule-text"><strong>字串長度 len()</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">len("Hello")</span>  # 5</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">len("柒柒")</span>  # 2（中文也算一個字元）</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">🔍</span>
+                <span class="rule-text"><strong>檢查子字串 in</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">"ello" in "Hello"</span>  # True</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">"xyz" in "Hello"</span>  # False</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section highlight-box">
+            <h3 class="section-title">🔄 型態轉換</h3>
+            <p class="content-text">將一種資料型態轉換成另一種。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">🔢</span>
+                <span class="rule-text"><strong>轉整數 int()</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">int("123")</span>  # 123</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">int(3.14)</span>  # 3（捨去小數）</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">int(True)</span>  # 1</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">⚠️ <span class="code-block">int("3.14")</span> 會錯誤！需先轉 float</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">🔢</span>
+                <span class="rule-text"><strong>轉浮點數 float()</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">float("3.14")</span>  # 3.14</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">float(100)</span>  # 100.0</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">float(True)</span>  # 1.0</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">📝</span>
+                <span class="rule-text"><strong>轉字串 str()</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">str(123)</span>  # "123"</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">str(3.14)</span>  # "3.14"</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">str(True)</span>  # "True"</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">✔️</span>
+                <span class="rule-text"><strong>轉布林值 bool()</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">非零數字 → True：<span class="code-block">bool(100)</span>  # True</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">零 → False：<span class="code-block">bool(0)</span>  # False</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">非空字串 → True：<span class="code-block">bool("Hi")</span>  # True</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">空字串 → False：<span class="code-block">bool("")</span>  # False</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">⚡ 運算優先順序</h3>
+            <p class="content-text">和數學相同，有優先順序規則。</p>
+            
+            <div class="rule-list" style="margin-top: 12px;">
+              <div class="rule-item">
+                <span class="rule-icon">1️</span>
+                <span class="rule-text">括號 <span class="code-block">( )</span> 最優先</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">2️</span>
+                <span class="rule-text">指數 <span class="code-block">**</span></span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">3️</span>
+                <span class="rule-text">乘除、取餘 <span class="code-block">*  /  //  %</span></span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">4️</span>
+                <span class="rule-text">加減 <span class="code-block">+  -</span></span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">5️</span>
+                <span class="rule-text">比較運算 <span class="code-block">==  !=  >  <  >=  <=</span></span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">6️</span>
+                <span class="rule-text">邏輯運算 <span class="code-block">not  and  or</span></span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">📝</span>
+                <span class="rule-text"><strong>範例</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">2 + 3 * 4</span>  # 14（先乘後加）</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">(2 + 3) * 4</span>  # 20（括號優先）</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text"><span class="code-block">5 > 3 and 10 < 20</span>  # True</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section bank-info">
+            <h3 class="section-title">✍️ 實作練習</h3>
+            
+            <div class="rule-list">
+              <div class="rule-item">
+                <span class="rule-text"><strong>練習一：溫度轉換</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">輸入攝氏溫度，轉換為華氏溫度</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">公式：華氏 = 攝氏 × 9/5 + 32</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-text"><strong>練習二：BMI 計算機</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">輸入身高（公分）和體重（公斤）</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">計算 BMI = 體重 / (身高/100)²</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-text"><strong>練習三：奇偶數判斷</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">輸入一個整數</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">使用 % 運算判斷是奇數還是偶數</span>
+              </div>
+              
+              <div class="rule-item" style="margin-top: 12px;">
+                <span class="rule-icon">💡</span>
+                <span class="rule-text"><strong>提示</strong></span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">注意括號的使用</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">記得做型態轉換</span>
+              </div>
+              <div class="rule-item" style="padding-left: 40px;">
+                <span class="rule-text">使用 f-string 美化輸出</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section cta-box">
+            <p class="cta-text">掌握這些運算後，你就能進行各種計算和判斷了！</p>
+            
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
+              <a class="btn" href="course0.html" style="flex: 1; min-width: 200px;">
+                📋 回到目錄
+              </a>
+            </div>
+            
+            <p></p>
+            
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
+              <a class="btn" href="course2.html" style="flex: 1; min-width: 140px;">
+                ← 上一課
+              </a>
+              <a class="btn" href="course4.html" style="flex: 1; min-width: 140px;">
+                下一課 →
+              </a>
+            </div>
+            
+            <p></p>
+            
+            <a class="btn" href="course.html">
+              返回課程介紹
+            </a>
+            <p></p>
+            <a class="btn btn-home" href="/">
+              🏠 回首頁
+            </a>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script src="../script.js"></script>
+  </body>
+</html>

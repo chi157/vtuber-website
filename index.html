@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>柒柒 chi 首頁</title>
+    <link rel="icon" type="image/png" href="images/頭貼%20-%20圓形.png" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="navbar.js" defer></script>
+    <script src="twitch-vods.js" defer></script>
+    <script src="carousel.js" defer></script>
+  </head>
+  <body>
+    <!-- 導航欄將由 navbar.js 載入 -->
+    <div class="cloud cloud--1" aria-hidden="true"></div>
+    <div class="cloud cloud--2" aria-hidden="true"></div>
+    <div class="cloud cloud--3" aria-hidden="true"></div>
+    <div class="cloud cloud--4" aria-hidden="true"></div>
+    <main class="page">
+      <section class="card">
+        <header class="hero">
+          <div class="hero-image" role="img" aria-label="個人形象圖"></div>
+          <h2 class="name">柒柒 chi</h2>
+          <p class="title">雪角鴞 VTuber ｜ 程式設計教學 | 遊戲直播</p>
+        </header>
+
+        <section class="buttons" aria-label="導航連結">
+          <div class="info-section highlight-box">
+            <h3 class="section-title">👋 歡迎來到我的小天地</h3>
+            <p class="content-text">嗨！我是柒柒，一隻會寫程式的雪角鴞 🦉</p>
+            <p class="content-text" style="margin-top: 10px;">這裡有程式教學、直播互動，還有許多有趣的內容等你探索！</p>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">🎉 最新活動</h3>
+            <div id="event-carousel-container" style="margin-top: 12px;"></div>
+          </div>
+
+          <div class="info-section">
+            <h3 class="section-title">📺 最新直播錄影</h3>
+            <div id="twitch-vods-container" style="margin-top: 12px;">
+              <p class="content-text" style="text-align: center; opacity: 0.7;">
+                請到 <a href="https://www.twitch.tv/chi1577517/videos" target="_blank" style="color: #7dd3fc;">Twitch</a> 查看最新影片，<br>
+                並在 twitch-vods.js 中填入 VOD ID
+              </p>
+            </div>
+          </div>
+
+          <div class="donate-info" style="gap: 12px;">
+            <div class="info-section">
+              <h3 class="section-title">✨ 主要內容</h3>
+              <div class="rule-list">
+                <div class="rule-item">
+                  <span class="rule-icon">📚</span>
+                  <span class="rule-text"><strong>程式設計課程</strong> - Python 基礎到證照考試</span>
+                </div>
+                <div class="rule-item">
+                  <span class="rule-icon">📺</span>
+                  <span class="rule-text"><strong>直播教學</strong> - 寫程式、打遊戲、聊天</span>
+                </div>
+                <div class="rule-item">
+                  <span class="rule-icon">💰</span>
+                  <span class="rule-text"><strong>加班台</strong> - 支持創作的方式（尚未開始）</span>
+                </div>
+                <div class="rule-item">
+                  <span class="rule-icon">🔗</span>
+                  <span class="rule-text"><strong>各平台連結</strong> - YouTube、Discord 等</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 導航按鈕 -->
+          <a class="btn btn-highlight" href="about.html">
+            🦉 關於我 - 認識雪角鴞
+          </a>
+          
+          <a class="btn" href="courses/course.html">
+            📚 程式設計丙級證照課程
+          </a>
+          
+          <a class="btn" href="donate.html">
+            💰 加班台規則與斗內方式
+          </a>
+          
+          <a class="btn" href="url.html">
+            🔗 查看所有平台連結
+          </a>
+        </section>
+      </section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
