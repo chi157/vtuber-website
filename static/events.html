@@ -46,53 +46,21 @@
 
           <!-- ===== 活動列表 ===== -->
 
-          <!-- 活動：情人節特別活動 -->
-          <div class="info-section" style="position: relative; overflow: hidden; padding: 0; border-radius: 12px; border: 2px solid rgba(236, 72, 153, 0.4); background: linear-gradient(135deg, rgba(236, 72, 153, 0.12) 0%, rgba(147, 51, 234, 0.12) 100%); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(236,72,153,0.3)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
-            <!-- 輪播圖 -->
-            <div class="carousel-wrapper event-carousel" id="event-carousel-valentine">
-              <div class="carousel-slides">
-                <div class="carousel-slide active">
-                  <img src="images/events/情人節特別活動1.jpg" alt="情人節特別活動 1" />
-                </div>
-                <div class="carousel-slide">
-                  <img src="images/events/情人節特別活動2.jpg" alt="情人節特別活動 2" />
-                </div>
-                <div class="carousel-slide">
-                  <img src="images/events/情人節特別活動3.jpg" alt="情人節特別活動 3" />
-                </div>
-                <div class="carousel-slide">
-                  <img src="images/events/情人節特別活動4.jpg" alt="情人節特別活動 4" />
-                </div>
-                <div class="carousel-slide">
-                  <img src="images/events/情人節特別活動5.jpg" alt="情人節特別活動 5" />
-                </div>
-              </div>
-              <button class="carousel-btn carousel-prev" onclick="event.stopPropagation(); changeSlide('event-carousel-valentine', -1)">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
-              </button>
-              <button class="carousel-btn carousel-next" onclick="event.stopPropagation(); changeSlide('event-carousel-valentine', 1)">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-              </button>
-              <div class="carousel-dots">
-                <button class="carousel-dot active" onclick="event.stopPropagation(); goToSlide('event-carousel-valentine', 0)"></button>
-                <button class="carousel-dot" onclick="event.stopPropagation(); goToSlide('event-carousel-valentine', 1)"></button>
-                <button class="carousel-dot" onclick="event.stopPropagation(); goToSlide('event-carousel-valentine', 2)"></button>
-                <button class="carousel-dot" onclick="event.stopPropagation(); goToSlide('event-carousel-valentine', 3)"></button>
-                <button class="carousel-dot" onclick="event.stopPropagation(); goToSlide('event-carousel-valentine', 4)"></button>
-              </div>
-            </div>
-            <a href="events/valentine.html" style="text-decoration: none; color: inherit; display: block;">
+          <!-- 活動：加班台挑戰 -->
+          <div class="info-section" style="position: relative; overflow: hidden; padding: 0; border-radius: 12px; border: 2px solid rgba(251, 146, 60, 0.4); background: linear-gradient(135deg, rgba(251, 146, 60, 0.12) 0%, rgba(249, 115, 22, 0.12) 100%); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(251,146,60,0.3)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
+            <a href="donate.html" style="text-decoration: none; color: inherit; display: block;">
+              <img src="images/events/加班台挑戰.png" alt="加班台挑戰" style="width: 100%; display: block;" />
               <div style="padding: 16px 20px;">
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                  <span style="background: rgba(234,179,8,0.2); color: #facc15; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;">即將開始</span>
+                  <span style="background: rgba(234,179,8,0.2); color: #facc15; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;">尚未開始</span>
                 </div>
-                <h3 style="color: #e0e7ff; font-size: 18px; margin-bottom: 6px;">💝 情人節特別活動</h3>
-                <p style="color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.5;">2/14 情人節特別直播！不管有沒有對象，柒柒陪你一起過 🥰</p>
+                <h3 style="color: #e0e7ff; font-size: 18px; margin-bottom: 6px;">💰 柒柒加班台挑戰</h3>
+                <p style="color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.5;">斗內加時挑戰！訂閱、追隨、小奇點、歐付寶都能幫柒柒加班 😈</p>
               </div>
             </a>
           </div>
 
-          <!-- 活動 1 -->
+          <!-- 活動：免費從零開始學 Python -->
           <div class="info-section" style="position: relative; overflow: hidden; padding: 0; border-radius: 12px; border: 2px solid rgba(147, 51, 234, 0.4); background: linear-gradient(135deg, rgba(147, 51, 234, 0.12) 0%, rgba(79, 70, 229, 0.12) 100%); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(147,51,234,0.3)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
             <!-- 輪播圖 -->
             <div class="carousel-wrapper event-carousel" id="event-carousel-1">
@@ -130,21 +98,72 @@
             </a>
           </div>
 
-          <!-- 活動 2 -->
-          <div class="info-section" style="position: relative; overflow: hidden; padding: 0; border-radius: 12px; border: 2px solid rgba(147, 51, 234, 0.4); background: linear-gradient(135deg, rgba(147, 51, 234, 0.12) 0%, rgba(79, 70, 229, 0.12) 100%); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(147,51,234,0.3)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
-            <a href="events/15hr-stream.html" style="text-decoration: none; color: inherit; display: block;">
-              <img src="images/events/連續15HR直播挑戰.jpg" alt="連續 15 小時直播挑戰" style="width: 100%; display: block;" />
-              <div style="padding: 16px 20px;">
-                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                  <span style="background: rgba(239,68,68,0.2); color: #f87171; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;">已結束</span>
-                </div>
-                <h3 style="color: #e0e7ff; font-size: 18px; margin-bottom: 6px;">🔥 連續 15 小時直播挑戰</h3>
-                <p style="color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.5;">挑戰連續直播 15 小時不間斷！感謝大家的陪伴 💜</p>
-              </div>
-            </a>
-          </div>
+          <!-- ===== 已結束活動 ===== -->
+          <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <h3 style="color: rgba(255,255,255,0.5); font-size: 14px; margin-bottom: 16px; text-align: center;">📁 已結束的活動</h3>
 
-          <!-- ===== 活動列表結束 ===== -->
+            <!-- 活動：情人節特別活動（已結束） -->
+            <div class="info-section" style="position: relative; overflow: hidden; padding: 0; border-radius: 12px; border: 2px solid rgba(236, 72, 153, 0.3); background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(147, 51, 234, 0.08) 100%); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; opacity: 0.8;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(236,72,153,0.2)'; this.style.opacity='1'" onmouseout="this.style.transform=''; this.style.boxShadow=''; this.style.opacity='0.8'">
+              <!-- 輪播圖 -->
+              <div class="carousel-wrapper event-carousel" id="event-carousel-valentine">
+                <div class="carousel-slides">
+                  <div class="carousel-slide active">
+                    <img src="images/events/情人節特別活動1.jpg" alt="情人節特別活動 1" />
+                  </div>
+                  <div class="carousel-slide">
+                    <img src="images/events/情人節特別活動2.jpg" alt="情人節特別活動 2" />
+                  </div>
+                  <div class="carousel-slide">
+                    <img src="images/events/情人節特別活動3.jpg" alt="情人節特別活動 3" />
+                  </div>
+                  <div class="carousel-slide">
+                    <img src="images/events/情人節特別活動4.jpg" alt="情人節特別活動 4" />
+                  </div>
+                  <div class="carousel-slide">
+                    <img src="images/events/情人節特別活動5.jpg" alt="情人節特別活動 5" />
+                  </div>
+                </div>
+                <button class="carousel-btn carousel-prev" onclick="event.stopPropagation(); changeSlide('event-carousel-valentine', -1)">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button class="carousel-btn carousel-next" onclick="event.stopPropagation(); changeSlide('event-carousel-valentine', 1)">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+                <div class="carousel-dots">
+                  <button class="carousel-dot active" onclick="event.stopPropagation(); goToSlide('event-carousel-valentine', 0)"></button>
+                  <button class="carousel-dot" onclick="event.stopPropagation(); goToSlide('event-carousel-valentine', 1)"></button>
+                  <button class="carousel-dot" onclick="event.stopPropagation(); goToSlide('event-carousel-valentine', 2)"></button>
+                  <button class="carousel-dot" onclick="event.stopPropagation(); goToSlide('event-carousel-valentine', 3)"></button>
+                  <button class="carousel-dot" onclick="event.stopPropagation(); goToSlide('event-carousel-valentine', 4)"></button>
+                </div>
+              </div>
+              <a href="events/valentine.html" style="text-decoration: none; color: inherit; display: block;">
+                <div style="padding: 16px 20px;">
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="background: rgba(239,68,68,0.2); color: #f87171; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;">已結束</span>
+                  </div>
+                  <h3 style="color: #e0e7ff; font-size: 18px; margin-bottom: 6px;">💝 情人節特別活動</h3>
+                  <p style="color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.5;">2/14 情人節特別直播！感謝大家的陪伴 🥰</p>
+                </div>
+              </a>
+            </div>
+
+            <!-- 活動：連續 15 小時直播挑戰（已結束） -->
+            <div class="info-section" style="position: relative; overflow: hidden; padding: 0; border-radius: 12px; border: 2px solid rgba(147, 51, 234, 0.3); background: linear-gradient(135deg, rgba(147, 51, 234, 0.08) 0%, rgba(79, 70, 229, 0.08) 100%); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; opacity: 0.8;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(147,51,234,0.2)'; this.style.opacity='1'" onmouseout="this.style.transform=''; this.style.boxShadow=''; this.style.opacity='0.8'">
+              <a href="events/15hr-stream.html" style="text-decoration: none; color: inherit; display: block;">
+                <img src="images/events/連續15HR直播挑戰.jpg" alt="連續 15 小時直播挑戰" style="width: 100%; display: block;" />
+                <div style="padding: 16px 20px;">
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="background: rgba(239,68,68,0.2); color: #f87171; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;">已結束</span>
+                  </div>
+                  <h3 style="color: #e0e7ff; font-size: 18px; margin-bottom: 6px;">🔥 連續 15 小時直播挑戰</h3>
+                  <p style="color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.5;">挑戰連續直播 15 小時不間斷！感謝大家的陪伴 💜</p>
+                </div>
+              </a>
+            </div>
+
+          </div>
+          <!-- ===== 已結束活動區域結束 ===== -->
 
           <div class="info-section cta-box">
             <p class="cta-text">想知道最新活動消息？追蹤我的頻道吧！</p>
