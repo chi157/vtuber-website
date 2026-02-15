@@ -132,6 +132,7 @@ def register_routes(app):
         }
         """
         data = request.get_json()
+        print(f"[Attendance API] 收到資料: {data}")
         
         # 驗證必要欄位
         required_fields = ['twitch_user_id', 'username', 'stream_id']
