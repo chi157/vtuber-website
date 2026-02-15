@@ -10,10 +10,16 @@ class EventCarousel {
   init() {
     // 活動圖片列表（從 images/events 資料夾）
     this.slides = [
-      { src: 'images/events/免費從零開始學Python1.jpg', alt: '免費從零開始學Python 活動 1' },
-      { src: 'images/events/免費從零開始學Python2.jpg', alt: '免費從零開始學Python 活動 2' },
-      { src: 'images/events/免費從零開始學Python3.jpg', alt: '免費從零開始學Python 活動 3' },
-      { src: 'images/events/連續15HR直播挑戰.jpg', alt: '連續15小時直播挑戰' }
+      { src: 'images/events/加班台挑戰.png', alt: '柒柒加班台挑戰', link: 'donate.html' },
+      { src: 'images/events/免費從零開始學Python1.jpg', alt: '免費從零開始學Python 活動 1', link: 'courses/course.html' },
+      { src: 'images/events/免費從零開始學Python2.jpg', alt: '免費從零開始學Python 活動 2', link: 'courses/course.html' },
+      { src: 'images/events/免費從零開始學Python3.jpg', alt: '免費從零開始學Python 活動 3', link: 'courses/course.html' },
+      { src: 'images/events/情人節特別活動1.jpg', alt: '情人節特別活動 1', link: 'events/valentine.html' },
+      { src: 'images/events/情人節特別活動2.jpg', alt: '情人節特別活動 2', link: 'events/valentine.html' },
+      { src: 'images/events/情人節特別活動3.jpg', alt: '情人節特別活動 3', link: 'events/valentine.html' },
+      { src: 'images/events/情人節特別活動4.jpg', alt: '情人節特別活動 4', link: 'events/valentine.html' },
+      { src: 'images/events/情人節特別活動5.jpg', alt: '情人節特別活動 5', link: 'events/valentine.html' },
+      { src: 'images/events/連續15HR直播挑戰.jpg', alt: '連續15小時直播挑戰', link: 'events/15hr-stream.html' }
     ];
 
     this.render();
@@ -26,7 +32,9 @@ class EventCarousel {
 
     const slidesHTML = this.slides.map((slide, index) => `
       <div class="carousel-slide ${index === 0 ? 'active' : ''}" data-index="${index}">
-        <img src="${slide.src}" alt="${slide.alt}" loading="lazy">
+        <a href="${slide.link || '#'}" style="display: block;">
+          <img src="${slide.src}" alt="${slide.alt}" loading="lazy">
+        </a>
       </div>
     `).join('');
 
