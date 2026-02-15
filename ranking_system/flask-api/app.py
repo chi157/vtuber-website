@@ -311,26 +311,34 @@ def register_routes(app):
     # User API
     # ============================================
     
+
     @app.route('/api/user/<twitch_user_id>', methods=['GET'])
     def get_user_info(twitch_user_id):
         """
-        查詢個人排名與統計
+        查詢個人排名與統計（用 twitch_user_id）
         """
         user = User.query.filter_by(twitch_user_id=twitch_user_id).first()
-        
+        return user_info_response(user)
+
+    @app.route('/api/user/by-name/<username>', methods=['GET'])
+    def get_user_info_by_name(username):
+        """
+        查詢個人排名與統計（用 username, 不分大小寫）
+        """
+        user = User.query.filter(db.func.lower(User.username) == username.lower()).first()
+        return user_info_response(user)
+
+    def user_info_response(user):
         if not user:
             return jsonify({'error': 'User not found'}), 404
-        
         # 計算 streak 排名
         streak_rank = User.query\
             .filter(User.current_streak > user.current_streak)\
             .count() + 1
-        
         # 計算 total 排名
         total_rank = User.query\
             .filter(User.total_sessions > user.total_sessions)\
             .count() + 1
-        
         return jsonify({
             'username': user.username,
             'twitch_user_id': user.twitch_user_id,
