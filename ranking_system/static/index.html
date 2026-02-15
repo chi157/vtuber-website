@@ -4,9 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>觀眾排行榜 - 柒柒 chi</title>
-    <link rel="icon" type="image/png" href="/static/images/頭貼%20-%20圓形.png" />
-    <link rel="stylesheet" href="/static/style.css?v=20260213" />
-    <script src="/static/navbar.js" defer></script>
+    <link rel="icon" type="image/png" href="https://vtwebsite.chi157.com/static/images/頭貼%20-%20圓形.png" />
+    <link rel="stylesheet" href="https://vtwebsite.chi157.com/static/style.css?v=20260213" />
     <style>
       /* 排行榜專用補充樣式 */
       .stats-grid {
@@ -126,10 +125,78 @@
 
       /* 頁尾 */
       .ranking-footer { text-align: center; padding: 20px 0; color: #7ea7d6; font-size: 0.9rem; }
+
+      /* 內嵌導覽列樣式 */
+      .navbar {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+        background: linear-gradient(180deg, rgba(10, 24, 51, 0.98) 0%, rgba(26, 41, 80, 0.95) 100%);
+        backdrop-filter: blur(10px); border-bottom: 1px solid rgba(58, 123, 213, 0.3);
+        height: 70px;
+      }
+      .navbar-container {
+        max-width: 1200px; margin: 0 auto; padding: 0 20px;
+        display: flex; align-items: center; justify-content: space-between; height: 100%;
+      }
+      .navbar-logo {
+        display: flex; align-items: center; gap: 10px;
+        text-decoration: none; color: #eaf6ff; font-weight: 700; font-size: 1.2rem;
+      }
+      .navbar-logo-img { width: 42px; height: 42px; border-radius: 50%; }
+      .navbar-menu {
+        display: flex; gap: 8px; list-style: none; margin: 0; padding: 0;
+        flex-wrap: wrap; justify-content: center;
+      }
+      .navbar-link {
+        color: #7ea7d6; text-decoration: none; padding: 8px 14px;
+        border-radius: 8px; font-size: 0.9rem; transition: all 0.2s ease;
+      }
+      .navbar-link:hover { color: #eaf6ff; background: rgba(58, 123, 213, 0.2); }
+      .navbar-toggle { display: none; }
+      @media (max-width: 900px) {
+        .navbar-menu { display: none; }
+        .navbar-menu.active {
+          display: flex; flex-direction: column; position: absolute;
+          top: 70px; left: 0; right: 0; background: rgba(10, 24, 51, 0.98);
+          padding: 16px; border-bottom: 1px solid rgba(58, 123, 213, 0.3);
+        }
+        .navbar-toggle {
+          display: flex; flex-direction: column; gap: 5px; background: none;
+          border: none; cursor: pointer; padding: 8px;
+        }
+        .navbar-toggle-icon {
+          width: 24px; height: 2px; background: #7ea7d6; border-radius: 2px;
+        }
+      }
+      body { padding-top: 70px; }
     </style>
   </head>
   <body>
-    <!-- 導航欄將由 navbar.js 載入 -->
+    <!-- 內嵌導覽列 -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="https://vtwebsite.chi157.com/" class="navbar-logo">
+          <img src="https://vtwebsite.chi157.com/static/images/頭貼%20-%20圓形.png" alt="柒柒 chi" class="navbar-logo-img">
+          <span>柒柒 chi</span>
+        </a>
+        <button class="navbar-toggle" id="navbarToggle" aria-label="切換選單">
+          <span class="navbar-toggle-icon"></span>
+          <span class="navbar-toggle-icon"></span>
+          <span class="navbar-toggle-icon"></span>
+        </button>
+        <ul class="navbar-menu" id="navbarMenu">
+          <li class="navbar-item"><a href="https://vtwebsite.chi157.com/about.html" class="navbar-link">自我介紹</a></li>
+          <li class="navbar-item"><a href="https://vtwebsite.chi157.com/courses/course.html" class="navbar-link">程式設計課程</a></li>
+          <li class="navbar-item"><a href="https://vtwebsite.chi157.com/keychain.html" class="navbar-link">鑰匙圈預購</a></li>
+          <li class="navbar-item"><a href="https://vtwebsite.chi157.com/subscriber-benefits.html" class="navbar-link">訂閱者專屬福利</a></li>
+          <li class="navbar-item"><a href="https://vtwebsite.chi157.com/events.html" class="navbar-link">活動專區</a></li>
+          <li class="navbar-item"><a href="https://vtwebsite.chi157.com/donate.html" class="navbar-link">加班台規則</a></li>
+          <li class="navbar-item"><a href="/ranking/" class="navbar-link" style="color: #3a7bd5;">觀眾排行榜</a></li>
+          <li class="navbar-item"><a href="https://vtwebsite.chi157.com/url.html" class="navbar-link">各平台連結</a></li>
+          <li class="navbar-item"><a href="https://vtwebsite.chi157.com/login" class="navbar-link">登入</a></li>
+        </ul>
+      </div>
+    </nav>
+
     <div class="cloud cloud--1" aria-hidden="true"></div>
     <div class="cloud cloud--2" aria-hidden="true"></div>
     <div class="cloud cloud--3" aria-hidden="true"></div>
@@ -242,7 +309,7 @@
               前往 Twitch 頻道
             </a>
             <p></p>
-            <a class="btn btn-home" href="/">🏠 回首頁</a>
+            <a class="btn btn-home" href="https://vtwebsite.chi157.com/">🏠 回首頁</a>
           </div>
 
           <!-- 頁尾 -->
@@ -254,8 +321,13 @@
     </main>
 
     <script>
+      // 導覽列 toggle
+      document.getElementById('navbarToggle').addEventListener('click', function() {
+        document.getElementById('navbarMenu').classList.toggle('active');
+      });
+
       // ============================================
-      // 設定
+      // 設定 - 使用相對路徑呼叫 API
       // ============================================
       const CONFIG = {
         API_BASE_URL: '/ranking-api',
