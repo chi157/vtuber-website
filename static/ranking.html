@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>觀眾排行榜 - Viewer Ranking</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 嵌入式排行榜樣式 */
+        .ranking-embed {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .ranking-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .ranking-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #9147ff, #ff7ed4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .ranking-header p {
+            color: #666;
+        }
+        
+        .ranking-iframe-container {
+            position: relative;
+            width: 100%;
+            height: 800px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .ranking-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .ranking-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .ranking-link a {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #9147ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .ranking-link a:hover {
+            background: #772ce8;
+        }
+        
+        .ranking-info {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .ranking-info h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .ranking-info ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .ranking-info li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .ranking-info li:last-child {
+            border-bottom: none;
+        }
+        
+        .ranking-info code {
+            background: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #9147ff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+    
+    <main class="ranking-embed">
+        <div class="ranking-header">
+            <h1>🏆 觀眾排行榜</h1>
+            <p>每天來看直播，累積你的觀看紀錄！</p>
+        </div>
+        
+        <div class="ranking-iframe-container">
+            <!-- 
+                如果 ranking_system 部署在同網域，使用相對路徑
+                如果部署在不同網域，改為完整 URL
+            -->
+            <iframe 
+                class="ranking-iframe" 
+                src="/ranking/" 
+                title="觀眾排行榜"
+                loading="lazy">
+            </iframe>
+        </div>
+        
+        <div class="ranking-link">
+            <a href="/ranking/" target="_blank">🔗 在新視窗開啟完整排行榜</a>
+        </div>
+        
+        <div class="ranking-info">
+            <h2>📋 如何參與排行榜？</h2>
+            <ul>
+                <li>
+                    <strong>🎯 出席條件：</strong>
+                    在直播期間於聊天室發送任意訊息，即算當場出席
+                </li>
+                <li>
+                    <strong>🔥 連續天數：</strong>
+                    每天都來看直播並互動，連續天數就會累加！
+                </li>
+                <li>
+                    <strong>📊 累計場數：</strong>
+                    每參與一場直播，累計場數 +1
+                </li>
+                <li>
+                    <strong>💬 查詢指令：</strong>
+                    在聊天室輸入 <code>!rank</code> 查看你的排名，輸入 <code>!top</code> 查看前三名
+                </li>
+            </ul>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 30px; color: #666;">
+        <p>排行榜每分鐘自動更新</p>
+    </footer>
+    
+    <script src="navbar.js"></script>
+</body>
+</html>

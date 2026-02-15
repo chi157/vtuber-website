@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>觀眾排行榜 - VTuber Viewer Ranking</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🏆 觀眾排行榜</h1>
+            <p class="subtitle">Viewer Ranking System</p>
+        </header>
+
+        <!-- Stats Overview -->
+        <section class="stats-overview">
+            <div class="stat-card">
+                <span class="stat-icon">👥</span>
+                <div class="stat-info">
+                    <span class="stat-value" id="totalUsers">-</span>
+                    <span class="stat-label">總觀眾數</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">📺</span>
+                <div class="stat-info">
+                    <span class="stat-value" id="totalSessions">-</span>
+                    <span class="stat-label">總直播場數</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">✅</span>
+                <div class="stat-info">
+                    <span class="stat-value" id="totalAttendances">-</span>
+                    <span class="stat-label">總出席次數</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab Navigation -->
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="streak">
+                🔥 連續觀看天數
+            </button>
+            <button class="tab-btn" data-tab="total">
+                📊 累計觀看場數
+            </button>
+            <button class="tab-btn" data-tab="max-streak">
+                ⭐ 最高連續紀錄
+            </button>
+        </nav>
+
+        <!-- Ranking Tables -->
+        <main class="ranking-content">
+            <!-- Streak Ranking -->
+            <section id="streak-ranking" class="ranking-section active">
+                <div class="section-header">
+                    <h2>🔥 連續觀看天數排行榜</h2>
+                    <p>每天來看直播，連續出席的天數！</p>
+                </div>
+                <div class="ranking-table-container">
+                    <table class="ranking-table">
+                        <thead>
+                            <tr>
+                                <th class="rank-col">排名</th>
+                                <th class="name-col">觀眾名稱</th>
+                                <th class="score-col">連續天數</th>
+                            </tr>
+                        </thead>
+                        <tbody id="streakTableBody">
+                            <tr class="loading-row">
+                                <td colspan="3">載入中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Total Sessions Ranking -->
+            <section id="total-ranking" class="ranking-section">
+                <div class="section-header">
+                    <h2>📊 累計觀看場數排行榜</h2>
+                    <p>累計參與過的直播場數！</p>
+                </div>
+                <div class="ranking-table-container">
+                    <table class="ranking-table">
+                        <thead>
+                            <tr>
+                                <th class="rank-col">排名</th>
+                                <th class="name-col">觀眾名稱</th>
+                                <th class="score-col">累計場數</th>
+                            </tr>
+                        </thead>
+                        <tbody id="totalTableBody">
+                            <tr class="loading-row">
+                                <td colspan="3">載入中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Max Streak Ranking -->
+            <section id="max-streak-ranking" class="ranking-section">
+                <div class="section-header">
+                    <h2>⭐ 最高連續紀錄排行榜</h2>
+                    <p>歷史上達成過的最高連續天數！</p>
+                </div>
+                <div class="ranking-table-container">
+                    <table class="ranking-table">
+                        <thead>
+                            <tr>
+                                <th class="rank-col">排名</th>
+                                <th class="name-col">觀眾名稱</th>
+                                <th class="score-col">最高紀錄</th>
+                            </tr>
+                        </thead>
+                        <tbody id="maxStreakTableBody">
+                            <tr class="loading-row">
+                                <td colspan="3">載入中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <!-- User Search -->
+        <section class="user-search">
+            <h2>🔍 查詢個人排名</h2>
+            <div class="search-form">
+                <input type="text" id="userIdInput" placeholder="輸入 Twitch User ID" />
+                <button id="searchBtn">查詢</button>
+            </div>
+            <div id="userResult" class="user-result hidden"></div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>自動更新時間：<span id="lastUpdate">-</span></p>
+            <p>在直播聊天室輸入 <code>!rank</code> 查詢自己的排名</p>
+        </footer>
+    </div>
+
+    <script src="ranking.js"></script>
+</body>
+</html>
