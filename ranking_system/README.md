@@ -163,7 +163,7 @@ GET /api/stats
 | current_streak | INTEGER | 目前連續天數 |
 | max_streak | INTEGER | 最高連續天數 |
 | total_sessions | INTEGER | 累計觀看場數 |
-| last_attendance_date | DATE | 最後出席日期 |
+| last_attendance_date | TIMESTAMP | 最後出席日期與時間 |
 
 ### sessions 表
 
@@ -173,7 +173,7 @@ GET /api/stats
 | twitch_stream_id | VARCHAR UNIQUE | Twitch Stream ID |
 | started_at | TIMESTAMP | 開始時間 |
 | ended_at | TIMESTAMP | 結束時間 |
-| stream_date | DATE | 直播日期 |
+| stream_date | TIMESTAMP | 直播日期與時間 |
 
 ### attendances 表
 
