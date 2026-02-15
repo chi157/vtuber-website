@@ -25,7 +25,7 @@ const config = {
     
     // Flask API 設定
     api: {
-        baseUrl: process.env.API_BASE_URL || 'http://flask-api:5000',
+        baseUrl: process.env.API_BASE_URL || 'http://flask-api:5001',
         key: process.env.API_KEY || 'your-api-key-here'
     },
     
