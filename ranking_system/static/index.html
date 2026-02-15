@@ -1,152 +1,415 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>觀眾排行榜 - VTuber Viewer Ranking</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <h1>🏆 觀眾排行榜</h1>
-            <p class="subtitle">Viewer Ranking System</p>
-        </header>
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>觀眾排行榜 - 柒柒 chi</title>
+    <link rel="icon" type="image/png" href="/static/images/頭貼%20-%20圓形.png" />
+    <link rel="stylesheet" href="/static/style.css?v=20260213" />
+    <script src="/static/navbar.js" defer></script>
+    <style>
+      /* 排行榜專用補充樣式 */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+      @media (max-width: 640px) {
+        .stats-grid { grid-template-columns: 1fr; }
+      }
+      .stat-box {
+        background: linear-gradient(180deg, #233a5e 0%, #2e4372 100%);
+        border-radius: 18px;
+        padding: 20px 16px;
+        text-align: center;
+        border: 1.5px solid #3a7bd5;
+        box-shadow: 0 18px 40px rgba(10, 24, 51, 0.25);
+        transition: transform 0.3s ease;
+      }
+      .stat-box:hover { transform: translateY(-4px); }
+      .stat-box .icon { font-size: 1.8rem; margin-bottom: 8px; display: block; }
+      .stat-box .value { font-size: 1.8rem; font-weight: 700; color: #3a7bd5; display: block; }
+      .stat-box .label { font-size: 0.85rem; color: #7ea7d6; margin-top: 4px; }
 
-        <!-- Stats Overview -->
-        <section class="stats-overview">
-            <div class="stat-card">
-                <span class="stat-icon">👥</span>
-                <div class="stat-info">
-                    <span class="stat-value" id="totalUsers">-</span>
-                    <span class="stat-label">總觀眾數</span>
-                </div>
+      /* 分頁標籤 */
+      .ranking-tabs {
+        display: flex; gap: 10px; margin-bottom: 20px;
+        flex-wrap: wrap; justify-content: center;
+      }
+      .ranking-tab {
+        background: rgba(58, 123, 213, 0.15);
+        border: 1.5px solid transparent;
+        color: #7ea7d6; padding: 10px 22px;
+        font-size: 0.95rem; font-weight: 500;
+        cursor: pointer; border-radius: 12px;
+        transition: all 0.25s ease; font-family: inherit;
+      }
+      .ranking-tab:hover { background: rgba(58, 123, 213, 0.25); color: #eaf6ff; }
+      .ranking-tab.active {
+        background: #3a7bd5; border-color: #3a7bd5; color: white;
+        box-shadow: 0 4px 15px rgba(58, 123, 213, 0.4);
+      }
+
+      /* 排行榜面板 */
+      .ranking-panel { display: none; }
+      .ranking-panel.active { display: block; animation: fadeIn 0.3s ease; }
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+      /* 排行榜表格 */
+      .leaderboard { width: 100%; border-collapse: collapse; margin-top: 16px; }
+      .leaderboard thead { background: rgba(10, 24, 51, 0.5); }
+      .leaderboard th {
+        padding: 12px 14px; text-align: left;
+        font-weight: 600; color: #7ea7d6;
+        text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em;
+      }
+      .leaderboard td { padding: 14px; border-top: 1px solid rgba(126, 167, 214, 0.12); }
+      .leaderboard tbody tr { transition: background 0.2s ease; }
+      .leaderboard tbody tr:hover { background: rgba(58, 123, 213, 0.08); }
+      .col-rank { width: 75px; text-align: center !important; }
+      .col-score { width: 100px; text-align: right !important; }
+
+      /* 排名徽章 */
+      .rank-badge {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 40px; height: 40px; border-radius: 50%;
+        font-weight: 700; font-size: 1rem;
+      }
+      .rank-gold { background: linear-gradient(135deg, #ffd700, #ffed4a); color: #1a1a1a; box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+      .rank-silver { background: linear-gradient(135deg, #c0c0c0, #e8e8e8); color: #1a1a1a; box-shadow: 0 0 10px rgba(192, 192, 192, 0.5); }
+      .rank-bronze { background: linear-gradient(135deg, #cd7f32, #dda15e); color: #1a1a1a; box-shadow: 0 0 10px rgba(205, 127, 50, 0.5); }
+      .rank-normal { background: rgba(126, 167, 214, 0.18); color: #7ea7d6; }
+      .viewer-name { font-weight: 500; color: #eaf6ff; }
+      .top-row .viewer-name { font-weight: 700; }
+      .score-value { font-weight: 700; font-size: 1.1rem; color: #3a7bd5; }
+      .score-unit { font-size: 0.85rem; color: #7ea7d6; margin-left: 4px; }
+      .loading-cell, .empty-cell { text-align: center; color: #7ea7d6; padding: 40px; }
+
+      /* 搜尋區 */
+      .search-row { display: flex; gap: 12px; margin: 16px 0; }
+      @media (max-width: 580px) { .search-row { flex-direction: column; } }
+      .search-row input {
+        flex: 1; padding: 12px 16px;
+        border: 1.5px solid rgba(126, 167, 214, 0.25);
+        border-radius: 12px; background: rgba(10, 24, 51, 0.5);
+        color: #eaf6ff; font-size: 1rem; font-family: inherit;
+      }
+      .search-row input:focus { outline: none; border-color: #3a7bd5; }
+      .search-row input::placeholder { color: #7ea7d6; }
+      .search-row button {
+        padding: 12px 28px; background: #3a7bd5; color: white;
+        border: none; border-radius: 12px; font-size: 1rem;
+        font-weight: 600; cursor: pointer; font-family: inherit;
+        transition: background 0.2s ease;
+      }
+      .search-row button:hover { background: #2d6bc4; }
+
+      /* 用戶結果 */
+      .user-card {
+        padding: 20px; background: rgba(10, 24, 51, 0.5);
+        border-radius: 12px; border: 1px solid rgba(126, 167, 214, 0.15);
+        margin-top: 16px;
+      }
+      .user-card.hidden { display: none; }
+      .user-card.error { border-color: #ff6b6b; color: #ff6b6b; }
+      .user-card h4 { margin-bottom: 16px; font-size: 1.1rem; }
+      .user-stats-grid {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(85px, 1fr)); gap: 12px;
+      }
+      .user-stat-item {
+        text-align: center; padding: 12px 8px;
+        background: rgba(58, 123, 213, 0.1); border-radius: 10px;
+      }
+      .user-stat-item .val { display: block; font-size: 1.4rem; font-weight: 700; color: #3a7bd5; }
+      .user-stat-item .lbl { font-size: 0.75rem; color: #7ea7d6; margin-top: 4px; }
+
+      /* 頁尾 */
+      .ranking-footer { text-align: center; padding: 20px 0; color: #7ea7d6; font-size: 0.9rem; }
+    </style>
+  </head>
+  <body>
+    <!-- 導航欄將由 navbar.js 載入 -->
+    <div class="cloud cloud--1" aria-hidden="true"></div>
+    <div class="cloud cloud--2" aria-hidden="true"></div>
+    <div class="cloud cloud--3" aria-hidden="true"></div>
+    <div class="cloud cloud--4" aria-hidden="true"></div>
+    <main class="page">
+      <section class="card">
+        <section class="donate-info">
+          <h2 class="donate-title">🏆 觀眾排行榜</h2>
+
+          <!-- 統計概覽 -->
+          <div class="stats-grid">
+            <div class="stat-box">
+              <span class="icon">👥</span>
+              <span class="value" id="totalUsers">-</span>
+              <span class="label">總觀眾數</span>
             </div>
-            <div class="stat-card">
-                <span class="stat-icon">📺</span>
-                <div class="stat-info">
-                    <span class="stat-value" id="totalSessions">-</span>
-                    <span class="stat-label">總直播場數</span>
-                </div>
+            <div class="stat-box">
+              <span class="icon">📺</span>
+              <span class="value" id="totalSessions">-</span>
+              <span class="label">總直播場數</span>
             </div>
-            <div class="stat-card">
-                <span class="stat-icon">✅</span>
-                <div class="stat-info">
-                    <span class="stat-value" id="totalAttendances">-</span>
-                    <span class="stat-label">總出席次數</span>
-                </div>
+            <div class="stat-box">
+              <span class="icon">✅</span>
+              <span class="value" id="totalAttendances">-</span>
+              <span class="label">總出席次數</span>
             </div>
+          </div>
+
+          <!-- 分頁標籤 -->
+          <nav class="ranking-tabs">
+            <button class="ranking-tab active" data-tab="streak">🔥 連續觀看</button>
+            <button class="ranking-tab" data-tab="total">📊 累計場數</button>
+            <button class="ranking-tab" data-tab="max-streak">⭐ 最高紀錄</button>
+          </nav>
+
+          <!-- 連續觀看排行 -->
+          <div id="streak-panel" class="ranking-panel active">
+            <div class="info-section">
+              <h3 class="section-title">🔥 連續觀看天數排行榜</h3>
+              <p style="color: #7ea7d6; font-size: 0.9rem; margin-bottom: 8px;">每天來看直播，連續出席的天數！</p>
+              <table class="leaderboard">
+                <thead><tr><th class="col-rank">排名</th><th>觀眾名稱</th><th class="col-score">連續天數</th></tr></thead>
+                <tbody id="streakBody"><tr><td colspan="3" class="loading-cell">載入中...</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 累計場數排行 -->
+          <div id="total-panel" class="ranking-panel">
+            <div class="info-section">
+              <h3 class="section-title">📊 累計觀看場數排行榜</h3>
+              <p style="color: #7ea7d6; font-size: 0.9rem; margin-bottom: 8px;">累計參與過的直播場數！</p>
+              <table class="leaderboard">
+                <thead><tr><th class="col-rank">排名</th><th>觀眾名稱</th><th class="col-score">累計場數</th></tr></thead>
+                <tbody id="totalBody"><tr><td colspan="3" class="loading-cell">載入中...</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 最高紀錄排行 -->
+          <div id="max-streak-panel" class="ranking-panel">
+            <div class="info-section">
+              <h3 class="section-title">⭐ 最高連續紀錄排行榜</h3>
+              <p style="color: #7ea7d6; font-size: 0.9rem; margin-bottom: 8px;">歷史上達成過的最高連續天數！</p>
+              <table class="leaderboard">
+                <thead><tr><th class="col-rank">排名</th><th>觀眾名稱</th><th class="col-score">最高紀錄</th></tr></thead>
+                <tbody id="maxStreakBody"><tr><td colspan="3" class="loading-cell">載入中...</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 個人查詢 -->
+          <div class="info-section">
+            <h3 class="section-title">🔍 查詢個人排名</h3>
+            <div class="search-row">
+              <input type="text" id="userIdInput" placeholder="輸入 Twitch User ID" />
+              <button id="searchBtn">查詢</button>
+            </div>
+            <div id="userResult" class="user-card hidden"></div>
+          </div>
+
+          <!-- 說明區 -->
+          <div class="info-section highlight-box">
+            <h3 class="section-title">📋 如何參與排行榜？</h3>
+            <div class="rule-list">
+              <div class="rule-item">
+                <span class="rule-icon">🎯</span>
+                <span class="rule-text"><strong>出席條件：</strong>在直播期間於聊天室發送任意訊息，即算當場出席</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">🔥</span>
+                <span class="rule-text"><strong>連續天數：</strong>每天都來看直播並互動，連續天數就會累加！</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">📊</span>
+                <span class="rule-text"><strong>累計場數：</strong>每參與一場直播，累計場數 +1</span>
+              </div>
+              <div class="rule-item">
+                <span class="rule-icon">💬</span>
+                <span class="rule-text"><strong>查詢指令：</strong>在聊天室輸入 <code style="background: rgba(58, 123, 213, 0.2); padding: 2px 8px; border-radius: 6px; color: #3a7bd5;">!rank</code> 查看排名，<code style="background: rgba(58, 123, 213, 0.2); padding: 2px 8px; border-radius: 6px; color: #3a7bd5;">!top</code> 查看前三名</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="info-section cta-box">
+            <p class="cta-text">來直播間互動吧！</p>
+            <a class="btn" href="https://www.twitch.tv/chi1577517" target="_blank" rel="noopener noreferrer">
+              <img class="btn-icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13.1.0/icons/twitch.svg" alt="" aria-hidden="true" />
+              前往 Twitch 頻道
+            </a>
+            <p></p>
+            <a class="btn btn-home" href="/">🏠 回首頁</a>
+          </div>
+
+          <!-- 頁尾 -->
+          <div class="ranking-footer">
+            <p>排行榜每分鐘自動更新 | 最後更新：<span id="lastUpdate">-</span></p>
+          </div>
         </section>
+      </section>
+    </main>
 
-        <!-- Tab Navigation -->
-        <nav class="tabs">
-            <button class="tab-btn active" data-tab="streak">
-                🔥 連續觀看天數
-            </button>
-            <button class="tab-btn" data-tab="total">
-                📊 累計觀看場數
-            </button>
-            <button class="tab-btn" data-tab="max-streak">
-                ⭐ 最高連續紀錄
-            </button>
-        </nav>
+    <script>
+      // ============================================
+      // 設定
+      // ============================================
+      const CONFIG = {
+        API_BASE_URL: '/ranking-api',
+        REFRESH_INTERVAL: 60000,
+        DEFAULT_LIMIT: 20
+      };
 
-        <!-- Ranking Tables -->
-        <main class="ranking-content">
-            <!-- Streak Ranking -->
-            <section id="streak-ranking" class="ranking-section active">
-                <div class="section-header">
-                    <h2>🔥 連續觀看天數排行榜</h2>
-                    <p>每天來看直播，連續出席的天數！</p>
-                </div>
-                <div class="ranking-table-container">
-                    <table class="ranking-table">
-                        <thead>
-                            <tr>
-                                <th class="rank-col">排名</th>
-                                <th class="name-col">觀眾名稱</th>
-                                <th class="score-col">連續天數</th>
-                            </tr>
-                        </thead>
-                        <tbody id="streakTableBody">
-                            <tr class="loading-row">
-                                <td colspan="3">載入中...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+      // ============================================
+      // API
+      // ============================================
+      async function fetchAPI(endpoint) {
+        try {
+          const res = await fetch(`${CONFIG.API_BASE_URL}${endpoint}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          return await res.json();
+        } catch (e) {
+          console.error(`API Error (${endpoint}):`, e);
+          return null;
+        }
+      }
 
-            <!-- Total Sessions Ranking -->
-            <section id="total-ranking" class="ranking-section">
-                <div class="section-header">
-                    <h2>📊 累計觀看場數排行榜</h2>
-                    <p>累計參與過的直播場數！</p>
-                </div>
-                <div class="ranking-table-container">
-                    <table class="ranking-table">
-                        <thead>
-                            <tr>
-                                <th class="rank-col">排名</th>
-                                <th class="name-col">觀眾名稱</th>
-                                <th class="score-col">累計場數</th>
-                            </tr>
-                        </thead>
-                        <tbody id="totalTableBody">
-                            <tr class="loading-row">
-                                <td colspan="3">載入中...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+      // ============================================
+      // 工具函數
+      // ============================================
+      function formatNumber(n) {
+        if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+        if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+        return n.toLocaleString();
+      }
 
-            <!-- Max Streak Ranking -->
-            <section id="max-streak-ranking" class="ranking-section">
-                <div class="section-header">
-                    <h2>⭐ 最高連續紀錄排行榜</h2>
-                    <p>歷史上達成過的最高連續天數！</p>
-                </div>
-                <div class="ranking-table-container">
-                    <table class="ranking-table">
-                        <thead>
-                            <tr>
-                                <th class="rank-col">排名</th>
-                                <th class="name-col">觀眾名稱</th>
-                                <th class="score-col">最高紀錄</th>
-                            </tr>
-                        </thead>
-                        <tbody id="maxStreakTableBody">
-                            <tr class="loading-row">
-                                <td colspan="3">載入中...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-        </main>
+      function escapeHtml(t) {
+        const d = document.createElement('div');
+        d.textContent = t;
+        return d.innerHTML;
+      }
 
-        <!-- User Search -->
-        <section class="user-search">
-            <h2>🔍 查詢個人排名</h2>
-            <div class="search-form">
-                <input type="text" id="userIdInput" placeholder="輸入 Twitch User ID" />
-                <button id="searchBtn">查詢</button>
-            </div>
-            <div id="userResult" class="user-result hidden"></div>
-        </section>
+      function getRankClass(r) {
+        if (r === 1) return 'rank-gold';
+        if (r === 2) return 'rank-silver';
+        if (r === 3) return 'rank-bronze';
+        return 'rank-normal';
+      }
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>自動更新時間：<span id="lastUpdate">-</span></p>
-            <p>在直播聊天室輸入 <code>!rank</code> 查詢自己的排名</p>
-        </footer>
-    </div>
+      function createRow(data, valueKey, unit) {
+        const isTop = data.rank <= 3;
+        const medals = ['🥇', '🥈', '🥉'];
+        const display = data.rank <= 3 ? medals[data.rank - 1] : data.rank;
+        return `
+          <tr class="${isTop ? 'top-row' : ''}">
+            <td class="col-rank"><span class="rank-badge ${getRankClass(data.rank)}">${display}</span></td>
+            <td><span class="viewer-name">${escapeHtml(data.username)}</span></td>
+            <td class="col-score"><span class="score-value">${data[valueKey]}</span><span class="score-unit">${unit}</span></td>
+          </tr>
+        `;
+      }
 
-    <script src="ranking.js"></script>
-</body>
+      // ============================================
+      // 更新函數
+      // ============================================
+      async function updateStats() {
+        const s = await fetchAPI('/stats');
+        if (s) {
+          document.getElementById('totalUsers').textContent = formatNumber(s.total_users);
+          document.getElementById('totalSessions').textContent = formatNumber(s.total_sessions);
+          document.getElementById('totalAttendances').textContent = formatNumber(s.total_attendances);
+        }
+      }
+
+      async function updateRanking(type, bodyId, valueKey, unit) {
+        const body = document.getElementById(bodyId);
+        body.innerHTML = '<tr><td colspan="3" class="loading-cell">載入中...</td></tr>';
+        const data = await fetchAPI(`/ranking/${type}?limit=${CONFIG.DEFAULT_LIMIT}`);
+        if (data === null) { body.innerHTML = '<tr><td colspan="3" class="empty-cell">載入失敗，請稍後再試</td></tr>'; return; }
+        if (data.length === 0) { body.innerHTML = '<tr><td colspan="3" class="empty-cell">目前沒有資料</td></tr>'; return; }
+        body.innerHTML = data.map(item => createRow(item, valueKey, unit)).join('');
+      }
+
+      function updateTime() {
+        document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('zh-TW');
+      }
+
+      async function refreshAll() {
+        await Promise.all([
+          updateStats(),
+          updateRanking('streak', 'streakBody', 'current_streak', '天'),
+          updateRanking('total', 'totalBody', 'total_sessions', '場'),
+          updateRanking('max-streak', 'maxStreakBody', 'max_streak', '天')
+        ]);
+        updateTime();
+      }
+
+      // ============================================
+      // 分頁切換
+      // ============================================
+      function switchTab(tabName) {
+        document.querySelectorAll('.ranking-tab').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.tab === tabName);
+        });
+        document.querySelectorAll('.ranking-panel').forEach(panel => panel.classList.remove('active'));
+        document.getElementById(`${tabName}-panel`).classList.add('active');
+      }
+
+      // ============================================
+      // 用戶查詢
+      // ============================================
+      async function searchUser() {
+        const input = document.getElementById('userIdInput');
+        const result = document.getElementById('userResult');
+        const userId = input.value.trim();
+
+        if (!userId) {
+          result.className = 'user-card error';
+          result.innerHTML = '請輸入 Twitch User ID';
+          return;
+        }
+
+        result.className = 'user-card';
+        result.innerHTML = '查詢中...';
+
+        const data = await fetchAPI(`/user/${userId}`);
+
+        if (!data || data.error) {
+          result.className = 'user-card error';
+          result.innerHTML = '找不到此用戶';
+          return;
+        }
+
+        result.className = 'user-card';
+        result.innerHTML = `
+          <h4>👤 ${escapeHtml(data.username)}</h4>
+          <div class="user-stats-grid">
+            <div class="user-stat-item"><span class="val">#${data.rank_streak}</span><span class="lbl">連續排名</span></div>
+            <div class="user-stat-item"><span class="val">${data.current_streak}</span><span class="lbl">連續天數</span></div>
+            <div class="user-stat-item"><span class="val">${data.max_streak}</span><span class="lbl">最高紀錄</span></div>
+            <div class="user-stat-item"><span class="val">#${data.rank_total}</span><span class="lbl">累計排名</span></div>
+            <div class="user-stat-item"><span class="val">${data.total_sessions}</span><span class="lbl">累計場數</span></div>
+          </div>
+        `;
+      }
+
+      // ============================================
+      // 初始化
+      // ============================================
+      document.addEventListener('DOMContentLoaded', () => {
+        refreshAll();
+        document.querySelectorAll('.ranking-tab').forEach(btn => {
+          btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+        });
+        document.getElementById('searchBtn').addEventListener('click', searchUser);
+        document.getElementById('userIdInput').addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') searchUser();
+        });
+        setInterval(refreshAll, CONFIG.REFRESH_INTERVAL);
+      });
+    </script>
+  </body>
 </html>
