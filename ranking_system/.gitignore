@@ -76,3 +76,6 @@ flask-api/migrations/versions/*.py
 *.tmp
 *.temp
 .cache/
+
+
+gunicorn.ctl
