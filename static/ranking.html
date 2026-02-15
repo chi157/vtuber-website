@@ -3,159 +3,785 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>觀眾排行榜 - Viewer Ranking</title>
+    <title>觀眾排行榜 - 柒柒 chi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* 嵌入式排行榜樣式 */
-        .ranking-embed {
-            max-width: 1200px;
+        /* ============================================
+           排行榜專用樣式
+           ============================================ */
+        
+        /* 頁面容器 */
+        .ranking-container {
+            max-width: 960px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 30px 20px;
         }
-        
-        .ranking-header {
+
+        /* 頁面標題 */
+        .page-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
-        
-        .ranking-header h1 {
-            font-size: 2.5rem;
+
+        .page-header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
             margin-bottom: 10px;
-            background: linear-gradient(135deg, #9147ff, #ff7ed4);
+            background: linear-gradient(135deg, var(--primary), #ff7ed4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
-        .ranking-header p {
-            color: #666;
+
+        .page-header p {
+            color: var(--muted);
+            font-size: 1rem;
         }
-        
-        .ranking-iframe-container {
-            position: relative;
-            width: 100%;
-            height: 800px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+        /* 統計卡片區 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 30px;
         }
-        
-        .ranking-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+
+        @media (max-width: 640px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
         }
-        
-        .ranking-link {
+
+        .stat-box {
+            background: var(--card-gradient);
+            border-radius: var(--radius);
+            padding: 22px 18px;
             text-align: center;
-            margin-top: 20px;
+            border: 1.5px solid var(--primary);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
         }
-        
-        .ranking-link a {
-            display: inline-block;
-            padding: 12px 30px;
-            background: #9147ff;
+
+        .stat-box:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-box .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .stat-box .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+            line-height: 1.2;
+        }
+
+        .stat-box .label {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-top: 5px;
+        }
+
+        /* 分頁標籤 */
+        .ranking-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .ranking-tab {
+            background: rgba(58, 123, 213, 0.15);
+            border: 1.5px solid transparent;
+            color: var(--muted);
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 14px;
+            transition: all 0.25s ease;
+            font-family: inherit;
+        }
+
+        .ranking-tab:hover {
+            background: rgba(58, 123, 213, 0.25);
+            color: var(--text);
+        }
+
+        .ranking-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
             color: white;
-            text-decoration: none;
-            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(58, 123, 213, 0.4);
+        }
+
+        /* 排行榜主卡片 */
+        .ranking-main-card {
+            background: var(--card-gradient);
+            border-radius: 28px;
+            padding: 28px;
+            border: 1.5px solid var(--primary);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .ranking-panel {
+            display: none;
+        }
+
+        .ranking-panel.active {
+            display: block;
+            animation: fadeSlideIn 0.35s ease;
+        }
+
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .panel-header {
+            margin-bottom: 22px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(126, 167, 214, 0.25);
+        }
+
+        .panel-header h2 {
+            font-size: 1.35rem;
             font-weight: 600;
-            transition: background 0.3s;
+            margin-bottom: 6px;
         }
-        
-        .ranking-link a:hover {
-            background: #772ce8;
+
+        .panel-header p {
+            color: var(--muted);
+            font-size: 0.92rem;
         }
-        
-        .ranking-info {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
+
+        /* 排行榜表格 */
+        .leaderboard {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaderboard thead {
+            background: rgba(10, 24, 51, 0.55);
+        }
+
+        .leaderboard th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.06em;
+        }
+
+        .leaderboard td {
+            padding: 16px;
+            border-top: 1px solid rgba(126, 167, 214, 0.12);
+        }
+
+        .leaderboard tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        .leaderboard tbody tr:hover {
+            background: rgba(58, 123, 213, 0.08);
+        }
+
+        .col-rank { width: 80px; text-align: center !important; }
+        .col-score { width: 110px; text-align: right !important; }
+
+        /* 排名徽章 */
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .rank-gold {
+            background: linear-gradient(135deg, #ffd700, #ffed4a);
+            color: #1a1a1a;
+            box-shadow: 0 0 18px rgba(255, 215, 0, 0.55);
+        }
+
+        .rank-silver {
+            background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+            color: #1a1a1a;
+            box-shadow: 0 0 12px rgba(192, 192, 192, 0.5);
+        }
+
+        .rank-bronze {
+            background: linear-gradient(135deg, #cd7f32, #dda15e);
+            color: #1a1a1a;
+            box-shadow: 0 0 12px rgba(205, 127, 50, 0.5);
+        }
+
+        .rank-normal {
+            background: rgba(126, 167, 214, 0.18);
+            color: var(--muted);
+        }
+
+        .viewer-name {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .top-row .viewer-name {
+            font-weight: 700;
+        }
+
+        .score-value {
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--primary);
+        }
+
+        .score-unit {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-left: 4px;
+        }
+
+        .loading-cell,
+        .empty-cell {
+            text-align: center;
+            color: var(--muted);
+            padding: 45px;
+            font-size: 1rem;
+        }
+
+        /* 搜尋卡片 */
+        .search-section {
+            background: var(--card-gradient);
+            border-radius: 28px;
+            padding: 28px;
+            border: 1.5px solid var(--primary);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .search-section h2 {
+            margin-bottom: 18px;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .search-row {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        @media (max-width: 580px) {
+            .search-row {
+                flex-direction: column;
+            }
+        }
+
+        .search-row input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 1.5px solid rgba(126, 167, 214, 0.28);
+            border-radius: 14px;
+            background: rgba(10, 24, 51, 0.55);
+            color: var(--text);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-row input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .search-row input::placeholder {
+            color: var(--muted);
+        }
+
+        .search-row button {
+            padding: 14px 32px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .search-row button:hover {
+            background: #2d6bc4;
+            box-shadow: 0 4px 15px rgba(58, 123, 213, 0.4);
+        }
+
+        .user-card {
+            padding: 22px;
+            background: rgba(10, 24, 51, 0.55);
+            border-radius: 14px;
+            border: 1px solid rgba(126, 167, 214, 0.18);
+        }
+
+        .user-card.hidden {
+            display: none;
+        }
+
+        .user-card.error {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+
+        .user-card h3 {
+            margin-bottom: 18px;
+            font-size: 1.1rem;
+        }
+
+        .user-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 14px;
+        }
+
+        .user-stat-item {
+            text-align: center;
+            padding: 14px 10px;
+            background: rgba(58, 123, 213, 0.12);
             border-radius: 12px;
         }
-        
-        .ranking-info h2 {
-            margin-bottom: 15px;
-            color: #333;
+
+        .user-stat-item .val {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
         }
-        
-        .ranking-info ul {
+
+        .user-stat-item .lbl {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        /* 說明卡片 */
+        .info-section {
+            background: var(--card-gradient);
+            border-radius: 28px;
+            padding: 28px;
+            border: 1.5px solid var(--primary);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .info-section h2 {
+            margin-bottom: 18px;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .info-list {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
-        
-        .ranking-info li {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
+
+        .info-list li {
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(126, 167, 214, 0.12);
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
         }
-        
-        .ranking-info li:last-child {
+
+        .info-list li:last-child {
             border-bottom: none;
         }
-        
-        .ranking-info code {
-            background: #e9ecef;
-            padding: 2px 8px;
-            border-radius: 4px;
+
+        .info-list .li-icon {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .info-list code {
+            background: rgba(58, 123, 213, 0.22);
+            padding: 4px 10px;
+            border-radius: 8px;
             font-family: monospace;
-            color: #9147ff;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        /* 頁尾 */
+        .ranking-footer {
+            text-align: center;
+            padding: 25px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .ranking-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .ranking-footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- 導航列 -->
     <div id="navbar-container"></div>
-    
-    <main class="ranking-embed">
-        <div class="ranking-header">
+
+    <main class="ranking-container">
+        <!-- 頁面標題 -->
+        <header class="page-header">
             <h1>🏆 觀眾排行榜</h1>
             <p>每天來看直播，累積你的觀看紀錄！</p>
+        </header>
+
+        <!-- 統計概覽 -->
+        <section class="stats-grid">
+            <div class="stat-box">
+                <span class="icon">👥</span>
+                <span class="value" id="totalUsers">-</span>
+                <span class="label">總觀眾數</span>
+            </div>
+            <div class="stat-box">
+                <span class="icon">📺</span>
+                <span class="value" id="totalSessions">-</span>
+                <span class="label">總直播場數</span>
+            </div>
+            <div class="stat-box">
+                <span class="icon">✅</span>
+                <span class="value" id="totalAttendances">-</span>
+                <span class="label">總出席次數</span>
+            </div>
+        </section>
+
+        <!-- 分頁標籤 -->
+        <nav class="ranking-tabs">
+            <button class="ranking-tab active" data-tab="streak">🔥 連續觀看</button>
+            <button class="ranking-tab" data-tab="total">📊 累計場數</button>
+            <button class="ranking-tab" data-tab="max-streak">⭐ 最高紀錄</button>
+        </nav>
+
+        <!-- 排行榜主卡片 -->
+        <div class="ranking-main-card">
+            <!-- 連續觀看 -->
+            <section id="streak-panel" class="ranking-panel active">
+                <div class="panel-header">
+                    <h2>🔥 連續觀看天數排行榜</h2>
+                    <p>每天來看直播，連續出席的天數！</p>
+                </div>
+                <table class="leaderboard">
+                    <thead>
+                        <tr>
+                            <th class="col-rank">排名</th>
+                            <th>觀眾名稱</th>
+                            <th class="col-score">連續天數</th>
+                        </tr>
+                    </thead>
+                    <tbody id="streakBody">
+                        <tr><td colspan="3" class="loading-cell">載入中...</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 累計場數 -->
+            <section id="total-panel" class="ranking-panel">
+                <div class="panel-header">
+                    <h2>📊 累計觀看場數排行榜</h2>
+                    <p>累計參與過的直播場數！</p>
+                </div>
+                <table class="leaderboard">
+                    <thead>
+                        <tr>
+                            <th class="col-rank">排名</th>
+                            <th>觀眾名稱</th>
+                            <th class="col-score">累計場數</th>
+                        </tr>
+                    </thead>
+                    <tbody id="totalBody">
+                        <tr><td colspan="3" class="loading-cell">載入中...</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 最高紀錄 -->
+            <section id="max-streak-panel" class="ranking-panel">
+                <div class="panel-header">
+                    <h2>⭐ 最高連續紀錄排行榜</h2>
+                    <p>歷史上達成過的最高連續天數！</p>
+                </div>
+                <table class="leaderboard">
+                    <thead>
+                        <tr>
+                            <th class="col-rank">排名</th>
+                            <th>觀眾名稱</th>
+                            <th class="col-score">最高紀錄</th>
+                        </tr>
+                    </thead>
+                    <tbody id="maxStreakBody">
+                        <tr><td colspan="3" class="loading-cell">載入中...</td></tr>
+                    </tbody>
+                </table>
+            </section>
         </div>
-        
-        <div class="ranking-iframe-container">
-            <!-- 
-                如果 ranking_system 部署在同網域，使用相對路徑
-                如果部署在不同網域，改為完整 URL
-            -->
-            <iframe 
-                class="ranking-iframe" 
-                src="/ranking/" 
-                title="觀眾排行榜"
-                loading="lazy">
-            </iframe>
-        </div>
-        
-        <div class="ranking-link">
-            <a href="/ranking/" target="_blank">🔗 在新視窗開啟完整排行榜</a>
-        </div>
-        
-        <div class="ranking-info">
+
+        <!-- 查詢區 -->
+        <section class="search-section">
+            <h2>🔍 查詢個人排名</h2>
+            <div class="search-row">
+                <input type="text" id="userIdInput" placeholder="輸入 Twitch User ID" />
+                <button id="searchBtn">查詢</button>
+            </div>
+            <div id="userResult" class="user-card hidden"></div>
+        </section>
+
+        <!-- 說明區 -->
+        <section class="info-section">
             <h2>📋 如何參與排行榜？</h2>
-            <ul>
+            <ul class="info-list">
                 <li>
-                    <strong>🎯 出席條件：</strong>
-                    在直播期間於聊天室發送任意訊息，即算當場出席
+                    <span class="li-icon">🎯</span>
+                    <div><strong>出席條件：</strong>在直播期間於聊天室發送任意訊息，即算當場出席</div>
                 </li>
                 <li>
-                    <strong>🔥 連續天數：</strong>
-                    每天都來看直播並互動，連續天數就會累加！
+                    <span class="li-icon">🔥</span>
+                    <div><strong>連續天數：</strong>每天都來看直播並互動，連續天數就會累加！</div>
                 </li>
                 <li>
-                    <strong>📊 累計場數：</strong>
-                    每參與一場直播，累計場數 +1
+                    <span class="li-icon">📊</span>
+                    <div><strong>累計場數：</strong>每參與一場直播，累計場數 +1</div>
                 </li>
                 <li>
-                    <strong>💬 查詢指令：</strong>
-                    在聊天室輸入 <code>!rank</code> 查看你的排名，輸入 <code>!top</code> 查看前三名
+                    <span class="li-icon">💬</span>
+                    <div><strong>查詢指令：</strong>在聊天室輸入 <code>!rank</code> 查看排名，<code>!top</code> 查看前三名</div>
                 </li>
             </ul>
-        </div>
+        </section>
+
+        <!-- 頁尾 -->
+        <footer class="ranking-footer">
+            <p>排行榜每分鐘自動更新 | 最後更新：<span id="lastUpdate">-</span></p>
+            <p><a href="/">← 返回首頁</a></p>
+        </footer>
     </main>
-    
-    <!-- Footer -->
-    <footer style="text-align: center; padding: 30px; color: #666;">
-        <p>排行榜每分鐘自動更新</p>
-    </footer>
-    
+
+    <!-- 載入導航列 -->
     <script src="navbar.js"></script>
+    
+    <script>
+        // ============================================
+        // 設定
+        // ============================================
+        const CONFIG = {
+            API_BASE_URL: '/ranking-api',
+            REFRESH_INTERVAL: 60000,
+            DEFAULT_LIMIT: 20
+        };
+
+        // ============================================
+        // API 函數
+        // ============================================
+        async function fetchAPI(endpoint) {
+            try {
+                const response = await fetch(`${CONFIG.API_BASE_URL}${endpoint}`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return await response.json();
+            } catch (error) {
+                console.error(`API Error (${endpoint}):`, error);
+                return null;
+            }
+        }
+
+        // ============================================
+        // UI 輔助函數
+        // ============================================
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toLocaleString();
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function getRankClass(rank) {
+            if (rank === 1) return 'rank-gold';
+            if (rank === 2) return 'rank-silver';
+            if (rank === 3) return 'rank-bronze';
+            return 'rank-normal';
+        }
+
+        function createRow(data, valueKey, unit) {
+            const isTop = data.rank <= 3;
+            const medals = ['🥇', '🥈', '🥉'];
+            const display = data.rank <= 3 ? medals[data.rank - 1] : data.rank;
+            
+            return `
+                <tr class="${isTop ? 'top-row' : ''}">
+                    <td class="col-rank">
+                        <span class="rank-badge ${getRankClass(data.rank)}">${display}</span>
+                    </td>
+                    <td><span class="viewer-name">${escapeHtml(data.username)}</span></td>
+                    <td class="col-score">
+                        <span class="score-value">${data[valueKey]}</span>
+                        <span class="score-unit">${unit}</span>
+                    </td>
+                </tr>
+            `;
+        }
+
+        // ============================================
+        // 更新函數
+        // ============================================
+        async function updateStats() {
+            const stats = await fetchAPI('/stats');
+            if (stats) {
+                document.getElementById('totalUsers').textContent = formatNumber(stats.total_users);
+                document.getElementById('totalSessions').textContent = formatNumber(stats.total_sessions);
+                document.getElementById('totalAttendances').textContent = formatNumber(stats.total_attendances);
+            }
+        }
+
+        async function updateRanking(type, bodyId, valueKey, unit) {
+            const body = document.getElementById(bodyId);
+            body.innerHTML = '<tr><td colspan="3" class="loading-cell">載入中...</td></tr>';
+            
+            const data = await fetchAPI(`/ranking/${type}?limit=${CONFIG.DEFAULT_LIMIT}`);
+            
+            if (data === null) {
+                body.innerHTML = '<tr><td colspan="3" class="empty-cell">載入失敗，請稍後再試</td></tr>';
+                return;
+            }
+            if (data.length === 0) {
+                body.innerHTML = '<tr><td colspan="3" class="empty-cell">目前沒有資料</td></tr>';
+                return;
+            }
+            
+            body.innerHTML = data.map(item => createRow(item, valueKey, unit)).join('');
+        }
+
+        function updateTime() {
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('zh-TW');
+        }
+
+        async function refreshAll() {
+            await Promise.all([
+                updateStats(),
+                updateRanking('streak', 'streakBody', 'current_streak', '天'),
+                updateRanking('total', 'totalBody', 'total_sessions', '場'),
+                updateRanking('max-streak', 'maxStreakBody', 'max_streak', '天')
+            ]);
+            updateTime();
+        }
+
+        // ============================================
+        // 分頁切換
+        // ============================================
+        function switchTab(tabName) {
+            document.querySelectorAll('.ranking-tab').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tabName);
+            });
+            document.querySelectorAll('.ranking-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-panel`).classList.add('active');
+        }
+
+        // ============================================
+        // 用戶查詢
+        // ============================================
+        async function searchUser() {
+            const input = document.getElementById('userIdInput');
+            const result = document.getElementById('userResult');
+            const userId = input.value.trim();
+            
+            if (!userId) {
+                result.className = 'user-card error';
+                result.innerHTML = '請輸入 Twitch User ID';
+                return;
+            }
+            
+            result.className = 'user-card';
+            result.innerHTML = '查詢中...';
+            
+            const data = await fetchAPI(`/user/${userId}`);
+            
+            if (!data || data.error) {
+                result.className = 'user-card error';
+                result.innerHTML = '找不到此用戶';
+                return;
+            }
+            
+            result.className = 'user-card';
+            result.innerHTML = `
+                <h3>👤 ${escapeHtml(data.username)}</h3>
+                <div class="user-stats-grid">
+                    <div class="user-stat-item">
+                        <span class="val">#${data.rank_streak}</span>
+                        <span class="lbl">連續排名</span>
+                    </div>
+                    <div class="user-stat-item">
+                        <span class="val">${data.current_streak}</span>
+                        <span class="lbl">連續天數</span>
+                    </div>
+                    <div class="user-stat-item">
+                        <span class="val">${data.max_streak}</span>
+                        <span class="lbl">最高紀錄</span>
+                    </div>
+                    <div class="user-stat-item">
+                        <span class="val">#${data.rank_total}</span>
+                        <span class="lbl">累計排名</span>
+                    </div>
+                    <div class="user-stat-item">
+                        <span class="val">${data.total_sessions}</span>
+                        <span class="lbl">累計場數</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ============================================
+        // 初始化
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            refreshAll();
+            
+            // 分頁切換
+            document.querySelectorAll('.ranking-tab').forEach(btn => {
+                btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+            });
+            
+            // 搜尋
+            document.getElementById('searchBtn').addEventListener('click', searchUser);
+            document.getElementById('userIdInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') searchUser();
+            });
+            
+            // 定時更新
+            setInterval(refreshAll, CONFIG.REFRESH_INTERVAL);
+        });
+    </script>
 </body>
 </html>
