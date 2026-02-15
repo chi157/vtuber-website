@@ -16,15 +16,18 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
+import os
+from flask import Flask, render_template
 
 # 載入環境變數
 load_dotenv()
 
-# 初始化 Flask 應用
-app = Flask(__name__, 
-            static_folder='static',
-            template_folder='templates')
+# 取得目前 app.py 所在的資料夾路徑
+base_dir = os.path.abspath(os.path.dirname(__file__))
 
+app = Flask(__name__, 
+            template_folder=os.path.join(base_dir, 'templates'),
+            static_folder=os.path.join(base_dir, 'static'))
 # 設定
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', secrets.token_hex(32))
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB
