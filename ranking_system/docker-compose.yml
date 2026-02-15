@@ -43,8 +43,8 @@ services:
         condition: service_healthy
     networks:
       - ranking-network
-    expose:
-      - "5000"
+    ports:
+      - "5001:5000"
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
       interval: 30s
@@ -74,25 +74,14 @@ services:
     networks:
       - ranking-network
 
-  # ============================================
-  # Nginx Reverse Proxy
-  # ============================================
-  nginx:
-    image: nginx:alpine
-    container_name: ranking-nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./nginx/ssl:/etc/nginx/ssl:ro
-      - ./static:/usr/share/nginx/html:ro
-    depends_on:
-      - flask-api
-    networks:
-      - ranking-network
+# 注意：這個系統不包含 nginx
+# 請在你原本網站的 nginx 設定中加入以下 location：
+#
+# location /ranking-api/ {
+#     proxy_pass http://127.0.0.1:5001/;
+#     proxy_set_header Host $host;
+#     proxy_set_header X-Real-IP $remote_addr;
+# }
 
 # ============================================
 # Networks
