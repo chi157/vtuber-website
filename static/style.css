@@ -1261,6 +1261,27 @@ body::after {
   color: rgba(255, 255, 255, 0.4);
 }
 
+/* 表單欄位提示文字 */
+.form-hint {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.4;
+}
+
+.form-input:focus + .form-hint {
+  color: rgba(125, 211, 252, 0.8);
+}
+
+.form-input:invalid:not(:placeholder-shown) + .form-hint {
+  color: #fca5a5;
+}
+
+.form-input:valid:not(:placeholder-shown) + .form-hint {
+  color: rgba(74, 222, 128, 0.8);
+}
+
 .form-error {
   background: linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(220, 38, 38, 0.2) 100%);
   border: 1.5px solid rgba(239, 68, 68, 0.6);
