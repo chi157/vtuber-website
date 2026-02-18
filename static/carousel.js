@@ -10,7 +10,7 @@ class EventCarousel {
   init() {
     // 活動圖片列表（從 images/events 資料夾）
     this.slides = [
-      { src: 'images/events/0217加班台挑戰.png', alt: '柒柒加班台挑戰', link: 'donate.html' },
+      { src: 'images/events/加班台挑戰.png', alt: '柒柒加班台挑戰', link: 'donate.html' },
       { src: 'images/events/免費從零開始學Python1.jpg', alt: '免費從零開始學Python 活動 1', link: 'courses/course.html' },
       { src: 'images/events/免費從零開始學Python2.jpg', alt: '免費從零開始學Python 活動 2', link: 'courses/course.html' },
       { src: 'images/events/免費從零開始學Python3.jpg', alt: '免費從零開始學Python 活動 3', link: 'courses/course.html' },
