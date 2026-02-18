@@ -1110,6 +1110,7 @@ body::after {
   }
 
   .navbar-menu {
+    display: none; /* 手機版先徹底隱藏，避免佔用點擊空間 */
     position: fixed;
     top: var(--navbar-height);
     left: 0;
@@ -1118,12 +1119,13 @@ body::after {
     background: rgba(26, 41, 80, 0.98);
     padding: 0;
     gap: 0;
-    max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
   }
 
   .navbar-menu.active {
+    display: flex !important; /* 強制顯示 */
+    height: auto;
     max-height: calc(100vh - var(--navbar-height));
     overflow-y: auto;
     padding: 1rem 0;
@@ -1137,6 +1139,13 @@ body::after {
   .navbar-link {
     padding: 1rem;
     border-radius: 0;
+  }
+
+  /* 確保漢堡按鈕在最上層 */
+  .navbar-toggle {
+    display: flex;
+    z-index: 1001;
+    position: relative;
   }
 
   /* 漢堡選單動畫 */
