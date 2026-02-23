@@ -25,10 +25,27 @@
           </div>
           <div class="info-section">
             <h3 class="section-title">📋 目前加班台剩餘時間</h3>
-            <div class="rule-list">
-              <p>無法嵌入 iframe，請<a href="https://chiwabots.com/widgets/marathon/ueratcpm5llyuhq13ve7lr2i641135at" target="_blank" rel="noopener noreferrer">點擊此處</a>查看剩餘時間。</p>
+            <div class="rule-list" id="remaining-time">
+              <p>載入中，請稍候...</p>
             </div>
           </div>
+          <script>
+            // 使用 JavaScript 動態嵌入內容
+            fetch('https://chiwabots.com/widgets/marathon/ueratcpm5llyuhq13ve7lr2i641135at')
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('無法載入內容');
+                }
+                return response.text();
+              })
+              .then(data => {
+                document.getElementById('remaining-time').innerHTML = data;
+              })
+              .catch(error => {
+                console.error('載入失敗:', error);
+                document.getElementById('remaining-time').innerHTML = '<p>無法載入內容，請稍後再試。</p>';
+              });
+          </script>
           <div class="info-section">
             <h3 class="section-title">📋 訂閱加時規則</h3>
             <div class="rule-list">
