@@ -30,8 +30,27 @@
             </div>
           </div>
           <script>
-            // 使用 JavaScript 動態嵌入內容
-            fetch('https://chiwabots.com/widgets/marathon/ueratcpm5llyuhq13ve7lr2i641135at')
+            // 使用自訂的 fetch 請求選項
+            fetch("https://chiwabots.com/widgets/marathon/ueratcpm5llyuhq13ve7lr2i641135at", {
+              headers: {
+                "accept": "*/*",
+                "accept-language": "en-US,en;q=0.9,zh-TW;q=0.8,zh;q=0.7",
+                "cache-control": "no-cache",
+                "pragma": "no-cache",
+                "priority": "u=1, i",
+                "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"Google Chrome\";v=\"145\", \"Chromium\";v=\"145\"",
+                "sec-ch-ua-mobile": "?0",
+                "sec-ch-ua-platform": "\"Windows\"",
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "cross-site"
+              },
+              referrer: "https://vtwebsite.chi157.com/",
+              body: null,
+              method: "GET",
+              mode: "cors",
+              credentials: "omit"
+            })
               .then(response => {
                 if (!response.ok) {
                   throw new Error('無法載入內容');
