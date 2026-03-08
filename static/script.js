@@ -1,4 +1,38 @@
 (function(){
+  // ==================== 漢堡選單功能 ====================
+  const navbarToggle = document.getElementById('navbarToggle');
+  const navbarMenu = document.getElementById('navbarMenu');
+
+  if (navbarToggle && navbarMenu) {
+    function toggleMenu(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      navbarToggle.classList.toggle('active');
+      navbarMenu.classList.toggle('active');
+    }
+    navbarToggle.addEventListener('click', toggleMenu);
+    navbarToggle.addEventListener('touchend', toggleMenu);
+
+    // 點擊選單項目後關閉選單
+    const navbarLinks = navbarMenu.querySelectorAll('.navbar-link');
+    navbarLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        navbarToggle.classList.remove('active');
+        navbarMenu.classList.remove('active');
+      });
+    });
+
+    // 點擊選單外部關閉選單
+    document.addEventListener('click', function(event) {
+      const isClickInside = navbarToggle.contains(event.target) || navbarMenu.contains(event.target);
+      if (!isClickInside && navbarMenu.classList.contains('active')) {
+        navbarToggle.classList.remove('active');
+        navbarMenu.classList.remove('active');
+      }
+    });
+  }
+
+  // ==================== 雲朵動畫 ====================
   const cloud1 = document.querySelector('.cloud--1');
   const cloud2 = document.querySelector('.cloud--2');
   const cloud3 = document.querySelector('.cloud--3');
