@@ -828,7 +828,7 @@ def api_get_vod_id():
 @app.route('/api/vod_id', methods=['POST'])
 def api_set_vod_id():
     """設定 VOD ID（需管理員登入）"""
-    if not session.get('admin_logged_in'):
+    if not session.get('admin_id'):
         return jsonify({'error': '未授權'}), 401
     data = request.get_json()
     if not data or not data.get('vod_id'):
@@ -840,7 +840,7 @@ def api_set_vod_id():
 @app.route('/api/vod_id', methods=['DELETE'])
 def api_delete_vod_id():
     """清除 VOD ID（需管理員登入）"""
-    if not session.get('admin_logged_in'):
+    if not session.get('admin_id'):
         return jsonify({'error': '未授權'}), 401
     if os.path.exists(VOD_ID_FILE):
         os.remove(VOD_ID_FILE)
