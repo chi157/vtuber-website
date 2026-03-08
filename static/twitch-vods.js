@@ -2,19 +2,22 @@
 const TWITCH_CHANNEL = 'chi1577517';
 const TWITCH_VIDEOS_URL = `https://www.twitch.tv/${TWITCH_CHANNEL}/videos?filter=archives&sort=time`;
 
-// 預設 VOD IDs（如果 localStorage 沒有設定的話）
-const DEFAULT_VOD_IDS = [
-  '2693525200',
-];
 
-function displayTwitchPlayer() {
+
+async function displayTwitchPlayer() {
   const container = document.getElementById('twitch-vods-container');
-  if (!container) {
-    return;
-  }
+  if (!container) return;
 
-  // 只使用預設 VOD ID，所有人都顯示同一個
-  let vodId = DEFAULT_VOD_IDS[0];
+  let vodId = null;
+  try {
+    const res = await fetch('/api/vod_id');
+    if (res.ok) {
+      const data = await res.json();
+      vodId = data.vod_id;
+    }
+  } catch (e) {
+    vodId = null;
+  }
 
   if (!vodId) {
     container.innerHTML = `
@@ -34,7 +37,6 @@ function displayTwitchPlayer() {
     return;
   }
 
-  // 顯示設定的 VOD
   const vodsHTML = `
     <div style="margin-bottom: 16px;">
       <div style="position: relative; padding-top: 56.25%; border-radius: 12px; overflow: hidden; background: rgba(26, 41, 80, 0.5);">
@@ -48,7 +50,7 @@ function displayTwitchPlayer() {
       </div>
     </div>
   `;
-  
+
   container.innerHTML = `
     <div style="display: grid; gap: 16px;">
       ${vodsHTML}
@@ -64,8 +66,6 @@ function displayTwitchPlayer() {
         </svg>
         <span>查看更多直播錄影</span>
       </a>
-      
-      
     </div>
   `;
 }

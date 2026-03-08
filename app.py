@@ -798,6 +798,55 @@ def update_order_status(order_id):
 
 # ==================== 靜態檔案路由 ====================
 
+# ==================== VOD 管理 API ====================
+
+VOD_ID_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'vod_id.txt')
+
+
+def get_vod_id():
+    """從檔案讀取目前的 VOD ID"""
+    try:
+        with open(VOD_ID_FILE, 'r') as f:
+            return f.read().strip()
+    except Exception:
+        return None
+
+
+def set_vod_id(new_id):
+    """將 VOD ID 寫入檔案"""
+    with open(VOD_ID_FILE, 'w') as f:
+        f.write(str(new_id))
+
+
+@app.route('/api/vod_id', methods=['GET'])
+def api_get_vod_id():
+    """取得目前的 VOD ID"""
+    vod_id = get_vod_id()
+    return jsonify({'vod_id': vod_id})
+
+
+@app.route('/api/vod_id', methods=['POST'])
+def api_set_vod_id():
+    """設定 VOD ID（需管理員登入）"""
+    if not session.get('admin_logged_in'):
+        return jsonify({'error': '未授權'}), 401
+    data = request.get_json()
+    if not data or not data.get('vod_id'):
+        return jsonify({'error': '缺少 vod_id'}), 400
+    set_vod_id(data['vod_id'])
+    return jsonify({'success': True, 'vod_id': data['vod_id']})
+
+
+@app.route('/api/vod_id', methods=['DELETE'])
+def api_delete_vod_id():
+    """清除 VOD ID（需管理員登入）"""
+    if not session.get('admin_logged_in'):
+        return jsonify({'error': '未授權'}), 401
+    if os.path.exists(VOD_ID_FILE):
+        os.remove(VOD_ID_FILE)
+    return jsonify({'success': True})
+
+
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     """提供上傳檔案"""

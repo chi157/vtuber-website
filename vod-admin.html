@@ -173,21 +173,27 @@
     </div>
     
     <script>
-      // 載入時顯示目前的 VOD ID
-      function loadCurrentVODs() {
-        const savedVOD = localStorage.getItem('twitch_vod_id');
+      // 載入時顯示目前的 VOD ID（從後端取得）
+      async function loadCurrentVODs() {
         const vodsList = document.getElementById('currentVodsList');
-        
-        if (savedVOD) {
-          vodsList.innerHTML = `<div class="vod-item">${savedVOD}</div>`;
-          document.getElementById('vod1').value = savedVOD;
-        } else {
-          vodsList.innerHTML = '<div class="vod-item" style="opacity: 0.5;">尚未設定 VOD</div>';
+        try {
+          const res = await fetch('/api/vod_id');
+          if (res.ok) {
+            const data = await res.json();
+            if (data.vod_id) {
+              vodsList.innerHTML = `<div class="vod-item">${data.vod_id}</div>`;
+              document.getElementById('vod1').value = data.vod_id;
+            } else {
+              vodsList.innerHTML = '<div class="vod-item" style="opacity: 0.5;">尚未設定 VOD</div>';
+            }
+          }
+        } catch (e) {
+          vodsList.innerHTML = '<div class="vod-item" style="opacity: 0.5; color: #f87171;">無法連線後端</div>';
         }
       }
       
-      // 儲存 VOD ID
-      function saveVODs() {
+      // 儲存 VOD ID（送到後端）
+      async function saveVODs() {
         const vod1 = document.getElementById('vod1').value.trim();
         
         if (vod1 === '') {
@@ -195,25 +201,42 @@
           return;
         }
         
-        localStorage.setItem('twitch_vod_id', vod1);
-        
-        // 顯示成功訊息
-        const successMsg = document.getElementById('successMsg');
-        successMsg.style.display = 'block';
-        setTimeout(() => {
-          successMsg.style.display = 'none';
-        }, 3000);
-        
-        // 重新載入顯示
-        loadCurrentVODs();
+        try {
+          const res = await fetch('/api/vod_id', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ vod_id: vod1 })
+          });
+          const data = await res.json();
+          
+          if (res.ok && data.success) {
+            const successMsg = document.getElementById('successMsg');
+            successMsg.style.display = 'block';
+            setTimeout(() => { successMsg.style.display = 'none'; }, 3000);
+            loadCurrentVODs();
+          } else {
+            alert(data.error || '儲存失敗');
+          }
+        } catch (e) {
+          alert('無法連線後端，請確認伺服器是否啟動');
+        }
       }
       
-      // 清除 VOD
-      function clearVODs() {
+      // 清除 VOD（送到後端）
+      async function clearVODs() {
         if (confirm('確定要清除 VOD ID 嗎？')) {
-          localStorage.removeItem('twitch_vod_id');
-          document.getElementById('vod1').value = '';
-          loadCurrentVODs();
+          try {
+            const res = await fetch('/api/vod_id', { method: 'DELETE' });
+            if (res.ok) {
+              document.getElementById('vod1').value = '';
+              loadCurrentVODs();
+            } else {
+              const data = await res.json();
+              alert(data.error || '清除失敗');
+            }
+          } catch (e) {
+            alert('無法連線後端');
+          }
         }
       }
       
