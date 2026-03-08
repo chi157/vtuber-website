@@ -71,11 +71,15 @@ function initNavbar() {
   const navbarMenu = document.getElementById('navbarMenu');
 
   if (navbarToggle && navbarMenu) {
-    // 漢堡選單切換
-    navbarToggle.addEventListener('click', function() {
+    // 漢堡選單切換（支援觸控和點擊）
+    function toggleMenu(e) {
+      e.preventDefault();
+      e.stopPropagation();
       navbarToggle.classList.toggle('active');
       navbarMenu.classList.toggle('active');
-    });
+    }
+    navbarToggle.addEventListener('click', toggleMenu);
+    navbarToggle.addEventListener('touchend', toggleMenu);
 
     // 點擊選單項目後關閉選單
     const navbarLinks = navbarMenu.querySelectorAll('.navbar-link');
