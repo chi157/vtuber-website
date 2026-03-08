@@ -13,12 +13,8 @@ function displayTwitchPlayer() {
     return;
   }
 
-  // 優先使用 localStorage 的 VOD ID，沒有的話使用預設值
+  // 只使用預設 VOD ID，所有人都顯示同一個
   let vodId = DEFAULT_VOD_IDS[0];
-  const savedVOD = localStorage.getItem('twitch_vod_id');
-  if (savedVOD) {
-    vodId = savedVOD;
-  }
 
   if (!vodId) {
     container.innerHTML = `
