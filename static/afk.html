@@ -1,0 +1,347 @@
+柒柒157
+c…
+•
+早睡早起的雪角鴞..
+
+森森 — 2026/03/04 上午 08:58
+看醫生了嗎
+柒柒157 — 2026/03/04 上午 09:58
+看了
+昨天
+森森 — 2026/03/04 上午 09:58
+水喔
+
+今天直接請假
+森森 — 2026/03/04 下午 08:27
+現在歐付寶裡面有多少錢啊
+柒柒157 — 2026/03/05 上午 11:15
+
+森森 — 昨天 上午 01:28
+他做好了欸
+https://x.com/wasabi_pingkak/status/2029946045329986043?s=20
+山葵冰角🧊PingKak ➤_ 台灣 Vtuber (@wasabi_pingkak)
+之前說想做的 VTuber 生物分類檢索表
+真的做好了🎊
+
+登入就能標註自己的物種
+也能看到跟你相近物種的其他 VTuber
+
+但剛上線所以分類樹上還很空
+歡迎大家來填自己的物種，與幫忙分享
+功能可能還沒有很完美
+遇到問題我會盡快修
+
+之後相關的公告都會從 @VTaxon 這...
+圖片
+
+X•2026/03/06 下午 11:43
+森森 — 上午 10:21
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自定義色彩打字簡報</title>
+
+typing_screen.html
+8 KB
+圖片
+圖片
+﻿
+正在說話
+森森
+.…
+ 
+ 
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自定義色彩打字簡報</title>
+    <style>
+      /* --- 基礎變數與重置 --- */
+      :root {
+        --ui-bg: #f0f2f5;
+        --ui-card: #ffffff;
+        --primary: #4f46e5;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+        background-color: var(--ui-bg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      /* --- 編輯器介面樣式 --- */
+      .config-panel {
+        background: var(--ui-card);
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 500px;
+      }
+
+      h2 {
+        margin-bottom: 1.5rem;
+        text-align: center;
+        color: #111827;
+      }
+
+      .input-group {
+        margin-bottom: 1.2rem;
+      }
+
+      label {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #374151;
+      }
+
+      textarea {
+        width: 100%;
+        height: 120px;
+        padding: 12px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 1rem;
+        resize: none;
+        transition: border-color 0.2s;
+      }
+
+      textarea:focus {
+        border-color: var(--primary);
+        outline: none;
+      }
+
+      /* 顏色選擇器排版 */
+      .color-settings {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 1.5rem;
+      }
+
+      input[type="color"] {
+        width: 100%;
+        height: 40px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background: none;
+      }
+
+      .btn-start {
+        width: 100%;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 1rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        transition:
+          transform 0.1s,
+          background 0.2s;
+      }
+
+      .btn-start:hover {
+        background-color: #4338ca;
+      }
+
+      .btn-start:active {
+        transform: scale(0.98);
+      }
+
+      /* --- 全螢幕展示舞台 --- */
+      #presentation-stage {
+        display: none; /* 初始隱藏 */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      #typewriter-output {
+        font-size: 5rem; /* 字體較大，適合展示 */
+        font-weight: 800;
+        text-align: center;
+        padding: 0 10%;
+        white-space: pre-wrap;
+        line-height: 1.2;
+      }
+
+      /* 閃爍游標 */
+      .cursor {
+        display: inline-block;
+        width: 12px;
+        height: 5rem;
+        margin-left: 15px;
+        vertical-align: middle;
+        animation: blink 0.8s infinite;
+      }
+
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="config-panel" id="ui-panel">
+      <h2>打字簡報設定</h2>
+
+      <div class="input-group">
+        <label>顯示文字 (每行一段)</label>
+        <textarea
+          id="input-text"
+          placeholder="輸入文字...&#10;第一頁內容&#10;第二頁內容"
+        ></textarea>
+      </div>
+
+      <div class="color-settings">
+        <div class="input-group">
+          <label>背景顏色</label>
+          <input type="color" id="bg-color-input" value="#000000" />
+        </div>
+        <div class="input-group">
+          <label>文字顏色</label>
+          <input type="color" id="text-color-input" value="#ffffff" />
+        </div>
+      </div>
+
+      <button class="btn-start" onclick="launchStage()">開始全螢幕播放</button>
+    </div>
+
+    <div id="presentation-stage">
+      <div id="typewriter-output"></div>
+      <span class="cursor" id="cursor-element"></span>
+    </div>
+
+    <script>
+      /**
+       * 狀態管理變數
+       */
+      const stage = document.getElementById("presentation-stage");
+      const output = document.getElementById("typewriter-output");
+      const cursor = document.getElementById("cursor-element");
+      const inputArea = document.getElementById("input-text");
+
+      let lines = [];
+      let currentLineIdx = 0;
+      let currentCharIdx = 0;
+      let isDeleting = false;
+      let timer = null;
+
+      /**
+       * 啟動展示模式
+       */
+      function launchStage() {
+        // 1. 取得使用者設定的內容與顏色
+        lines = inputArea.value
+          .split("\n")
+          .filter((line) => line.trim() !== "");
+        const bgColor = document.getElementById("bg-color-input").value;
+        const textColor = document.getElementById("text-color-input").value;
+
+        if (lines.length === 0) {
+          alert("請輸入文字內容");
+          return;
+        }
+
+        // 2. 套用自定義顏色
+        stage.style.backgroundColor = bgColor;
+        output.style.color = textColor;
+        cursor.style.backgroundColor = textColor; // 讓游標跟隨文字顏色
+
+        // 3. 重設打字狀態
+        currentLineIdx = 0;
+        currentCharIdx = 0;
+        isDeleting = false;
+        output.textContent = "";
+
+        // 4. 請求全螢幕
+        if (stage.requestFullscreen) {
+          stage.requestFullscreen();
+        } else if (stage.webkitRequestFullscreen) {
+          stage.webkitRequestFullscreen();
+        }
+
+        stage.style.display = "flex";
+
+        // 5. 開始打字循環
+        clearTimeout(timer);
+        handleTyping();
+      }
+
+      /**
+       * 打字核心邏輯
+       */
+      function handleTyping() {
+        const fullText = lines[currentLineIdx];
+
+        if (isDeleting) {
+          // 刪除模式：字串縮短
+          output.textContent = fullText.substring(0, currentCharIdx - 1);
+          currentCharIdx--;
+        } else {
+          // 打字模式：字串增長
+          output.textContent = fullText.substring(0, currentCharIdx + 1);
+          currentCharIdx++;
+        }
+
+        // 設定打字與刪除的速度感
+        let speed = isDeleting ? 40 : 120;
+
+        // 狀態變換判定
+        if (!isDeleting && currentCharIdx === fullText.length) {
+          // 整行打完，停頓較久
+          speed = 2500;
+          isDeleting = true;
+        } else if (isDeleting && currentCharIdx === 0) {
+          // 刪除完畢，準備換下一行
+          isDeleting = false;
+          currentLineIdx = (currentLineIdx + 1) % lines.length; // 循環播放
+          speed = 500;
+        }
+
+        timer = setTimeout(handleTyping, speed);
+      }
+
+      /**
+       * 全螢幕狀態切換處理
+       * 當退出全螢幕時，停止腳本並顯示 UI
+       */
+      const handleExit = () => {
+        if (!document.fullscreenElement && !document.webkitIsFullScreen) {
+          stage.style.display = "none";
+          clearTimeout(timer);
+        }
+      };
+
+      document.addEventListener("fullscreenchange", handleExit);
+      document.addEventListener("webkitfullscreenchange", handleExit);
+    </script>
+  </body>
+</html>
+typing_screen.html
+8 KB
