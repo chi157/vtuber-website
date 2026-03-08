@@ -1,14 +1,12 @@
 // 載入導航欄
 (function() {
-  // 自動偵測 navbar 的路徑
-  // 如果在子目錄中（例如 work_overtime/），需要使用 ../navbar.html
-  let navbarPath = 'navbar.html';
+  // 自動偵測 navbar 的路徑（使用絕對路徑避免手機瀏覽器路徑解析問題）
+  let navbarPath = '/navbar.html';
   const currentPath = window.location.pathname;
   let isInSubdir = false;
   
   // 檢查是否在子目錄中
   if (currentPath.includes('/work_overtime/') || currentPath.includes('/courses/') || currentPath.includes('/events/')) {
-    navbarPath = '../navbar.html';
     isInSubdir = true;
   }
   
