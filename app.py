@@ -1,6 +1,6 @@
 """
 VTuber Website - Flask 後端應用程式
-柒柒 chi 個人網站
+柒柒157 個人網站
 """
 
 import os
@@ -126,12 +126,12 @@ def send_verification_email(email, code):
         msg = MIMEMultipart()
         msg['From'] = SMTP_USER
         msg['To'] = email
-        msg['Subject'] = '柒柒 chi 網站 - 信箱驗證碼'
+        msg['Subject'] = '柒柒157 網站 - 信箱驗證碼'
         
         body = f"""
         <html>
         <body style="font-family: Arial, sans-serif; padding: 20px;">
-            <h2 style="color: #7dd3fc;">🦉 柒柒 chi 網站 - 信箱驗證</h2>
+            <h2 style="color: #7dd3fc;">🦉 柒柒157 網站 - 信箱驗證</h2>
             <p>您好！感謝您註冊我們的網站。</p>
             <p>您的驗證碼是：</p>
             <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
@@ -148,7 +148,7 @@ def send_verification_email(email, code):
             <p>驗證碼有效期為 10 分鐘。</p>
             <p>如果這不是您本人的操作，請忽略此郵件。</p>
             <br>
-            <p style="color: #888;">柒柒 chi 網站團隊</p>
+            <p style="color: #888;">柒柒157 網站團隊</p>
         </body>
         </html>
         """
@@ -877,7 +877,7 @@ application = app
 
 if __name__ == '__main__':
     print("=" * 50)
-    print("柒柒 chi VTuber 網站 - Flask 後端")
+    print("柒柒157 VTuber 網站 - Flask 後端")
     print("=" * 50)
     print(f"伺服器運行於: http://127.0.0.1:8000")
     print(f"靜態檔案資料夾: {app.static_folder}")
